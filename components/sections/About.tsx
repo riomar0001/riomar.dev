@@ -1,19 +1,19 @@
 const skills = [
   {
     category: "Languages",
-    items: ["TypeScript", "JavaScript", "Python", "Java", "PHP", "SQL"]
+    items: ["TypeScript", "JavaScript", "Python", "Java", "PHP", "SQL"],
   },
   {
     category: "Frontend",
-    items: ["React.js", "Next.js", "React Native", "Tailwind CSS", "Flutter"]
+    items: ["React.js", "Next.js", "React Native", "Tailwind CSS", "Flutter"],
   },
   {
     category: "Backend",
-    items: ["Node.js", "Express.js", "FastAPI", "Prisma ORM", "Laravel"]
+    items: ["Node.js", "Express.js", "FastAPI", "Prisma ORM", "Laravel"],
   },
   {
     category: "DevOps & Tools",
-    items: ["Docker", "NGINX", "Git", "Linux", "Azure", "Google Cloud"]
+    items: ["Docker", "NGINX", "Git", "Linux", "Azure", "Google Cloud"],
   },
 ];
 
@@ -33,21 +33,22 @@ export function About() {
           {/* Bio */}
           <div className="space-y-6">
             <p className="text-lg leading-relaxed text-neutral-600 dark:text-neutral-400">
-              I&apos;m a Computer Science student at the University of Mindanao and a
-              full-stack developer passionate about building scalable web and mobile
-              applications. Currently serving as Chief Technology Officer at UMSDC
-              and mentoring fellow students in the College of Computing Education.
+              I&apos;m a Computer Science student at the University of Mindanao
+              and a full-stack developer passionate about building scalable web
+              and mobile applications. I also mentor fellow students in the
+              College of Computing Education.
             </p>
             <p className="text-lg leading-relaxed text-neutral-600 dark:text-neutral-400">
-              With experience leading mobile app development at MooManage and delivering
-              freelance projects for various clients, I specialize in React ecosystems,
-              modern APIs, and cloud deployment. I also have a keen interest in
-              cybersecurity, having competed in DICT&apos;s Hack4Gov nationals.
+              With experience leading mobile app development and delivering
+              freelance projects for various clients, I specialize in React
+              ecosystems, modern APIs, and cloud deployment. I also have a
+              strong interest in cybersecurity and have competed in national
+              cybersecurity competitions.
             </p>
             <p className="text-lg leading-relaxed text-neutral-600 dark:text-neutral-400">
-              I enjoy sharing knowledge through speaking engagements and workshops,
-              including talks for DOST on front-end development and advanced JavaScript
-              mentorship for university interns.
+              I enjoy sharing knowledge through speaking engagements and
+              workshops, including advanced JavaScript mentorship for university
+              interns.
             </p>
           </div>
 
@@ -63,7 +64,9 @@ export function About() {
                     <span
                       key={skill}
                       className="animate-scale-in animate-on-load rounded-full border border-neutral-200 bg-white px-4 py-2 text-sm text-neutral-700 transition-all duration-300 hover:-translate-y-0.5 hover:border-neutral-300 hover:bg-neutral-50 dark:border-neutral-700 dark:bg-neutral-800/50 dark:text-neutral-300 dark:hover:border-neutral-600 dark:hover:bg-neutral-800"
-                      style={{ animationDelay: `${groupIndex * 100 + skillIndex * 50}ms` }}
+                      style={{
+                        animationDelay: `${groupIndex * 100 + skillIndex * 50}ms`,
+                      }}
                     >
                       {skill}
                     </span>

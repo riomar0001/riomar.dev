@@ -21,7 +21,7 @@ export function Hero() {
         {/* Heading */}
         <h1 className="animate-slide-up animate-on-load delay-100 mb-6 text-4xl font-bold tracking-tight text-neutral-900 dark:text-neutral-50 sm:text-5xl md:text-6xl lg:text-7xl">
           Hi, I&apos;m{" "}
-          <span className="bg-linear-to-r from-violet-600 via-purple-600 to-pink-600 bg-clip-text text-transparent dark:from-violet-400 dark:via-purple-400 dark:to-pink-400">
+          <span className="text-green-300">
             Mario Jr Inguito
           </span>
         </h1>
