@@ -4,6 +4,17 @@ import BokehBackground from '../bokeh-background';
 
 const experiences = [
   {
+    role: 'Frontend Engineer',
+    company: 'DurianPy',
+    location: 'Davao City, Philippines',
+    period: '2025',
+    description: [
+      'Contributed to the frontend development of the PyCon Davao 2025 website, helping build an engaging and responsive user experience for the Python community event.'
+    ],
+    tags: ['React.js', 'Frontend', 'Open Source'],
+    link: 'https://pycon-davao.durianpy.org/'
+  },
+  {
     role: 'Core Lead Developer',
     company: 'MooManage',
     location: 'Davao City, Philippines',
@@ -48,6 +59,21 @@ const achievements = [
     date: 'August - October 2024',
     description:
       'Competed in regionals and selected as wildcard for nationals, tackling web exploitation, network forensics, reverse engineering, and incident response.'
+  }
+];
+
+const certifications = [
+  {
+    title: 'IT Specialist - Databases',
+    issuer: 'Certiport / Pearson VUE',
+    credlyUrl: 'https://www.credly.com/badges/eecec977-4a92-4fff-a481-000bd0c5594d',
+    description: 'Validated expertise in database concepts, design, and SQL query skills.'
+  },
+  {
+    title: 'IT Specialist - Java',
+    issuer: 'Certiport / Pearson VUE',
+    credlyUrl: 'https://www.credly.com/badges/1197b342-f8c7-41dc-adf2-e443bd434f41',
+    description: 'Demonstrated proficiency in Java programming fundamentals and object-oriented concepts.'
   }
 ];
 
@@ -164,6 +190,50 @@ export function Experience() {
                   </p>
                   <p className="mt-3 text-sm leading-relaxed text-neutral-600 dark:text-neutral-400">{achievement.description}</p>
                 </div>
+              </ScrollAnimation>
+            ))}
+          </div>
+        </div>
+
+        {/* Certifications section */}
+        <div className="mt-20">
+          <ScrollAnimation animation="fade-up">
+            <div className="mb-10 flex items-center gap-6">
+              <h3 className="text-xl font-bold tracking-tight text-neutral-900 dark:text-neutral-50">Certifications</h3>
+              <div className="h-px flex-1 bg-linear-to-r from-neutral-200 to-transparent dark:from-neutral-800" />
+            </div>
+          </ScrollAnimation>
+
+          <div className="grid gap-6 sm:grid-cols-2">
+            {certifications.map((cert, index) => (
+              <ScrollAnimation key={index} animation="scale" delay={index * 100}>
+                <a
+                  href={cert.credlyUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex h-full flex-col rounded-2xl border border-neutral-100 bg-white p-6 transition-all duration-300 hover:-translate-y-2 hover:border-emerald-300 hover:shadow-xl hover:shadow-emerald-500/15 dark:border-neutral-800/50 dark:bg-neutral-900/80 dark:hover:border-emerald-500/50 dark:hover:shadow-emerald-500/10"
+                >
+                  <div className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-full bg-emerald-100 text-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-400">
+                    <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
+                      />
+                    </svg>
+                  </div>
+                  <h4 className="font-semibold text-neutral-900 transition-colors duration-300 group-hover:text-emerald-600 dark:text-neutral-50 dark:group-hover:text-emerald-400">
+                    {cert.title}
+                  </h4>
+                  <p className="mt-1 text-sm text-neutral-500 dark:text-neutral-500">{cert.issuer}</p>
+                  <p className="mt-3 flex-1 text-sm leading-relaxed text-neutral-600 dark:text-neutral-400">{cert.description}</p>
+                  <div className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-emerald-600 transition-colors group-hover:text-emerald-500 dark:text-emerald-400">
+                    View on Credly
+                    <svg className="h-4 w-4 transition-transform group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                  </div>
+                </a>
               </ScrollAnimation>
             ))}
           </div>

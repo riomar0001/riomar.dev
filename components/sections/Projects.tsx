@@ -29,7 +29,7 @@ const projects = [
 
 export function Projects() {
   return (
-    <section id="projects" className="relative overflow-visible px-6 py-24">
+    <section id="projects" className="relative overflow-visible px-6 ">
       {/* Bokeh background */}
       <BokehBackground />
 
