@@ -206,6 +206,19 @@ p {
     inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
+/* Mobile: reduce backdrop blur for performance */
+@media (max-width: 768px) {
+  .liquid-glass {
+    backdrop-filter: blur(12px) saturate(150%);
+    -webkit-backdrop-filter: blur(12px) saturate(150%);
+  }
+
+  .dark .liquid-glass {
+    backdrop-filter: blur(12px) saturate(150%);
+    -webkit-backdrop-filter: blur(12px) saturate(150%);
+  }
+}
+
 /* ===== Reduced Motion ===== */
 
 @media (prefers-reduced-motion: reduce) {
@@ -253,6 +266,7 @@ p {
 .bokeh-circle {
   border-radius: 50%;
   pointer-events: none;
+  will-change: transform, opacity;
   animation:
     bokeh-float 12s ease-in-out infinite,
     bokeh-pulse 6s ease-in-out infinite;
@@ -281,6 +295,38 @@ p {
   width: 150px;
   height: 150px;
   filter: blur(50px);
+}
+
+/* Mobile optimizations for bokeh - reduce blur and disable animations */
+@media (max-width: 768px) {
+  .bokeh-circle {
+    animation: none;
+    will-change: auto;
+  }
+
+  .bokeh-xl {
+    width: 300px;
+    height: 300px;
+    filter: blur(50px);
+  }
+
+  .bokeh-lg {
+    width: 200px;
+    height: 200px;
+    filter: blur(40px);
+  }
+
+  .bokeh-md {
+    width: 150px;
+    height: 150px;
+    filter: blur(35px);
+  }
+
+  .bokeh-sm {
+    width: 100px;
+    height: 100px;
+    filter: blur(30px);
+  }
 }
 
 /* Color variants - light mode */
@@ -383,53 +429,75 @@ p {
 
 .animate-spin-slow {
   animation: spin-around 12s linear infinite;
+  will-change: transform;
 }
 
 .animate-spin-slower {
   animation: spin-around 20s linear infinite;
+  will-change: transform;
 }
 
 .animate-spin-reverse {
   animation: spin-around-reverse 15s linear infinite;
+  will-change: transform;
 }
 
 .animate-ring-breathe {
   animation: ring-breathe 3s ease-in-out infinite;
+  will-change: transform, opacity;
 }
 
 .animate-ring-breathe-slow {
   animation: ring-breathe-slow 4s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+/* Mobile: simplify spinning animations */
+@media (max-width: 768px) {
+  .animate-spin-slow,
+  .animate-spin-slower,
+  .animate-spin-reverse {
+    animation: none;
+    will-change: auto;
+  }
+
+  .animate-ring-breathe,
+  .animate-ring-breathe-slow {
+    animation-duration: 6s;
+  }
 }
 
 /* ===== Scroll Animations ===== */
 
 .scroll-animation {
-  transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
 }
 
 .scroll-fade-up {
   opacity: 0;
-  transform: translateY(40px);
+  transform: translateY(30px);
 }
 
 .scroll-fade-down {
   opacity: 0;
-  transform: translateY(-40px);
+  transform: translateY(-30px);
 }
 
 .scroll-fade-left {
   opacity: 0;
-  transform: translateX(40px);
+  transform: translateX(30px);
 }
 
 .scroll-fade-right {
   opacity: 0;
-  transform: translateX(-40px);
+  transform: translateX(-30px);
 }
 
 .scroll-scale {
   opacity: 0;
-  transform: scale(0.9);
+  transform: scale(0.95);
 }
 
 .scroll-fade {
@@ -439,6 +507,11 @@ p {
 .scroll-visible {
   opacity: 1;
   transform: translateY(0) translateX(0) scale(1);
+}
+
+/* Remove will-change after animation completes */
+.scroll-visible.scroll-animation {
+  will-change: auto;
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -1,5 +1,7 @@
 'use client';
 
+import { personalInfo } from '@/data';
+
 export default function Content() {
   return (
     <div className="text-center md:text-center lg:text-left">
@@ -13,13 +15,13 @@ export default function Content() {
       </div>
 
       {/* Heading */}
-      <h1 className="animate-slide-up animate-on-load mb-4 flex flex-col gap-3 text-3xl font-bold tracking-tight text-neutral-900 delay-200 sm:text-5xl md:mb-5 md:gap-4 md:text-4xl lg:mb-6 lg:gap-5 lg:text-6xl dark:text-neutral-50">
-        Hi, I&apos;m <span className="text-emerald-500 dark:text-emerald-400">Mario Jr Inguito</span>
+      <h1 className="animate-slide-up animate-on-load mb-4 flex flex-col gap-2 text-2xl font-bold tracking-tight text-neutral-900 delay-200 sm:gap-3 sm:text-4xl md:mb-5 md:gap-4 md:text-4xl lg:mb-6 lg:gap-5 lg:text-6xl dark:text-neutral-50">
+        Hi, I&apos;m <span className="text-emerald-500 dark:text-emerald-400">{personalInfo.name}</span>
       </h1>
 
       {/* Description */}
-      <p className="animate-slide-up animate-on-load mx-auto mb-8 max-w-xl text-base leading-relaxed text-neutral-600 delay-300 sm:text-xl sm:leading-relaxed md:mb-9 md:text-lg lg:mx-0 lg:mb-10 dark:text-neutral-400">
-        Software Engineer building scalable Web and Mobile Apps. Speaker, Mentor, and Cybersecurity Enthusiast from Davao City, Philippines.
+      <p className="animate-slide-up animate-on-load mx-auto mb-8 max-w-xl text-sm leading-relaxed text-neutral-600 delay-300 sm:text-base sm:leading-relaxed md:mb-9 md:text-lg lg:mx-0 lg:mb-10 dark:text-neutral-400">
+        {personalInfo.tagline}
       </p>
 
       {/* CTA Buttons */}

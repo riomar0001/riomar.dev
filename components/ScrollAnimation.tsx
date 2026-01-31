@@ -18,13 +18,23 @@ export function ScrollAnimation({ children, className = '', animation = 'fade-up
     const element = ref.current;
     if (!element) return;
 
+    // Check for reduced motion preference
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) {
+      element.classList.add('scroll-visible');
+      return;
+    }
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            setTimeout(() => {
-              entry.target.classList.add('scroll-visible');
-            }, delay);
+            // Use requestAnimationFrame for smoother animation triggering
+            requestAnimationFrame(() => {
+              setTimeout(() => {
+                entry.target.classList.add('scroll-visible');
+              }, delay);
+            });
             if (once) {
               observer.unobserve(entry.target);
             }
@@ -33,7 +43,7 @@ export function ScrollAnimation({ children, className = '', animation = 'fade-up
           }
         });
       },
-      { threshold }
+      { threshold, rootMargin: '50px' }
     );
 
     observer.observe(element);

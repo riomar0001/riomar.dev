@@ -1,5 +1,6 @@
 import { ScrollAnimation } from '../ScrollAnimation';
 import BokehBackground from '../bokeh-background';
+import { personalInfo } from '@/data';
 
 export function Projects() {
   return (
@@ -10,17 +11,17 @@ export function Projects() {
       <div className="relative mx-auto max-w-5xl">
         {/* Section header */}
         <ScrollAnimation animation="fade-up">
-          <div className="mb-16 flex items-center gap-6">
-            <h2 className="text-2xl font-bold tracking-tight text-neutral-900 sm:text-3xl dark:text-neutral-50">Featured Projects</h2>
+          <div className="mb-10 flex items-center gap-4 sm:mb-16 sm:gap-6">
+            <h2 className="text-xl font-bold tracking-tight text-neutral-900 sm:text-2xl md:text-3xl dark:text-neutral-50">Featured Projects</h2>
             <div className="h-px flex-1 bg-linear-to-r from-neutral-200 to-transparent dark:from-neutral-800" />
           </div>
         </ScrollAnimation>
 
         {/* Coming Soon */}
         <ScrollAnimation animation="scale">
-          <div className="flex flex-col items-center justify-center rounded-2xl border border-neutral-100 bg-white p-12 text-center dark:border-neutral-800/50 dark:bg-neutral-900/80">
-            <div className="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-full bg-emerald-100 text-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-400">
-              <svg className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+          <div className="flex flex-col items-center justify-center rounded-2xl border border-neutral-100 bg-white p-8 text-center sm:p-12 dark:border-neutral-800/50 dark:bg-neutral-900/80">
+            <div className="mb-3 inline-flex h-12 w-12 items-center justify-center rounded-full bg-emerald-100 text-emerald-600 sm:mb-4 sm:h-16 sm:w-16 dark:bg-emerald-900/30 dark:text-emerald-400">
+              <svg className="h-6 w-6 sm:h-8 sm:w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -28,8 +29,8 @@ export function Projects() {
                 />
               </svg>
             </div>
-            <h3 className="mb-2 text-xl font-semibold text-neutral-900 dark:text-neutral-50">Coming Soon</h3>
-            <p className="max-w-md text-neutral-600 dark:text-neutral-400">
+            <h3 className="mb-2 text-lg font-semibold text-neutral-900 sm:text-xl dark:text-neutral-50">Coming Soon</h3>
+            <p className="max-w-md text-sm text-neutral-600 sm:text-base dark:text-neutral-400">
               I&apos;m currently working on some exciting projects. Check back soon to see what I&apos;ve been building!
             </p>
           </div>
@@ -39,7 +40,7 @@ export function Projects() {
         <ScrollAnimation animation="fade-up" delay={300}>
           <div className="mt-16 text-center">
             <a
-              href="https://github.com/riomar0001"
+              href={personalInfo.github}
               target="_blank"
               rel="noopener noreferrer"
               className="group inline-flex items-center gap-2 text-neutral-600 transition-all duration-300 hover:text-emerald-600 dark:text-neutral-400 dark:hover:text-emerald-400"

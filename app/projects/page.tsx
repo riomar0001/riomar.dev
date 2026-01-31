@@ -4,7 +4,8 @@ import BokehBackground from "@/components/bokeh-background";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 
-export const metadata: Metadata = {
+export const metadata: 
+Metadata = {
   title: "Projects",
   description:
     "Featured projects and portfolio of Mario Jr Inguito - Software Engineer. Explore web applications, mobile apps, and more.",
@@ -88,7 +89,7 @@ export default function ProjectsPage() {
                   className="group relative overflow-hidden rounded-2xl border border-neutral-100 bg-white p-6 transition-all duration-300 hover:-translate-y-2 hover:border-emerald-300 hover:shadow-2xl hover:shadow-emerald-500/20 dark:border-neutral-800/50 dark:bg-neutral-900/80 dark:hover:border-emerald-500/50 dark:hover:shadow-emerald-500/10"
                 >
                   {/* Gradient overlay on hover */}
-                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-emerald-500/8 to-teal-500/5 opacity-0 transition-opacity duration-300 group-hover:opacity-100 dark:from-emerald-500/12 dark:to-teal-500/8" />
+                  <div className="pointer-events-none absolute inset-0 bg-linear-to-br from-emerald-500/8 to-teal-500/5 opacity-0 transition-opacity duration-300 group-hover:opacity-100 dark:from-emerald-500/12 dark:to-teal-500/8" />
 
                   {/* Action buttons */}
                   <div className="absolute right-4 top-4 flex translate-y-1 gap-2 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
