@@ -29,7 +29,7 @@ export default function ProfileImage() {
         <div className="relative h-60 w-60 overflow-hidden rounded-full bg-linear-to-br from-emerald-400 via-teal-400 to-emerald-500 p-1.5 shadow-2xl shadow-emerald-500/30 sm:h-64 sm:w-64 lg:h-80 lg:w-80 dark:shadow-emerald-500/20">
           <div className="flex h-full w-full items-center justify-center rounded-full bg-neutral-100 dark:bg-neutral-800">
             {/* Placeholder icon - replace with actual image */}
-            <Image src="/profile.jpg" alt="Profile Image" fill className="rounded-full border-3" fetchPriority="high" />
+            <Image src="/profile.jpg" alt="Profile Image" fill className="rounded-full border-3" fetchPriority="high" loading='lazy'/>
           </div>
         </div>
       </div>
