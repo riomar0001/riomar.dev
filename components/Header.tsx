@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import { ThemeToggle } from "./ThemeToggle";
+import { ThemeToggle } from './ThemeToggle';
 
 const navLinks = [
-  { href: "#about", label: "About" },
-  { href: "#experience", label: "Experience" },
-  { href: "#projects", label: "Projects" },
-  { href: "#contact", label: "Contact" },
+  { href: '#about', label: 'About' },
+  { href: '#experience', label: 'Experience' },
+  { href: '#projects', label: 'Projects' },
+  { href: '#contact', label: 'Contact' }
 ];
 
 export function Header() {
@@ -43,7 +43,7 @@ export function Header() {
             </ul>
 
             {/* Divider */}
-            <div className="mx-2 hidden h-5 w-px bg-neutral-300/50 dark:bg-white/10 sm:block" />
+            <div className="mx-2 hidden h-5 w-px bg-neutral-300/50 sm:block dark:bg-white/10" />
 
             {/* Theme Toggle */}
             <ThemeToggle />

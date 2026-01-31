@@ -2,16 +2,12 @@ export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-neutral-200 bg-neutral-50 dark:border-neutral-800 dark:bg-neutral-950/50 backdrop-blur-md">
+    <footer className="border-t border-neutral-200 bg-neutral-50 backdrop-blur-md dark:border-neutral-800 dark:bg-neutral-950/50">
       <div className="mx-auto max-w-5xl px-6 py-12">
         <div className="flex flex-col items-center justify-between gap-6 sm:flex-row">
           <div className="flex flex-col items-center gap-2 sm:items-start">
-            <span className="font-medium text-neutral-900 dark:text-neutral-100">
-              Mario Jr Inguito
-            </span>
-            <span className="text-sm text-neutral-500 dark:text-neutral-400">
-              Full Stack Developer
-            </span>
+            <span className="font-medium text-neutral-900 dark:text-neutral-100">Mario Jr Inguito</span>
+            <span className="text-sm text-neutral-500 dark:text-neutral-400">Full Stack Developer</span>
           </div>
 
           <div className="flex items-center gap-4">
@@ -46,13 +42,7 @@ export function Footer() {
               className="text-neutral-400 transition-all duration-300 hover:-translate-y-0.5 hover:text-neutral-900 dark:text-neutral-500 dark:hover:text-neutral-100"
               aria-label="Email"
             >
-              <svg
-                className="h-5 w-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={2}
-              >
+              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -64,9 +54,7 @@ export function Footer() {
         </div>
 
         <div className="mt-8 border-t border-neutral-200 pt-8 text-center dark:border-neutral-800">
-          <p className="text-sm text-neutral-500 dark:text-neutral-400">
-            {currentYear} Mario Jr Inguito. Crafted with care.
-          </p>
+          <p className="text-sm text-neutral-500 dark:text-neutral-400">{currentYear} Mario Jr Inguito. Crafted with care.</p>
         </div>
       </div>
     </footer>

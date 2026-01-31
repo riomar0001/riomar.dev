@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @custom-variant dark (&:where(.dark, .dark *));
 
@@ -86,7 +86,8 @@ body {
 }
 
 @keyframes gentle-float {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0);
   }
   50% {
@@ -95,7 +96,8 @@ body {
 }
 
 @keyframes subtle-pulse {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 0.6;
     transform: scale(1);
   }
@@ -132,13 +134,27 @@ body {
 }
 
 /* Stagger delays */
-.delay-100 { animation-delay: 100ms; }
-.delay-200 { animation-delay: 200ms; }
-.delay-300 { animation-delay: 300ms; }
-.delay-400 { animation-delay: 400ms; }
-.delay-500 { animation-delay: 500ms; }
-.delay-600 { animation-delay: 600ms; }
-.delay-700 { animation-delay: 700ms; }
+.delay-100 {
+  animation-delay: 100ms;
+}
+.delay-200 {
+  animation-delay: 200ms;
+}
+.delay-300 {
+  animation-delay: 300ms;
+}
+.delay-400 {
+  animation-delay: 400ms;
+}
+.delay-500 {
+  animation-delay: 500ms;
+}
+.delay-600 {
+  animation-delay: 600ms;
+}
+.delay-700 {
+  animation-delay: 700ms;
+}
 
 /* Initial state for animated elements */
 .animate-on-load {
@@ -147,7 +163,12 @@ body {
 
 /* ===== Typography ===== */
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   text-wrap: balance;
 }
 
@@ -166,12 +187,7 @@ p {
 /* ===== Liquid Glass Effect ===== */
 
 .liquid-glass {
-  background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.8) 0%,
-    rgba(255, 255, 255, 0.6) 50%,
-    rgba(255, 255, 255, 0.7) 100%
-  );
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.6) 50%, rgba(255, 255, 255, 0.7) 100%);
   backdrop-filter: blur(24px) saturate(200%);
   -webkit-backdrop-filter: blur(24px) saturate(200%);
   box-shadow:
@@ -181,12 +197,7 @@ p {
 }
 
 .dark .liquid-glass {
-  background: linear-gradient(
-    135deg,
-    rgba(23, 23, 23, 0.7) 0%,
-    rgba(10, 10, 10, 0.8) 50%,
-    rgba(23, 23, 23, 0.6) 100%
-  );
+  background: linear-gradient(135deg, rgba(23, 23, 23, 0.7) 0%, rgba(10, 10, 10, 0.8) 50%, rgba(23, 23, 23, 0.6) 100%);
   backdrop-filter: blur(24px) saturate(200%);
   -webkit-backdrop-filter: blur(24px) saturate(200%);
   box-shadow:
@@ -214,7 +225,8 @@ p {
 /* ===== Bokeh Effect ===== */
 
 @keyframes bokeh-float {
-  0%, 100% {
+  0%,
+  100% {
     transform: translate(0, 0) scale(1);
   }
   25% {
@@ -229,7 +241,8 @@ p {
 }
 
 @keyframes bokeh-pulse {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 0.4;
   }
   50% {
@@ -276,7 +289,7 @@ p {
 }
 
 .bokeh-green-2 {
-  background: radial-gradient(circle, rgba(52, 211, 153, 0.30) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(52, 211, 153, 0.3) 0%, transparent 70%);
 }
 
 .bokeh-green-3 {
@@ -284,7 +297,7 @@ p {
 }
 
 .bokeh-teal-1 {
-  background: radial-gradient(circle, rgba(20, 184, 166, 0.30) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(20, 184, 166, 0.3) 0%, transparent 70%);
 }
 
 /* Color variants - dark mode */
@@ -305,10 +318,24 @@ p {
 }
 
 /* Animation delay variants */
-.bokeh-delay-1 { animation-delay: 0s, 0s; }
-.bokeh-delay-2 { animation-delay: -5s, -2s; }
-.bokeh-delay-3 { animation-delay: -10s, -4s; }
-.bokeh-delay-4 { animation-delay: -15s, -6s; }
+.bokeh-delay-1 {
+  animation-delay: 0s, 0s;
+}
+.bokeh-delay-2 {
+  animation-delay:
+    -5s,
+    -2s;
+}
+.bokeh-delay-3 {
+  animation-delay:
+    -10s,
+    -4s;
+}
+.bokeh-delay-4 {
+  animation-delay:
+    -15s,
+    -6s;
+}
 
 /* ===== Profile Image Animations ===== */
 
@@ -331,7 +358,8 @@ p {
 }
 
 @keyframes ring-breathe {
-  0%, 100% {
+  0%,
+  100% {
     transform: scale(1);
     opacity: 0.6;
   }
@@ -342,7 +370,8 @@ p {
 }
 
 @keyframes ring-breathe-slow {
-  0%, 100% {
+  0%,
+  100% {
     transform: scale(1);
     opacity: 0.4;
   }

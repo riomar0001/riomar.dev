@@ -1,23 +1,23 @@
-import BokehBackground from "../bokeh-background";
-import { ScrollAnimation } from "../ScrollAnimation";
+import { ScrollAnimation } from '../ScrollAnimation';
+import BokehBackground from '../bokeh-background';
 
 const skills = [
   {
-    category: "Languages",
-    items: ["TypeScript", "JavaScript", "Python", "Java", "PHP", "SQL"],
+    category: 'Languages',
+    items: ['TypeScript', 'JavaScript', 'Python', 'Java', 'PHP', 'SQL']
   },
   {
-    category: "Frontend",
-    items: ["React.js", "Next.js", "React Native", "Tailwind CSS", "Flutter"],
+    category: 'Frontend',
+    items: ['React.js', 'Next.js', 'React Native', 'Tailwind CSS', 'Flutter']
   },
   {
-    category: "Backend",
-    items: ["Node.js", "Express.js", "FastAPI", "Prisma ORM", "Laravel"],
+    category: 'Backend',
+    items: ['Node.js', 'Express.js', 'FastAPI', 'Prisma ORM', 'Laravel']
   },
   {
-    category: "DevOps & Tools",
-    items: ["Docker", "NGINX", "Git", "Linux", "Azure", "Google Cloud"],
-  },
+    category: 'DevOps & Tools',
+    items: ['Docker', 'NGINX', 'Git', 'Linux', 'Azure', 'Google Cloud']
+  }
 ];
 
 export function About() {
@@ -30,9 +30,7 @@ export function About() {
         {/* Section header */}
         <ScrollAnimation animation="fade-up">
           <div className="mb-16 flex items-center gap-6">
-            <h2 className="text-2xl font-bold tracking-tight text-neutral-900 dark:text-neutral-50 sm:text-3xl">
-              About Me
-            </h2>
+            <h2 className="text-2xl font-bold tracking-tight text-neutral-900 sm:text-3xl dark:text-neutral-50">About Me</h2>
             <div className="h-px flex-1 bg-linear-to-r from-neutral-200 to-transparent dark:from-neutral-800" />
           </div>
         </ScrollAnimation>
@@ -42,26 +40,19 @@ export function About() {
           <div className="space-y-6">
             <ScrollAnimation animation="fade-right" delay={100}>
               <p className="text-lg leading-relaxed text-neutral-600 dark:text-neutral-400">
-                I&apos;m a Computer Science student at the University of
-                Mindanao and a full-stack developer passionate about building
-                scalable web and mobile applications. I also mentor fellow
-                students in the College of Computing Education.
+                I&apos;m a Computer Science student at the University of Mindanao and a full-stack developer passionate about building scalable web and mobile
+                applications. I also mentor fellow students in the College of Computing Education.
               </p>
             </ScrollAnimation>
             <ScrollAnimation animation="fade-right" delay={200}>
               <p className="text-lg leading-relaxed text-neutral-600 dark:text-neutral-400">
-                With experience leading mobile app development and delivering
-                freelance projects for various clients, I specialize in React
-                ecosystems, modern APIs, and cloud deployment. I also have a
-                strong interest in cybersecurity and have competed in national
-                cybersecurity competitions.
+                With experience leading mobile app development and delivering freelance projects for various clients, I specialize in React ecosystems, modern
+                APIs, and cloud deployment. I also have a strong interest in cybersecurity and have competed in national cybersecurity competitions.
               </p>
             </ScrollAnimation>
             <ScrollAnimation animation="fade-right" delay={300}>
               <p className="text-lg leading-relaxed text-neutral-600 dark:text-neutral-400">
-                I enjoy sharing knowledge through speaking engagements and
-                workshops, including advanced JavaScript mentorship for
-                university interns.
+                I enjoy sharing knowledge through speaking engagements and workshops, including advanced JavaScript mentorship for university interns.
               </p>
             </ScrollAnimation>
           </div>
@@ -69,15 +60,9 @@ export function About() {
           {/* Skills */}
           <div className="space-y-8">
             {skills.map((skillGroup, groupIndex) => (
-              <ScrollAnimation
-                key={skillGroup.category}
-                animation="fade-left"
-                delay={groupIndex * 100}
-              >
+              <ScrollAnimation key={skillGroup.category} animation="fade-left" delay={groupIndex * 100}>
                 <div>
-                  <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-neutral-500 dark:text-neutral-400">
-                    {skillGroup.category}
-                  </h3>
+                  <h3 className="mb-3 text-sm font-semibold tracking-wider text-neutral-500 uppercase dark:text-neutral-400">{skillGroup.category}</h3>
                   <div className="flex flex-wrap gap-2">
                     {skillGroup.items.map((skill) => (
                       <span

@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
 export default function Content() {
   return (
     <div className="text-center md:text-center lg:text-left">
       {/* Status badge */}
-      <div className="animate-slide-up animate-on-load delay-100 mb-4 md:mb-5 lg:mb-6 inline-flex items-center gap-2.5 rounded-full border border-neutral-200/80 bg-white/70 px-3 py-1.5 text-xs md:px-4 md:py-2 md:text-sm text-neutral-600 backdrop-blur-sm dark:border-neutral-800/80 dark:bg-neutral-900/70 dark:text-neutral-400">
+      <div className="animate-slide-up animate-on-load mb-4 inline-flex items-center gap-2.5 rounded-full border border-neutral-200/80 bg-white/70 px-3 py-1.5 text-xs text-neutral-600 backdrop-blur-sm delay-100 md:mb-5 md:px-4 md:py-2 md:text-sm lg:mb-6 dark:border-neutral-800/80 dark:bg-neutral-900/70 dark:text-neutral-400">
         <span className="relative flex h-2 w-2">
           <span className="animate-subtle-pulse absolute inline-flex h-full w-full rounded-full bg-emerald-400" />
           <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
@@ -13,25 +13,20 @@ export default function Content() {
       </div>
 
       {/* Heading */}
-      <h1 className="animate-slide-up flex flex-col gap-3 md:gap-4 lg:gap-5 animate-on-load delay-200 mb-4 md:mb-5 lg:mb-6 text-3xl md:text-4xl font-bold tracking-tight text-neutral-900 dark:text-neutral-50 sm:text-5xl lg:text-6xl">
-        Hi, I&apos;m{" "}
-        <span className="text-emerald-500 dark:text-emerald-400">
-          Mario Jr Inguito
-        </span>
+      <h1 className="animate-slide-up animate-on-load mb-4 flex flex-col gap-3 text-3xl font-bold tracking-tight text-neutral-900 delay-200 sm:text-5xl md:mb-5 md:gap-4 md:text-4xl lg:mb-6 lg:gap-5 lg:text-6xl dark:text-neutral-50">
+        Hi, I&apos;m <span className="text-emerald-500 dark:text-emerald-400">Mario Jr Inguito</span>
       </h1>
 
       {/* Description */}
-      <p className="animate-slide-up animate-on-load delay-300 mb-8 md:mb-9 lg:mb-10 max-w-xl mx-auto lg:mx-0 text-base md:text-lg leading-relaxed text-neutral-600 dark:text-neutral-400 sm:text-xl sm:leading-relaxed">
-        Full-stack developer & CS student building scalable web and mobile apps.
-        Speaker, mentor, and cybersecurity enthusiast from Davao City,
-        Philippines.
+      <p className="animate-slide-up animate-on-load mx-auto mb-8 max-w-xl text-base leading-relaxed text-neutral-600 delay-300 sm:text-xl sm:leading-relaxed md:mb-9 md:text-lg lg:mx-0 lg:mb-10 dark:text-neutral-400">
+        Full-stack developer & CS student building scalable web and mobile apps. Speaker, mentor, and cybersecurity enthusiast from Davao City, Philippines.
       </p>
 
       {/* CTA Buttons */}
-      <div className="animate-slide-up animate-on-load delay-400 flex flex-col items-center gap-3 md:gap-4 lg:flex-row md:justify-start xl:justify-start">
+      <div className="animate-slide-up animate-on-load flex flex-col items-center gap-3 delay-400 md:justify-start md:gap-4 lg:flex-row xl:justify-start">
         <a
           href="#projects"
-          className="group inline-flex h-11 md:h-12 items-center justify-center gap-2 rounded-full bg-neutral-900 px-6 md:px-8 text-sm md:text-base font-medium text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-neutral-800 hover:shadow-lg hover:shadow-neutral-900/20 dark:bg-white dark:text-neutral-900 dark:hover:bg-neutral-100 dark:hover:shadow-white/10"
+          className="group inline-flex h-11 items-center justify-center gap-2 rounded-full bg-neutral-900 px-6 text-sm font-medium text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-neutral-800 hover:shadow-lg hover:shadow-neutral-900/20 md:h-12 md:px-8 md:text-base dark:bg-white dark:text-neutral-900 dark:hover:bg-neutral-100 dark:hover:shadow-white/10"
         >
           View My Work
           <svg
@@ -41,27 +36,23 @@ export default function Content() {
             stroke="currentColor"
             strokeWidth={2}
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M17 8l4 4m0 0l-4 4m4-4H3"
-            />
+            <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
           </svg>
         </a>
         <a
           href="#contact"
-          className="inline-flex h-11 md:h-12 items-center justify-center rounded-full border border-neutral-200 bg-white/80 px-6 md:px-8 text-sm md:text-base font-medium text-neutral-700 backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-neutral-300 hover:bg-white dark:border-neutral-700 dark:bg-neutral-900/80 dark:text-neutral-300 dark:hover:border-neutral-600 dark:hover:bg-neutral-800"
+          className="inline-flex h-11 items-center justify-center rounded-full border border-neutral-200 bg-white/80 px-6 text-sm font-medium text-neutral-700 backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-neutral-300 hover:bg-white md:h-12 md:px-8 md:text-base dark:border-neutral-700 dark:bg-neutral-900/80 dark:text-neutral-300 dark:hover:border-neutral-600 dark:hover:bg-neutral-800"
         >
           Get in Touch
         </a>
       </div>
 
       {/* Tech icons */}
-      <div className="animate-fade-in animate-on-load delay-500 mt-8 md:mt-10 lg:mt-12 hidden sm:flex flex-wrap items-center justify-center gap-3 md:gap-4 lg:justify-start">
-        <span className="text-[10px] md:text-xs font-medium uppercase tracking-widest text-neutral-400 dark:text-neutral-500 whitespace-nowrap">
+      <div className="animate-fade-in animate-on-load mt-8 hidden flex-wrap items-center justify-center gap-3 delay-500 sm:flex md:mt-10 md:gap-4 lg:mt-12 lg:justify-start">
+        <span className="text-[10px] font-medium tracking-widest whitespace-nowrap text-neutral-400 uppercase md:text-xs dark:text-neutral-500">
           Tech I Work Most with
         </span>
-        <div className="h-px w-6 md:w-8 bg-neutral-200 dark:bg-neutral-800" />
+        <div className="h-px w-6 bg-neutral-200 md:w-8 dark:bg-neutral-800" />
         <div className="flex items-center gap-3 md:gap-4">
           <div className="text-neutral-400 transition-all duration-300 hover:-translate-y-0.5 hover:text-emerald-500 dark:text-neutral-600 dark:hover:text-emerald-400">
             <svg className="h-5 w-5 md:h-6 md:w-6" viewBox="0 0 24 24" fill="currentColor">

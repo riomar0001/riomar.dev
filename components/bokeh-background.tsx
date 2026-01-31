@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { useState } from "react";
+import { useState } from 'react';
 
 type Circle = {
   key: number;
@@ -10,19 +10,9 @@ type Circle = {
 };
 
 function generateCircles(): Circle[] {
-  const sizes = ["bokeh-lg", "bokeh-xl"];
-  const colors = [
-    "bokeh-green-1",
-    "bokeh-green-2",
-    "bokeh-green-3",
-    "bokeh-teal-1",
-  ];
-  const delays = [
-    "bokeh-delay-1",
-    "bokeh-delay-2",
-    "bokeh-delay-3",
-    "bokeh-delay-4",
-  ];
+  const sizes = ['bokeh-lg', 'bokeh-xl'];
+  const colors = ['bokeh-green-1', 'bokeh-green-2', 'bokeh-green-3', 'bokeh-teal-1'];
+  const delays = ['bokeh-delay-1', 'bokeh-delay-2', 'bokeh-delay-3', 'bokeh-delay-4'];
 
   return Array.from({ length: 5 }).map((_, i) => {
     const sizeIndex = Math.floor(Math.random() * sizes.length);
@@ -35,7 +25,7 @@ function generateCircles(): Circle[] {
       key: i,
       className: `bokeh-circle ${sizes[sizeIndex]} ${colors[colorIndex]} ${delays[delayIndex]} absolute`,
       left,
-      top,
+      top
     };
   });
 }
@@ -44,10 +34,7 @@ export default function BokehBackground() {
   const [circles] = useState<Circle[]>(() => generateCircles());
 
   return (
-    <div 
-      className="pointer-events-none absolute inset-0 z-0 overflow-y-visible overflow-x-clip"
-      suppressHydrationWarning
-    >
+    <div className="pointer-events-none absolute inset-0 z-0 overflow-x-clip overflow-y-visible" suppressHydrationWarning>
       {circles.map((circle) => (
         <div
           key={circle.key}
@@ -55,7 +42,7 @@ export default function BokehBackground() {
           suppressHydrationWarning
           style={{
             left: `${circle.left}%`,
-            top: `${circle.top}%`,
+            top: `${circle.top}%`
           }}
         />
       ))}

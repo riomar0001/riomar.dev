@@ -1,24 +1,17 @@
-"use client";
+'use client';
 
-import { useEffect, useRef, ReactNode } from "react";
+import { useEffect, useRef, ReactNode } from 'react';
 
 interface ScrollAnimationProps {
   children: ReactNode;
   className?: string;
-  animation?: "fade-up" | "fade-down" | "fade-left" | "fade-right" | "scale" | "fade";
+  animation?: 'fade-up' | 'fade-down' | 'fade-left' | 'fade-right' | 'scale' | 'fade';
   delay?: number;
   threshold?: number;
   once?: boolean;
 }
 
-export function ScrollAnimation({
-  children,
-  className = "",
-  animation = "fade-up",
-  delay = 0,
-  threshold = 0.1,
-  once = true,
-}: ScrollAnimationProps) {
+export function ScrollAnimation({ children, className = '', animation = 'fade-up', delay = 0, threshold = 0.1, once = true }: ScrollAnimationProps) {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -30,13 +23,13 @@ export function ScrollAnimation({
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             setTimeout(() => {
-              entry.target.classList.add("scroll-visible");
+              entry.target.classList.add('scroll-visible');
             }, delay);
             if (once) {
               observer.unobserve(entry.target);
             }
           } else if (!once) {
-            entry.target.classList.remove("scroll-visible");
+            entry.target.classList.remove('scroll-visible');
           }
         });
       },

@@ -1,59 +1,28 @@
-import BokehBackground from "../bokeh-background";
-import { ScrollAnimation } from "../ScrollAnimation";
+import { ScrollAnimation } from '../ScrollAnimation';
 
 const contactCards = [
   {
     icon: (
-      <svg
-        className="h-6 w-6"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-        strokeWidth={2}
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-        />
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-        />
+      <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
       </svg>
     ),
-    title: "Location",
-    value: "Davao City, Philippines",
+    title: 'Location',
+    value: 'Davao City, Philippines'
   },
   {
     icon: (
-      <svg
-        className="h-6 w-6"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-        strokeWidth={2}
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-        />
+      <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
       </svg>
     ),
-    title: "Response Time",
-    value: "Within 24 hours",
+    title: 'Response Time',
+    value: 'Within 24 hours'
   },
   {
     icon: (
-      <svg
-        className="h-6 w-6"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-        strokeWidth={2}
-      >
+      <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
         <path
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -61,18 +30,18 @@ const contactCards = [
         />
       </svg>
     ),
-    title: "Availability",
-    value: "Open for Projects",
-  },
+    title: 'Availability',
+    value: 'Open for Projects'
+  }
 ];
 
 export function Contact() {
   return (
     <section id="contact" className="relative overflow-visible px-6 py-24">
       {/* Bokeh background */}
-      <div className="pointer-events-none absolute inset-0 overflow-y-visible overflow-x-clip">
-        <div className="bokeh-circle bokeh-xl bokeh-green-1 bokeh-delay-1 absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2" />
-        <div className="bokeh-circle bokeh-md bokeh-green-2 bokeh-delay-2 absolute left-10 top-20" />
+      <div className="pointer-events-none absolute inset-0 overflow-x-clip overflow-y-visible">
+        <div className="bokeh-circle bokeh-xl bokeh-green-1 bokeh-delay-1 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
+        <div className="bokeh-circle bokeh-md bokeh-green-2 bokeh-delay-2 absolute top-20 left-10" />
         <div className="bokeh-circle bokeh-md bokeh-teal-1 bokeh-delay-3 absolute right-10 bottom-20" />
       </div>
 
@@ -86,16 +55,13 @@ export function Contact() {
 
         {/* Heading */}
         <ScrollAnimation animation="fade-up" delay={100}>
-          <h2 className="mb-6 text-3xl font-bold tracking-tight text-neutral-900 dark:text-neutral-50 sm:text-4xl">
-            Let&apos;s Work Together
-          </h2>
+          <h2 className="mb-6 text-3xl font-bold tracking-tight text-neutral-900 sm:text-4xl dark:text-neutral-50">Let&apos;s Work Together</h2>
         </ScrollAnimation>
 
         {/* Description */}
         <ScrollAnimation animation="fade-up" delay={200}>
           <p className="mx-auto mb-10 max-w-xl text-lg leading-relaxed text-neutral-600 dark:text-neutral-400">
-            I&apos;m always open to discussing new projects, creative ideas, or
-            opportunities to be part of your vision. Feel free to reach out!
+            I&apos;m always open to discussing new projects, creative ideas, or opportunities to be part of your vision. Feel free to reach out!
           </p>
         </ScrollAnimation>
 
@@ -138,21 +104,13 @@ export function Contact() {
         {/* Contact Cards */}
         <div className="mt-16 grid gap-6 sm:grid-cols-3">
           {contactCards.map((card, index) => (
-            <ScrollAnimation
-              key={card.title}
-              animation="fade-up"
-              delay={400 + index * 100}
-            >
+            <ScrollAnimation key={card.title} animation="fade-up" delay={400 + index * 100}>
               <div className="group rounded-2xl border border-neutral-100 bg-white p-6 transition-all duration-300 hover:-translate-y-2 hover:border-emerald-300 hover:shadow-xl hover:shadow-emerald-500/15 dark:border-neutral-800/50 dark:bg-neutral-900/80 dark:hover:border-emerald-500/50 dark:hover:shadow-emerald-500/10">
-                <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full bg-neutral-100 text-neutral-600 transition-all duration-300 group-hover:bg-emerald-500 group-hover:text-white group-hover:scale-110 dark:bg-neutral-800 dark:text-neutral-400 dark:group-hover:bg-emerald-500 dark:group-hover:text-white">
+                <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full bg-neutral-100 text-neutral-600 transition-all duration-300 group-hover:scale-110 group-hover:bg-emerald-500 group-hover:text-white dark:bg-neutral-800 dark:text-neutral-400 dark:group-hover:bg-emerald-500 dark:group-hover:text-white">
                   {card.icon}
                 </div>
-                <h3 className="mb-1 font-semibold text-neutral-900 dark:text-neutral-50">
-                  {card.title}
-                </h3>
-                <p className="text-sm text-neutral-600 dark:text-neutral-400">
-                  {card.value}
-                </p>
+                <h3 className="mb-1 font-semibold text-neutral-900 dark:text-neutral-50">{card.title}</h3>
+                <p className="text-sm text-neutral-600 dark:text-neutral-400">{card.value}</p>
               </div>
             </ScrollAnimation>
           ))}

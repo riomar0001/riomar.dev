@@ -1,53 +1,42 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import { ThemeProvider } from "@/components";
-import "./globals.css";
-import { ReactLenis } from "lenis/react";
+import { ReactLenis } from 'lenis/react';
+import type { Metadata } from 'next';
+import { Geist, Geist_Mono } from 'next/font/google';
+import './globals.css';
+import { ThemeProvider } from '@/components';
 
 const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+  variable: '--font-geist-sans',
+  subsets: ['latin']
 });
 
 const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  variable: '--font-geist-mono',
+  subsets: ['latin']
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://riomar.dev"),
+  metadataBase: new URL('https://riomar.dev'),
   title: {
-    default: "Mario Jr Inguito | Full Stack Developer",
-    template: "%s | Mario Jr Inguito",
+    default: 'Mario Jr Inguito | Full Stack Developer',
+    template: '%s | Mario Jr Inguito'
   },
-  description:
-    "Full-stack developer crafting elegant digital experiences. Building modern web applications with clean code and thoughtful design.",
-  keywords: [
-    "Mario Jr Inguito",
-    "Full Stack Developer",
-    "Web Developer",
-    "React",
-    "Next.js",
-    "TypeScript",
-    "Portfolio",
-  ],
-  authors: [{ name: "Mario Jr Inguito", url: "https://riomar.dev" }],
-  creator: "Mario Jr Inguito",
+  description: 'Full-stack developer crafting elegant digital experiences. Building modern web applications with clean code and thoughtful design.',
+  keywords: ['Mario Jr Inguito', 'Full Stack Developer', 'Web Developer', 'React', 'Next.js', 'TypeScript', 'Portfolio'],
+  authors: [{ name: 'Mario Jr Inguito', url: 'https://riomar.dev' }],
+  creator: 'Mario Jr Inguito',
   openGraph: {
-    type: "website",
-    locale: "en_US",
-    url: "https://riomar.dev",
-    siteName: "Mario Jr Inguito",
-    title: "Mario Jr Inguito | Full Stack Developer",
-    description:
-      "Full-stack developer crafting elegant digital experiences. Building modern web applications with clean code and thoughtful design.",
+    type: 'website',
+    locale: 'en_US',
+    url: 'https://riomar.dev',
+    siteName: 'Mario Jr Inguito',
+    title: 'Mario Jr Inguito | Full Stack Developer',
+    description: 'Full-stack developer crafting elegant digital experiences. Building modern web applications with clean code and thoughtful design.'
   },
   twitter: {
-    card: "summary_large_image",
-    title: "Mario Jr Inguito | Full Stack Developer",
-    description:
-      "Full-stack developer crafting elegant digital experiences. Building modern web applications with clean code and thoughtful design.",
-    creator: "@riomar",
+    card: 'summary_large_image',
+    title: 'Mario Jr Inguito | Full Stack Developer',
+    description: 'Full-stack developer crafting elegant digital experiences. Building modern web applications with clean code and thoughtful design.',
+    creator: '@riomar'
   },
   robots: {
     index: true,
@@ -55,11 +44,11 @@ export const metadata: Metadata = {
     googleBot: {
       index: true,
       follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
-  },
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1
+    }
+  }
 };
 
 // Script to prevent flash of wrong theme
@@ -79,7 +68,7 @@ const themeScript = `
 `;
 
 export default function RootLayout({
-  children,
+  children
 }: Readonly<{
   children: React.ReactNode;
 }>) {
@@ -88,9 +77,7 @@ export default function RootLayout({
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased`}
-      >
+      <body className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased`}>
         <ReactLenis root />
         <ThemeProvider>{children}</ThemeProvider>
       </body>
