@@ -15,27 +15,27 @@ export function Hero() {
         <div className="animate-scale-in animate-on-load flex justify-center lg:justify-start">
           <div className="relative flex items-center justify-center">
             {/* Breathing rings (shrink/grow effect) */}
-            <div className="animate-ring-breathe absolute h-[340px] w-[340px] rounded-full border-2 border-emerald-400/50 dark:border-emerald-500/40" />
-            <div className="animate-ring-breathe-slow absolute h-[400px] w-[400px] rounded-full border border-emerald-300/30 dark:border-emerald-600/25" />
+            <div className="animate-ring-breathe absolute h-85 w-85 rounded-full border-2 border-emerald-400/50 dark:border-emerald-500/40" />
+            <div className="animate-ring-breathe-slow absolute h-100 w-100 rounded-full border border-emerald-300/30 dark:border-emerald-600/25" />
 
             {/* Spinning dots container - dots rotate around the profile */}
-            <div className="animate-spin-slow absolute h-[340px] w-[340px]">
+            <div className="animate-spin-slow absolute h-85 w-85">
               <div className="absolute left-1/2 top-0 h-3 w-3 -translate-x-1/2 rounded-full bg-emerald-400 shadow-lg shadow-emerald-400/50" />
               <div className="absolute bottom-0 left-1/2 h-2.5 w-2.5 -translate-x-1/2 rounded-full bg-teal-400 shadow-lg shadow-teal-400/50" />
             </div>
 
-            <div className="animate-spin-reverse absolute h-[300px] w-[300px]">
+            <div className="animate-spin-reverse absolute h-75 w-75">
               <div className="absolute left-0 top-1/2 h-2 w-2 -translate-y-1/2 rounded-full bg-emerald-300 shadow-md shadow-emerald-300/50" />
               <div className="absolute right-0 top-1/2 h-2.5 w-2.5 -translate-y-1/2 rounded-full bg-teal-300 shadow-md shadow-teal-300/50" />
             </div>
 
-            <div className="animate-spin-slower absolute h-[380px] w-[380px]">
+            <div className="animate-spin-slower absolute h-95 w-95">
               <div className="absolute right-4 top-4 h-2 w-2 rounded-full bg-emerald-500/70" />
               <div className="absolute bottom-4 left-4 h-1.5 w-1.5 rounded-full bg-teal-500/70" />
             </div>
 
             {/* Main image container */}
-            <div className="relative h-72 w-72 overflow-hidden rounded-full bg-gradient-to-br from-emerald-400 via-teal-400 to-emerald-500 p-1.5 shadow-2xl shadow-emerald-500/30 dark:shadow-emerald-500/20 sm:h-80 sm:w-80">
+            <div className="relative h-72 w-72 overflow-hidden rounded-full bg-linear-to-br from-emerald-400 via-teal-400 to-emerald-500 p-1.5 shadow-2xl shadow-emerald-500/30 dark:shadow-emerald-500/20 sm:h-80 sm:w-80">
               <div className="flex h-full w-full items-center justify-center rounded-full bg-neutral-100 dark:bg-neutral-800">
                 {/* Placeholder icon - replace with actual image */}
                 <svg className="h-32 w-32 text-neutral-300 dark:text-neutral-600" fill="currentColor" viewBox="0 0 24 24">
