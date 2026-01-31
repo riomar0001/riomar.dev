@@ -17,11 +17,11 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL('https://riomar.dev'),
   title: {
-    default: 'Mario Jr Inguito | Full Stack Developer',
+    default: 'Mario Jr Inguito | Software Engineer',
     template: '%s | Mario Jr Inguito'
   },
   description: 'Full-stack developer crafting elegant digital experiences. Building modern web applications with clean code and thoughtful design.',
-  keywords: ['Mario Jr Inguito', 'Full Stack Developer', 'Web Developer', 'React', 'Next.js', 'TypeScript', 'Portfolio'],
+  keywords: ['Mario Jr Inguito', 'Software Engineer', 'Web Developer', 'React', 'Next.js', 'TypeScript', 'Redis', 'Portfolio'],
   authors: [{ name: 'Mario Jr Inguito', url: 'https://riomar.dev' }],
   creator: 'Mario Jr Inguito',
   openGraph: {
@@ -29,12 +29,12 @@ export const metadata: Metadata = {
     locale: 'en_US',
     url: 'https://riomar.dev',
     siteName: 'Mario Jr Inguito',
-    title: 'Mario Jr Inguito | Full Stack Developer',
+    title: 'Mario Jr Inguito | Software Engineer',
     description: 'Full-stack developer crafting elegant digital experiences. Building modern web applications with clean code and thoughtful design.'
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Mario Jr Inguito | Full Stack Developer',
+    title: 'Mario Jr Inguito | Software Engineer',
     description: 'Full-stack developer crafting elegant digital experiences. Building modern web applications with clean code and thoughtful design.',
     creator: '@riomar'
   },

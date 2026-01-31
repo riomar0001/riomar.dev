@@ -4,15 +4,15 @@ import BokehBackground from '../bokeh-background';
 const skills = [
   {
     category: 'Languages',
-    items: ['TypeScript', 'JavaScript', 'Python', 'Java', 'PHP', 'SQL']
+    items: ['TypeScript', 'JavaScript', 'Python', 'Java', 'PHP', 'SQL', 'C#']
   },
   {
     category: 'Frontend',
-    items: ['React.js', 'Next.js', 'React Native', 'Tailwind CSS', 'Flutter']
+    items: ['React.js', 'Next.js', 'React Native', 'Expo', 'Tailwind CSS', 'Flutter', 'Svelte']
   },
   {
     category: 'Backend',
-    items: ['Node.js', 'Express.js', 'FastAPI', 'Prisma ORM', 'Laravel']
+    items: ['Node.js', 'Express.js', 'FastAPI', 'Prisma ORM', 'Laravel', 'Redis', 'ASP.NET']
   },
   {
     category: 'DevOps & Tools',

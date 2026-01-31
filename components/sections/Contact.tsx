@@ -69,7 +69,7 @@ export function Contact() {
         <ScrollAnimation animation="fade-up" delay={300}>
           <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
             <a
-              href="mailto:inguitomario00@gmail.com"
+              href="mailto:hireme@riomar.dev"
               className="group inline-flex h-12 items-center justify-center gap-2 rounded-full bg-neutral-900 px-8 font-medium text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-neutral-800 hover:shadow-lg hover:shadow-neutral-900/20 dark:bg-white dark:text-neutral-900 dark:hover:bg-neutral-100 dark:hover:shadow-white/10"
             >
               <svg

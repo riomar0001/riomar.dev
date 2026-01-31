@@ -12,7 +12,7 @@ export function Footer() {
 
           <div className="flex items-center gap-4">
             <a
-              href="https://github.com/marioinguito"
+              href="https://github.com/riomar0001"
               target="_blank"
               rel="noopener noreferrer"
               className="text-neutral-400 transition-all duration-300 hover:-translate-y-0.5 hover:text-neutral-900 dark:text-neutral-500 dark:hover:text-neutral-100"
@@ -38,7 +38,7 @@ export function Footer() {
               </svg>
             </a>
             <a
-              href="mailto:inguitomario00@gmail.com"
+              href="mailto:hireme@riomar.dev"
               className="text-neutral-400 transition-all duration-300 hover:-translate-y-0.5 hover:text-neutral-900 dark:text-neutral-500 dark:hover:text-neutral-100"
               aria-label="Email"
             >

@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { ScrollAnimation } from '../ScrollAnimation';
 import BokehBackground from '../bokeh-background';
 
@@ -107,6 +108,31 @@ export function Experience() {
             </ScrollAnimation>
           ))}
         </div>
+
+        {/* View All Button */}
+        <ScrollAnimation animation="fade-up" delay={300}>
+          <div className="mt-12 flex justify-center">
+            <Link
+              href="/experience"
+              className="group inline-flex items-center gap-2 rounded-full border border-neutral-200 bg-white/80 px-6 py-3 font-medium text-neutral-700 backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-emerald-400 hover:bg-emerald-500 hover:text-white hover:shadow-lg hover:shadow-emerald-500/25 dark:border-neutral-700 dark:bg-neutral-900/80 dark:text-neutral-300 dark:hover:border-emerald-500 dark:hover:bg-emerald-500 dark:hover:text-white"
+            >
+              View My Experiences
+              <svg
+                className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M17 8l4 4m0 0l-4 4m4-4H3"
+                />
+              </svg>
+            </Link>
+          </div>
+        </ScrollAnimation>
 
         {/* Achievements section */}
         <div className="mt-20">
