@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ThemeProvider } from "@/components";
 import "./globals.css";
+import { ReactLenis } from "lenis/react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -16,13 +17,13 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL("https://riomar.dev"),
   title: {
-    default: "Mario Jr Inguit | Full Stack Developer",
-    template: "%s | Mario Jr Inguit",
+    default: "Mario Jr Inguito | Full Stack Developer",
+    template: "%s | Mario Jr Inguito",
   },
   description:
     "Full-stack developer crafting elegant digital experiences. Building modern web applications with clean code and thoughtful design.",
   keywords: [
-    "Mario Jr Inguit",
+    "Mario Jr Inguito",
     "Full Stack Developer",
     "Web Developer",
     "React",
@@ -30,20 +31,20 @@ export const metadata: Metadata = {
     "TypeScript",
     "Portfolio",
   ],
-  authors: [{ name: "Mario Jr Inguit", url: "https://riomar.dev" }],
-  creator: "Mario Jr Inguit",
+  authors: [{ name: "Mario Jr Inguito", url: "https://riomar.dev" }],
+  creator: "Mario Jr Inguito",
   openGraph: {
     type: "website",
     locale: "en_US",
     url: "https://riomar.dev",
-    siteName: "Mario Jr Inguit",
-    title: "Mario Jr Inguit | Full Stack Developer",
+    siteName: "Mario Jr Inguito",
+    title: "Mario Jr Inguito | Full Stack Developer",
     description:
       "Full-stack developer crafting elegant digital experiences. Building modern web applications with clean code and thoughtful design.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Mario Jr Inguit | Full Stack Developer",
+    title: "Mario Jr Inguito | Full Stack Developer",
     description:
       "Full-stack developer crafting elegant digital experiences. Building modern web applications with clean code and thoughtful design.",
     creator: "@riomar",
@@ -71,6 +72,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased`}
       >
+        <ReactLenis root />
         <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>

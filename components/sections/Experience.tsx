@@ -1,3 +1,5 @@
+import { ScrollAnimation } from "../ScrollAnimation";
+
 const experiences = [
   {
     role: "Core Lead Developer",
@@ -48,27 +50,35 @@ const achievements = [
 
 export function Experience() {
   return (
-    <section id="experience" className="bg-neutral-50 px-6 py-24 dark:bg-neutral-900/50">
-      <div className="mx-auto max-w-5xl">
+    <section id="experience" className="relative overflow-hidden px-6 py-24">
+      {/* Bokeh background */}
+      <div className="pointer-events-none absolute inset-0">
+        <div className="bokeh-circle bokeh-xl bokeh-green-1 bokeh-delay-1 absolute -left-20 top-1/3" />
+        <div className="bokeh-circle bokeh-md bokeh-green-3 bokeh-delay-2 absolute right-10 top-20" />
+        <div className="bokeh-circle bokeh-lg bokeh-teal-1 bokeh-delay-3 absolute right-1/4 bottom-20" />
+      </div>
+
+      <div className="relative mx-auto max-w-5xl">
         {/* Section header */}
-        <div className="mb-16 flex items-center gap-6">
-          <h2 className="text-2xl font-bold tracking-tight text-neutral-900 dark:text-neutral-50 sm:text-3xl">
-            Experience
-          </h2>
-          <div className="h-px flex-1 bg-linear-to-r from-neutral-200 to-transparent dark:from-neutral-800" />
-        </div>
+        <ScrollAnimation animation="fade-up">
+          <div className="mb-16 flex items-center gap-6">
+            <h2 className="text-2xl font-bold tracking-tight text-neutral-900 dark:text-neutral-50 sm:text-3xl">
+              Experience
+            </h2>
+            <div className="h-px flex-1 bg-linear-to-r from-neutral-200 to-transparent dark:from-neutral-800" />
+          </div>
+        </ScrollAnimation>
 
         {/* Experience cards */}
         <div className="space-y-8">
           {experiences.map((exp, index) => (
-            <article
-              key={index}
-              className="animate-slide-up animate-on-load group relative rounded-2xl border border-neutral-100 bg-white p-6 transition-all duration-300 hover:border-neutral-200 hover:shadow-lg dark:border-neutral-800/50 dark:bg-neutral-900/80 dark:hover:border-neutral-700 sm:p-8"
-              style={{ animationDelay: `${index * 100}ms` }}
-            >
+            <ScrollAnimation key={index} animation="fade-up" delay={index * 150}>
+              <article
+                className="group relative rounded-2xl border border-neutral-100 bg-white p-6 transition-all duration-300 hover:-translate-y-1 hover:border-emerald-300 hover:shadow-xl hover:shadow-emerald-500/15 dark:border-neutral-800/50 dark:bg-neutral-900/80 dark:hover:border-emerald-500/50 dark:hover:shadow-emerald-500/10 sm:p-8"
+              >
               <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                 <div className="flex-1">
-                  <h3 className="text-xl font-semibold text-neutral-900 dark:text-neutral-50">
+                  <h3 className="text-xl font-semibold text-neutral-900 transition-colors duration-300 group-hover:text-emerald-600 dark:text-neutral-50 dark:group-hover:text-emerald-400">
                     {exp.role}
                   </h3>
                   <p className="mt-1 text-neutral-600 dark:text-neutral-400">
@@ -83,7 +93,7 @@ export function Experience() {
               <ul className="mt-6 space-y-3">
                 {exp.description.map((item, i) => (
                   <li key={i} className="flex gap-3 text-neutral-600 dark:text-neutral-400">
-                    <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-violet-500" />
+                    <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-500" />
                     <span className="leading-relaxed">{item}</span>
                   </li>
                 ))}
@@ -93,38 +103,40 @@ export function Experience() {
                 {exp.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="rounded-full bg-neutral-100 px-3 py-1 text-xs font-medium text-neutral-600 dark:bg-neutral-800 dark:text-neutral-400"
+                    className="rounded-full bg-neutral-100 px-3 py-1 text-xs font-medium text-neutral-600 transition-all duration-200 hover:bg-emerald-500 hover:text-white dark:bg-neutral-800 dark:text-neutral-400 dark:hover:bg-emerald-500 dark:hover:text-white"
                   >
                     {tag}
                   </span>
                 ))}
               </div>
-            </article>
+              </article>
+            </ScrollAnimation>
           ))}
         </div>
 
         {/* Achievements section */}
         <div className="mt-20">
-          <div className="mb-10 flex items-center gap-6">
-            <h3 className="text-xl font-bold tracking-tight text-neutral-900 dark:text-neutral-50">
-              Awards & Recognition
-            </h3>
-            <div className="h-px flex-1 bg-linear-to-r from-neutral-200 to-transparent dark:from-neutral-800" />
-          </div>
+          <ScrollAnimation animation="fade-up">
+            <div className="mb-10 flex items-center gap-6">
+              <h3 className="text-xl font-bold tracking-tight text-neutral-900 dark:text-neutral-50">
+                Awards & Recognition
+              </h3>
+              <div className="h-px flex-1 bg-linear-to-r from-neutral-200 to-transparent dark:from-neutral-800" />
+            </div>
+          </ScrollAnimation>
 
           <div className="grid gap-6 sm:grid-cols-3">
             {achievements.map((achievement, index) => (
-              <div
-                key={index}
-                className="animate-slide-up animate-on-load group rounded-2xl border border-neutral-100 bg-white p-6 transition-all duration-300 hover:-translate-y-1 hover:border-neutral-200 hover:shadow-lg dark:border-neutral-800/50 dark:bg-neutral-900/80 dark:hover:border-neutral-700"
-                style={{ animationDelay: `${(index + 2) * 100}ms` }}
-              >
-                <div className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-full bg-violet-100 text-violet-600 dark:bg-violet-900/30 dark:text-violet-400">
+              <ScrollAnimation key={index} animation="scale" delay={index * 100}>
+                <div
+                  className="group rounded-2xl border border-neutral-100 bg-white p-6 transition-all duration-300 hover:-translate-y-2 hover:border-emerald-300 hover:shadow-xl hover:shadow-emerald-500/15 dark:border-neutral-800/50 dark:bg-neutral-900/80 dark:hover:border-emerald-500/50 dark:hover:shadow-emerald-500/10"
+                >
+                <div className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-full bg-emerald-100 text-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-400">
                   <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
                   </svg>
                 </div>
-                <h4 className="font-semibold text-neutral-900 dark:text-neutral-50">
+                <h4 className="font-semibold text-neutral-900 transition-colors duration-300 group-hover:text-emerald-600 dark:text-neutral-50 dark:group-hover:text-emerald-400">
                   {achievement.title}
                 </h4>
                 <p className="mt-1 text-sm text-neutral-500 dark:text-neutral-500">
@@ -133,7 +145,8 @@ export function Experience() {
                 <p className="mt-3 text-sm leading-relaxed text-neutral-600 dark:text-neutral-400">
                   {achievement.description}
                 </p>
-              </div>
+                </div>
+              </ScrollAnimation>
             ))}
           </div>
         </div>

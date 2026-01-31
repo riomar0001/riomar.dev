@@ -7,7 +7,7 @@ export function Footer() {
         <div className="flex flex-col items-center justify-between gap-6 sm:flex-row">
           <div className="flex flex-col items-center gap-2 sm:items-start">
             <span className="font-medium text-neutral-900 dark:text-neutral-100">
-              Mario Jr Inguit
+              Mario Jr Inguito
             </span>
             <span className="text-sm text-neutral-500 dark:text-neutral-400">
               Full Stack Developer
@@ -65,7 +65,7 @@ export function Footer() {
 
         <div className="mt-8 border-t border-neutral-200 pt-8 text-center dark:border-neutral-800">
           <p className="text-sm text-neutral-500 dark:text-neutral-400">
-            {currentYear} Mario Jr Inguit. Crafted with care.
+            {currentYear} Mario Jr Inguito. Crafted with care.
           </p>
         </div>
       </div>

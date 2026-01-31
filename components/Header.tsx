@@ -14,7 +14,7 @@ export function Header() {
     <header className="fixed top-0 z-50 w-full">
       <div className="mx-auto max-w-5xl px-4 py-4">
         {/* Liquid Glass Container */}
-        <nav className="liquid-glass relative flex items-center justify-between rounded-2xl px-5 py-3">
+        <nav className="liquid-glass backdrop-blur-xs relative flex items-center justify-between rounded-2xl px-5 py-3">
           {/* Gradient border overlay */}
           <div className="pointer-events-none absolute inset-0 rounded-2xl border border-white/20 dark:border-white/10" />
           <div className="pointer-events-none absolute inset-0 rounded-2xl shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)]" />

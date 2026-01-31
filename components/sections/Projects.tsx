@@ -1,3 +1,5 @@
+import { ScrollAnimation } from "../ScrollAnimation";
+
 const projects = [
   {
     title: "Project Alpha",
@@ -27,32 +29,41 @@ const projects = [
 
 export function Projects() {
   return (
-    <section id="projects" className="bg-neutral-50 px-6 py-24 dark:bg-neutral-900/50">
-      <div className="mx-auto max-w-5xl">
+    <section id="projects" className="relative overflow-hidden px-6 py-24">
+      {/* Bokeh background */}
+      <div className="pointer-events-none absolute inset-0">
+        <div className="bokeh-circle bokeh-lg bokeh-green-2 bokeh-delay-1 absolute left-1/4 top-10" />
+        <div className="bokeh-circle bokeh-md bokeh-teal-1 bokeh-delay-2 absolute right-0 top-1/2 translate-x-1/4" />
+        <div className="bokeh-circle bokeh-lg bokeh-green-1 bokeh-delay-3 absolute left-0 bottom-20 -translate-x-1/4" />
+        <div className="bokeh-circle bokeh-sm bokeh-green-3 bokeh-delay-4 absolute right-1/3 bottom-10" />
+      </div>
+
+      <div className="relative mx-auto max-w-5xl">
         {/* Section header */}
-        <div className="mb-16 flex items-center gap-6">
-          <h2 className="text-2xl font-bold tracking-tight text-neutral-900 dark:text-neutral-50 sm:text-3xl">
-            Featured Projects
-          </h2>
-          <div className="h-px flex-1 bg-linear-to-r from-neutral-200 to-transparent dark:from-neutral-800" />
-        </div>
+        <ScrollAnimation animation="fade-up">
+          <div className="mb-16 flex items-center gap-6">
+            <h2 className="text-2xl font-bold tracking-tight text-neutral-900 dark:text-neutral-50 sm:text-3xl">
+              Featured Projects
+            </h2>
+            <div className="h-px flex-1 bg-linear-to-r from-neutral-200 to-transparent dark:from-neutral-800" />
+          </div>
+        </ScrollAnimation>
 
         {/* Project cards grid */}
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
           {projects.map((project, index) => (
-            <article
-              key={index}
-              className="animate-slide-up animate-on-load group relative overflow-hidden rounded-2xl border border-neutral-100 bg-white p-6 transition-all duration-300 hover:-translate-y-1 hover:border-neutral-200 hover:shadow-xl hover:shadow-neutral-200/50 dark:border-neutral-800/50 dark:bg-neutral-900/80 dark:hover:border-neutral-700 dark:hover:shadow-neutral-900/50"
-              style={{ animationDelay: `${index * 100}ms` }}
-            >
-              {/* Subtle gradient overlay on hover */}
-              <div className="pointer-events-none absolute inset-0 bg-linear-to-br from-violet-500/[0.02] to-pink-500/[0.02] opacity-0 transition-opacity duration-300 group-hover:opacity-100 dark:from-violet-500/[0.04] dark:to-pink-500/[0.04]" />
+            <ScrollAnimation key={index} animation="scale" delay={index * 100}>
+              <article
+                className="group relative overflow-hidden rounded-2xl border border-neutral-100 bg-white p-6 transition-all duration-300 hover:-translate-y-2 hover:border-emerald-300 hover:shadow-2xl hover:shadow-emerald-500/20 dark:border-neutral-800/50 dark:bg-neutral-900/80 dark:hover:border-emerald-500/50 dark:hover:shadow-emerald-500/10"
+              >
+              {/* Gradient overlay on hover */}
+              <div className="pointer-events-none absolute inset-0 bg-linear-to-br from-emerald-500/[0.08] to-teal-500/[0.05] opacity-0 transition-opacity duration-300 group-hover:opacity-100 dark:from-emerald-500/[0.12] dark:to-teal-500/[0.08]" />
 
               {/* Action buttons */}
               <div className="absolute right-4 top-4 flex gap-2 translate-y-1 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
                 <a
                   href={project.github}
-                  className="rounded-full bg-neutral-100/80 p-2.5 text-neutral-500 backdrop-blur-sm transition-all duration-200 hover:bg-neutral-200 hover:text-neutral-900 dark:bg-neutral-800/80 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:hover:text-neutral-100"
+                  className="rounded-full bg-neutral-100/80 p-2.5 text-neutral-500 backdrop-blur-sm transition-all duration-200 hover:bg-emerald-500 hover:text-white hover:scale-110 dark:bg-neutral-800/80 dark:text-neutral-400 dark:hover:bg-emerald-500 dark:hover:text-white"
                   aria-label="View on GitHub"
                 >
                   <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
@@ -65,7 +76,7 @@ export function Projects() {
                 </a>
                 <a
                   href={project.link}
-                  className="rounded-full bg-neutral-100/80 p-2.5 text-neutral-500 backdrop-blur-sm transition-all duration-200 hover:bg-neutral-200 hover:text-neutral-900 dark:bg-neutral-800/80 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:hover:text-neutral-100"
+                  className="rounded-full bg-neutral-100/80 p-2.5 text-neutral-500 backdrop-blur-sm transition-all duration-200 hover:bg-emerald-500 hover:text-white hover:scale-110 dark:bg-neutral-800/80 dark:text-neutral-400 dark:hover:bg-emerald-500 dark:hover:text-white"
                   aria-label="View live demo"
                 >
                   <svg
@@ -86,7 +97,7 @@ export function Projects() {
 
               {/* Content */}
               <div className="relative">
-                <h3 className="mb-3 text-lg font-semibold text-neutral-900 dark:text-neutral-50">
+                <h3 className="mb-3 text-lg font-semibold text-neutral-900 transition-colors duration-300 group-hover:text-emerald-600 dark:text-neutral-50 dark:group-hover:text-emerald-400">
                   {project.title}
                 </h3>
                 <p className="mb-6 text-sm leading-relaxed text-neutral-600 dark:text-neutral-400">
@@ -98,28 +109,30 @@ export function Projects() {
                   {project.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="rounded-full bg-neutral-100 px-3 py-1 text-xs font-medium text-neutral-600 transition-colors duration-200 hover:bg-neutral-200 dark:bg-neutral-800 dark:text-neutral-400 dark:hover:bg-neutral-700"
+                      className="rounded-full bg-neutral-100 px-3 py-1 text-xs font-medium text-neutral-600 transition-all duration-200 hover:bg-emerald-500 hover:text-white dark:bg-neutral-800 dark:text-neutral-400 dark:hover:bg-emerald-500 dark:hover:text-white"
                     >
                       {tag}
                     </span>
                   ))}
                 </div>
               </div>
-            </article>
+              </article>
+            </ScrollAnimation>
           ))}
         </div>
 
         {/* View more link */}
-        <div className="mt-16 text-center">
+        <ScrollAnimation animation="fade-up" delay={300}>
+          <div className="mt-16 text-center">
           <a
             href="https://github.com/riomar0001"
             target="_blank"
             rel="noopener noreferrer"
-            className="group inline-flex items-center gap-2 text-neutral-600 transition-all duration-300 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100"
+            className="group inline-flex items-center gap-2 text-neutral-600 transition-all duration-300 hover:text-emerald-600 dark:text-neutral-400 dark:hover:text-emerald-400"
           >
             <span className="relative">
               View more on GitHub
-              <span className="absolute bottom-0 left-0 h-px w-0 bg-current transition-all duration-300 group-hover:w-full" />
+              <span className="absolute bottom-0 left-0 h-px w-0 bg-emerald-500 transition-all duration-300 group-hover:w-full" />
             </span>
             <svg
               className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
@@ -135,7 +148,8 @@ export function Projects() {
               />
             </svg>
           </a>
-        </div>
+          </div>
+        </ScrollAnimation>
       </div>
     </section>
   );

@@ -1,3 +1,5 @@
+import { ScrollAnimation } from "../ScrollAnimation";
+
 const contactCards = [
   {
     icon: (
@@ -31,26 +33,40 @@ const contactCards = [
 
 export function Contact() {
   return (
-    <section id="contact" className="px-6 py-24">
-      <div className="mx-auto max-w-3xl text-center">
+    <section id="contact" className="relative overflow-hidden px-6 py-24">
+      {/* Bokeh background */}
+      <div className="pointer-events-none absolute inset-0">
+        <div className="bokeh-circle bokeh-xl bokeh-green-1 bokeh-delay-1 absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2" />
+        <div className="bokeh-circle bokeh-md bokeh-green-2 bokeh-delay-2 absolute left-10 top-20" />
+        <div className="bokeh-circle bokeh-md bokeh-teal-1 bokeh-delay-3 absolute right-10 bottom-20" />
+      </div>
+
+      <div className="relative mx-auto max-w-3xl text-center">
         {/* Badge */}
-        <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-neutral-200/80 bg-white/70 px-4 py-2 text-sm text-neutral-600 backdrop-blur-sm dark:border-neutral-800/80 dark:bg-neutral-900/70 dark:text-neutral-400">
-          Get in Touch
-        </div>
+        <ScrollAnimation animation="fade-down">
+          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-neutral-200/80 bg-white/70 px-4 py-2 text-sm text-neutral-600 backdrop-blur-sm dark:border-neutral-800/80 dark:bg-neutral-900/70 dark:text-neutral-400">
+            Get in Touch
+          </div>
+        </ScrollAnimation>
 
         {/* Heading */}
-        <h2 className="mb-6 text-3xl font-bold tracking-tight text-neutral-900 dark:text-neutral-50 sm:text-4xl">
-          Let&apos;s Work Together
-        </h2>
+        <ScrollAnimation animation="fade-up" delay={100}>
+          <h2 className="mb-6 text-3xl font-bold tracking-tight text-neutral-900 dark:text-neutral-50 sm:text-4xl">
+            Let&apos;s Work Together
+          </h2>
+        </ScrollAnimation>
 
         {/* Description */}
-        <p className="mx-auto mb-10 max-w-xl text-lg leading-relaxed text-neutral-600 dark:text-neutral-400">
-          I&apos;m always open to discussing new projects, creative ideas, or
-          opportunities to be part of your vision. Feel free to reach out!
-        </p>
+        <ScrollAnimation animation="fade-up" delay={200}>
+          <p className="mx-auto mb-10 max-w-xl text-lg leading-relaxed text-neutral-600 dark:text-neutral-400">
+            I&apos;m always open to discussing new projects, creative ideas, or
+            opportunities to be part of your vision. Feel free to reach out!
+          </p>
+        </ScrollAnimation>
 
         {/* CTA Buttons */}
-        <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
+        <ScrollAnimation animation="fade-up" delay={300}>
+          <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
           <a
             href="mailto:inguitomario00@gmail.com"
             className="group inline-flex h-12 items-center justify-center gap-2 rounded-full bg-neutral-900 px-8 font-medium text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-neutral-800 hover:shadow-lg hover:shadow-neutral-900/20 dark:bg-white dark:text-neutral-900 dark:hover:bg-neutral-100 dark:hover:shadow-white/10"
@@ -81,26 +97,27 @@ export function Contact() {
             </svg>
             LinkedIn
           </a>
-        </div>
+          </div>
+        </ScrollAnimation>
 
         {/* Contact Cards */}
         <div className="mt-16 grid gap-6 sm:grid-cols-3">
           {contactCards.map((card, index) => (
-            <div
-              key={card.title}
-              className="animate-slide-up animate-on-load group rounded-2xl border border-neutral-100 bg-white p-6 transition-all duration-300 hover:-translate-y-1 hover:border-neutral-200 hover:shadow-lg dark:border-neutral-800/50 dark:bg-neutral-900/80 dark:hover:border-neutral-700"
-              style={{ animationDelay: `${index * 100}ms` }}
-            >
-              <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full bg-neutral-100 text-neutral-600 transition-colors duration-300 group-hover:bg-neutral-200 dark:bg-neutral-800 dark:text-neutral-400 dark:group-hover:bg-neutral-700">
-                {card.icon}
+            <ScrollAnimation key={card.title} animation="fade-up" delay={400 + index * 100}>
+              <div
+                className="group rounded-2xl border border-neutral-100 bg-white p-6 transition-all duration-300 hover:-translate-y-2 hover:border-emerald-300 hover:shadow-xl hover:shadow-emerald-500/15 dark:border-neutral-800/50 dark:bg-neutral-900/80 dark:hover:border-emerald-500/50 dark:hover:shadow-emerald-500/10"
+              >
+                <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full bg-neutral-100 text-neutral-600 transition-all duration-300 group-hover:bg-emerald-500 group-hover:text-white group-hover:scale-110 dark:bg-neutral-800 dark:text-neutral-400 dark:group-hover:bg-emerald-500 dark:group-hover:text-white">
+                  {card.icon}
+                </div>
+                <h3 className="mb-1 font-semibold text-neutral-900 dark:text-neutral-50">
+                  {card.title}
+                </h3>
+                <p className="text-sm text-neutral-600 dark:text-neutral-400">
+                  {card.value}
+                </p>
               </div>
-              <h3 className="mb-1 font-semibold text-neutral-900 dark:text-neutral-50">
-                {card.title}
-              </h3>
-              <p className="text-sm text-neutral-600 dark:text-neutral-400">
-                {card.value}
-              </p>
-            </div>
+            </ScrollAnimation>
           ))}
         </div>
       </div>
