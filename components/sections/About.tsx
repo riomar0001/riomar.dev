@@ -16,7 +16,7 @@ const skills = [
   },
   {
     category: 'DevOps & Tools',
-    items: ['Docker', 'NGINX', 'Git', 'Linux', 'Azure', 'Google Cloud']
+    items: ['Docker', 'NGINX', 'Git', 'Linux', 'Azure', 'Google Cloud', 'VMWare', 'Virtual Box']
   }
 ];
 
