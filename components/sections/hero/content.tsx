@@ -19,7 +19,7 @@ export default function Content() {
 
       {/* Description */}
       <p className="animate-slide-up animate-on-load mx-auto mb-8 max-w-xl text-base leading-relaxed text-neutral-600 delay-300 sm:text-xl sm:leading-relaxed md:mb-9 md:text-lg lg:mx-0 lg:mb-10 dark:text-neutral-400">
-        Full-stack developer & CS student building scalable Web and Mobile Apps. Speaker, Mentor, and Cybersecurity Enthusiast from Davao City, Philippines.
+        Software Engineer building scalable Web and Mobile Apps. Speaker, Mentor, and Cybersecurity Enthusiast from Davao City, Philippines.
       </p>
 
       {/* CTA Buttons */}

@@ -40,8 +40,8 @@ export function About() {
           <div className="space-y-6">
             <ScrollAnimation animation="fade-right" delay={100}>
               <p className="text-lg leading-relaxed text-neutral-600 dark:text-neutral-400">
-                I&apos;m a Computer Science student at the University of Mindanao and a full-stack developer passionate about building scalable web and mobile
-                applications. I also mentor fellow students in the College of Computing Education.
+                I&apos;m a Software Engineer passionate about building scalable web and mobile applications. I also mentor fellow students in the College of
+                Computing Education at the University of Mindanao.
               </p>
             </ScrollAnimation>
             <ScrollAnimation animation="fade-right" delay={200}>

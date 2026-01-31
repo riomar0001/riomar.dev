@@ -156,7 +156,7 @@ export default function ExperiencePage() {
                 <h2 className="text-2xl font-bold tracking-tight text-neutral-900 dark:text-neutral-50">
                   Awards & Recognition
                 </h2>
-                <div className="h-px flex-1 bg-gradient-to-r from-neutral-200 to-transparent dark:from-neutral-800" />
+                <div className="h-px flex-1 bg-linear-to-r from-neutral-200 to-transparent dark:from-neutral-800" />
               </div>
 
               <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
