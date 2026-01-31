@@ -1,5 +1,5 @@
-import { ScrollAnimation } from '../ScrollAnimation';
-import { contactCards, personalInfo } from '@/data';
+import ScrollAnimation from '../ScrollAnimation';
+import { contactCards, personalInfo } from '@/contents';
 
 const icons = {
   location: (
@@ -24,7 +24,7 @@ const icons = {
   )
 };
 
-export function Contact() {
+export default function Contact() {
   return (
     <section id="contact" className="relative overflow-visible px-6 py-24">
       {/* Bokeh background */}
@@ -44,7 +44,9 @@ export function Contact() {
 
         {/* Heading */}
         <ScrollAnimation animation="fade-up" delay={100}>
-          <h2 className="mb-4 text-2xl font-bold tracking-tight text-neutral-900 sm:mb-6 sm:text-3xl md:text-4xl dark:text-neutral-50">Let&apos;s Work Together</h2>
+          <h2 className="mb-4 text-2xl font-bold tracking-tight text-neutral-900 sm:mb-6 sm:text-3xl md:text-4xl dark:text-neutral-50">
+            Let&apos;s Work Together
+          </h2>
         </ScrollAnimation>
 
         {/* Description */}

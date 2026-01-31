@@ -1,6 +1,6 @@
 'use client';
 
-import { personalInfo } from '@/data';
+import { personalInfo } from '@/contents';
 
 export default function Content() {
   return (

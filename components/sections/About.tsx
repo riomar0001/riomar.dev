@@ -1,8 +1,8 @@
-import { ScrollAnimation } from '../ScrollAnimation';
+import ScrollAnimation from '../ScrollAnimation';
 import BokehBackground from '../bokeh-background';
-import { skills } from '@/data';
+import { skills } from '@/contents';
 
-export function About() {
+export default function About() {
   return (
     <section id="about" className="relative overflow-visible px-6 py-24">
       {/* Bokeh background */}
@@ -22,14 +22,15 @@ export function About() {
           <div className="space-y-4 sm:space-y-6">
             <ScrollAnimation animation="fade-right" delay={100}>
               <p className="text-sm leading-relaxed text-neutral-600 sm:text-base md:text-lg dark:text-neutral-400">
-                I&apos;m a Software Engineer passionate about building scalable web and mobile applications. I also mentor fellow students in the College of
-                Computing Education at the University of Mindanao.
+                I&apos;m a Software Engineer focused on building secure, scalable web and mobile applications, with hands-on interest in cybersecurity and
+                secure system design. I also mentor fellow students in the College of Computing Education at the University of Mindanao.
               </p>
             </ScrollAnimation>
             <ScrollAnimation animation="fade-right" delay={200}>
               <p className="text-sm leading-relaxed text-neutral-600 sm:text-base md:text-lg dark:text-neutral-400">
                 With experience leading mobile app development and delivering freelance projects for various clients, I specialize in React ecosystems, modern
-                APIs, and cloud deployment. I also have a strong interest in cybersecurity and have competed in national cybersecurity competitions.
+                APIs, cloud deployment, and secure application development. I also have a strong interest in cybersecurity and have competed in national
+                cybersecurity competitions.
               </p>
             </ScrollAnimation>
             <ScrollAnimation animation="fade-right" delay={300}>
@@ -44,7 +45,9 @@ export function About() {
             {skills.map((skillGroup, groupIndex) => (
               <ScrollAnimation key={skillGroup.category} animation="fade-left" delay={groupIndex * 100}>
                 <div>
-                  <h3 className="mb-2 text-xs font-semibold tracking-wider text-neutral-500 uppercase sm:mb-3 sm:text-sm dark:text-neutral-400">{skillGroup.category}</h3>
+                  <h3 className="mb-2 text-xs font-semibold tracking-wider text-neutral-500 uppercase sm:mb-3 sm:text-sm dark:text-neutral-400">
+                    {skillGroup.category}
+                  </h3>
                   <div className="flex flex-wrap gap-1.5 sm:gap-2">
                     {skillGroup.items.map((skill) => (
                       <span

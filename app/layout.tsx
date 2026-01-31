@@ -6,12 +6,14 @@ import { ThemeProvider } from '@/components';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
-  subsets: ['latin']
+  subsets: ['latin'],
+  display: 'swap'
 });
 
 const geistMono = Geist_Mono({
   variable: '--font-geist-mono',
-  subsets: ['latin']
+  subsets: ['latin'],
+  display: 'swap'
 });
 
 export const metadata: Metadata = {
@@ -77,7 +79,7 @@ export default function RootLayout({
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
-      <body className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased`}>
+      <body className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased`} suppressHydrationWarning>
         <ReactLenis root />
         <ThemeProvider>{children}</ThemeProvider>
       </body>

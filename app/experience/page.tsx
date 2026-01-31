@@ -1,64 +1,61 @@
-import { Metadata } from "next";
-import Link from "next/link";
-import BokehBackground from "@/components/bokeh-background";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
+import { Metadata } from 'next';
+import Link from 'next/link';
+import Footer from '@/components/Footer';
+import Header from '@/components/Header';
+import BokehBackground from '@/components/bokeh-background';
 
 export const metadata: Metadata = {
-  title: "Experience",
-  description:
-    "Professional experience, work history, and achievements of Mario Jr Inguito - Software Engineer.",
+  title: 'Experience',
+  description: 'Professional experience, work history, and achievements of Mario Jr Inguito - Software Engineer.'
 };
 
 const experiences = [
   {
-    role: "Core Lead Developer",
-    company: "MooManage",
-    location: "Davao City, Philippines",
-    period: "May 2024 - June 2025",
+    role: 'Core Lead Developer',
+    company: 'MooManage',
+    location: 'Davao City, Philippines',
+    period: 'May 2024 - June 2025',
     description: [
-      "Led the full development cycle of an Android mobile app using React Native with Expo, emphasizing rapid iteration, modular architecture, and native-like performance.",
-      "Built scalable codebases with expo-router, react-native-paper, and custom hooks, implementing OTP authentication, push notifications, and media uploads integrated with REST APIs.",
-      "Overcame complex build and deployment challenges using Expo EAS Build, enabling OTA updates and optimizing performance for Android devices.",
+      'Led the full development cycle of an Android mobile app using React Native with Expo, emphasizing rapid iteration, modular architecture, and native-like performance.',
+      'Built scalable codebases with expo-router, react-native-paper, and custom hooks, implementing OTP authentication, push notifications, and media uploads integrated with REST APIs.',
+      'Overcame complex build and deployment challenges using Expo EAS Build, enabling OTA updates and optimizing performance for Android devices.'
     ],
-    tags: ["React Native", "Expo", "TypeScript", "REST APIs"],
+    tags: ['React Native', 'Expo', 'TypeScript', 'REST APIs']
   },
   {
-    role: "Freelance Web Developer",
-    company: "Various Clients",
-    location: "Remote",
-    period: "July 2022 - Present",
+    role: 'Freelance Web Developer',
+    company: 'Various Clients',
+    location: 'Remote',
+    period: 'July 2022 - Present',
     description: [
-      "Developed responsive full-stack web applications using React.js, Express.js, Prisma ORM, and MySQL, with a strong focus on clean UI/UX and performance optimization.",
-      "Integrated authentication, file uploads (Cloudinary, Supabase), and dynamic forms using React Hook Form, Redux Toolkit, and TailwindCSS.",
-      "Handled server deployment and domain management on Ubuntu VPS, including NGINX configuration, SSL setup, and CI/CD automation with GitHub Actions and Docker.",
+      'Developed responsive full-stack web applications using React.js, Express.js, Prisma ORM, and MySQL, with a strong focus on clean UI/UX and performance optimization.',
+      'Integrated authentication, file uploads (Cloudinary, Supabase), and dynamic forms using React Hook Form, Redux Toolkit, and TailwindCSS.',
+      'Handled server deployment and domain management on Ubuntu VPS, including NGINX configuration, SSL setup, and CI/CD automation with GitHub Actions and Docker.'
     ],
-    tags: ["React.js", "Node.js", "Docker", "NGINX"],
-  },
+    tags: ['React.js', 'Node.js', 'Docker', 'NGINX']
+  }
 ];
 
 const achievements = [
   {
-    title: "DOST Speaker",
-    event: "START Program - Department of Science and Technology",
-    date: "June 2025",
-    description:
-      "Delivered a talk on modern front-end development covering HTML5, CSS3, JavaScript (ES6+), ReactJS, UI/UX principles, and responsive design.",
+    title: 'DOST Speaker',
+    event: 'START Program - Department of Science and Technology',
+    date: 'June 2025',
+    description: 'Delivered a talk on modern front-end development covering HTML5, CSS3, JavaScript (ES6+), ReactJS, UI/UX principles, and responsive design.'
   },
   {
-    title: "Speaker & Mentor",
-    event: "JavaScript for Interns - University of Mindanao",
-    date: "June 2025",
-    description:
-      "Conducted an advanced JavaScript workshop covering JS internals, async programming, closures, and the event loop for university interns.",
+    title: 'Speaker & Mentor',
+    event: 'JavaScript for Interns - University of Mindanao',
+    date: 'June 2025',
+    description: 'Conducted an advanced JavaScript workshop covering JS internals, async programming, closures, and the event loop for university interns.'
   },
   {
-    title: "Hack4Gov 3 Finalist",
-    event: "DICT Cybersecurity Competition",
-    date: "August - October 2024",
+    title: 'Hack4Gov 3 Finalist',
+    event: 'DICT Cybersecurity Competition',
+    date: 'August - October 2024',
     description:
-      "Competed in regionals and selected as wildcard for nationals, tackling web exploitation, network forensics, reverse engineering, and incident response.",
-  },
+      'Competed in regionals and selected as wildcard for nationals, tackling web exploitation, network forensics, reverse engineering, and incident response.'
+  }
 ];
 
 export default function ExperiencePage() {
@@ -66,7 +63,7 @@ export default function ExperiencePage() {
     <div className="min-h-screen bg-neutral-50 dark:bg-neutral-950">
       <Header />
       <main>
-        <section className="relative overflow-visible px-6 pb-24 pt-32">
+        <section className="relative overflow-visible px-6 pt-32 pb-24">
           {/* Bokeh background */}
           <BokehBackground />
 
@@ -76,30 +73,17 @@ export default function ExperiencePage() {
               href="/#experience"
               className="mb-8 inline-flex items-center gap-2 text-sm text-neutral-500 transition-colors hover:text-emerald-500 dark:text-neutral-400 dark:hover:text-emerald-400"
             >
-              <svg
-                className="h-4 w-4"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={2}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M10 19l-7-7m0 0l7-7m-7 7h18"
-                />
+              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
               </svg>
               Back to Home
             </Link>
 
             {/* Page header */}
             <div className="mb-16">
-              <h1 className="text-4xl font-bold tracking-tight text-neutral-900 dark:text-neutral-50 sm:text-5xl">
-                Experience
-              </h1>
+              <h1 className="text-4xl font-bold tracking-tight text-neutral-900 sm:text-5xl dark:text-neutral-50">Experience</h1>
               <p className="mt-4 max-w-2xl text-lg text-neutral-600 dark:text-neutral-400">
-                My professional journey, work experience, and notable
-                achievements in software development and technology.
+                My professional journey, work experience, and notable achievements in software development and technology.
               </p>
             </div>
 
@@ -126,10 +110,7 @@ export default function ExperiencePage() {
 
                   <ul className="mt-6 space-y-3">
                     {exp.description.map((item, i) => (
-                      <li
-                        key={i}
-                        className="flex gap-3 text-neutral-600 dark:text-neutral-400"
-                      >
+                      <li key={i} className="flex gap-3 text-neutral-600 dark:text-neutral-400">
                         <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-500" />
                         <span className="leading-relaxed">{item}</span>
                       </li>
@@ -153,9 +134,7 @@ export default function ExperiencePage() {
             {/* Achievements section */}
             <div className="mt-20">
               <div className="mb-10 flex items-center gap-6">
-                <h2 className="text-2xl font-bold tracking-tight text-neutral-900 dark:text-neutral-50">
-                  Awards & Recognition
-                </h2>
+                <h2 className="text-2xl font-bold tracking-tight text-neutral-900 dark:text-neutral-50">Awards & Recognition</h2>
                 <div className="h-px flex-1 bg-linear-to-r from-neutral-200 to-transparent dark:from-neutral-800" />
               </div>
 
@@ -166,13 +145,7 @@ export default function ExperiencePage() {
                     className="group rounded-2xl border border-neutral-100 bg-white p-6 transition-all duration-300 hover:-translate-y-2 hover:border-emerald-300 hover:shadow-xl hover:shadow-emerald-500/15 dark:border-neutral-800/50 dark:bg-neutral-900/80 dark:hover:border-emerald-500/50 dark:hover:shadow-emerald-500/10"
                   >
                     <div className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-full bg-emerald-100 text-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-400">
-                      <svg
-                        className="h-5 w-5"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        strokeWidth={2}
-                      >
+                      <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                         <path
                           strokeLinecap="round"
                           strokeLinejoin="round"
@@ -186,9 +159,7 @@ export default function ExperiencePage() {
                     <p className="mt-1 text-sm text-neutral-500 dark:text-neutral-500">
                       {achievement.event} · {achievement.date}
                     </p>
-                    <p className="mt-3 text-sm leading-relaxed text-neutral-600 dark:text-neutral-400">
-                      {achievement.description}
-                    </p>
+                    <p className="mt-3 text-sm leading-relaxed text-neutral-600 dark:text-neutral-400">{achievement.description}</p>
                   </div>
                 ))}
               </div>

@@ -1,8 +1,8 @@
-import { ScrollAnimation } from '../ScrollAnimation';
+import ScrollAnimation from '../ScrollAnimation';
 import BokehBackground from '../bokeh-background';
-import { personalInfo } from '@/data';
+import { personalInfo } from '@/contents';
 
-export function Projects() {
+export default function Projects() {
   return (
     <section id="projects" className="relative overflow-visible px-6">
       {/* Bokeh background */}

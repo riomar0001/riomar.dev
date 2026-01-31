@@ -11,7 +11,7 @@ interface ScrollAnimationProps {
   once?: boolean;
 }
 
-export function ScrollAnimation({ children, className = '', animation = 'fade-up', delay = 0, threshold = 0.1, once = true }: ScrollAnimationProps) {
+export default function ScrollAnimation({ children, className = '', animation = 'fade-up', delay = 0, threshold = 0.1, once = true }: ScrollAnimationProps) {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {

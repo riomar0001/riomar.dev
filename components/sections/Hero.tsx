@@ -3,7 +3,7 @@ import Content from './hero/content';
 import ProfileImage from './hero/profile-image';
 import ScrollIndication from './hero/scroll-indication';
 
-export function Hero() {
+export default function Hero() {
   return (
     <section className="relative flex min-h-screen flex-col items-center justify-center overflow-visible px-6 pt-32 pb-24 md:px-8 md:pt-24 md:pb-20 lg:px-12 lg:pt-10 lg:pb-16">
       {/* Bokeh background */}

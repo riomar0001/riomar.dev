@@ -2,7 +2,7 @@
 
 import { useTheme } from './ThemeProvider';
 
-export function ThemeToggle() {
+export default function ThemeToggle() {
   const { theme, toggleTheme } = useTheme();
 
   return (
@@ -13,7 +13,7 @@ export function ThemeToggle() {
     >
       {/* Sun icon */}
       <svg
-        className="h-[18px] w-[18px] scale-100 rotate-0 text-neutral-600 transition-all duration-500 dark:scale-0 dark:-rotate-90"
+        className="h-4.5 w-4.5 scale-100 rotate-0 text-neutral-600 transition-all duration-500 dark:scale-0 dark:-rotate-90"
         fill="none"
         viewBox="0 0 24 24"
         stroke="currentColor"
@@ -27,7 +27,7 @@ export function ThemeToggle() {
       </svg>
       {/* Moon icon */}
       <svg
-        className="absolute h-[18px] w-[18px] scale-0 rotate-90 text-neutral-400 transition-all duration-500 dark:scale-100 dark:rotate-0"
+        className="absolute h-4.5 w-4.5 scale-0 rotate-90 text-neutral-400 transition-all duration-500 dark:scale-100 dark:rotate-0"
         fill="none"
         viewBox="0 0 24 24"
         stroke="currentColor"

@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ScrollAnimation } from '../ScrollAnimation';
+import ScrollAnimation from '../ScrollAnimation';
 import BokehBackground from '../bokeh-background';
 
 const projects = [
@@ -27,9 +27,9 @@ const projects = [
   }
 ];
 
-export function Projects() {
+export default function Projects() {
   return (
-    <section id="projects" className="relative overflow-visible px-6 ">
+    <section id="projects" className="relative overflow-visible px-6">
       {/* Bokeh background */}
       <BokehBackground />
 
@@ -115,11 +115,7 @@ export function Projects() {
                 stroke="currentColor"
                 strokeWidth={2}
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M17 8l4 4m0 0l-4 4m4-4H3"
-                />
+                <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
               </svg>
             </Link>
           </div>

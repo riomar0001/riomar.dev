@@ -1,6 +1,6 @@
 'use client';
 
-import { ThemeToggle } from './ThemeToggle';
+import ThemeToggle from './ThemeToggle';
 
 const navLinks = [
   { href: '#about', label: 'About' },
@@ -9,12 +9,12 @@ const navLinks = [
   { href: '#contact', label: 'Contact' }
 ];
 
-export function Header() {
+export default function Header() {
   return (
     <header className="fixed top-0 z-50 w-full">
-      <div className="mx-auto max-w-5xl py-4">
+      <div className="mx-auto max-w-5xl py-4 px-4">
         {/* Liquid Glass Container */}
-        <nav className="liquid-glass backdrop-blur-xl relative flex items-center justify-between rounded-2xl px-5 py-3 shadow-lg shadow-neutral-900/5 dark:shadow-none dark:drop-shadow-xl dark:drop-shadow-emerald-200/10">
+        <nav className="liquid-glass relative flex items-center justify-between rounded-2xl px-5 py-3 shadow-lg shadow-neutral-900/5 backdrop-blur-xl dark:shadow-none dark:drop-shadow-xl dark:drop-shadow-emerald-200/10">
           {/* Gradient border overlay */}
           <div className="pointer-events-none absolute inset-0 rounded-2xl border border-neutral-300/60 dark:border-emerald-400/10" />
           <div className="pointer-events-none absolute inset-0 rounded-2xl shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)]" />
