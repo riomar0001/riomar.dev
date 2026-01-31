@@ -15,20 +15,24 @@ const ThemeContext = createContext<ThemeContextType>({
 });
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setTheme] = useState<Theme>("light");
+  const [theme, setTheme] = useState<Theme>(() => {
+    // Return a default, actual value will be set in useEffect
+    return "light";
+  });
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
+    // Read the theme that was set by the inline script
+    const isDark = document.documentElement.classList.contains("dark");
     const stored = localStorage.getItem("theme") as Theme | null;
+    
     if (stored) {
       setTheme(stored);
-      document.documentElement.classList.remove("light", "dark");
-      document.documentElement.classList.add(stored);
-    } else if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+    } else if (isDark) {
       setTheme("dark");
-      document.documentElement.classList.remove("light", "dark");
-      document.documentElement.classList.add("dark");
+    } else {
+      setTheme("light");
     }
   }, []);
 

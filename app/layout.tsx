@@ -62,6 +62,22 @@ export const metadata: Metadata = {
   },
 };
 
+// Script to prevent flash of wrong theme
+const themeScript = `
+  (function() {
+    try {
+      const stored = localStorage.getItem('theme');
+      if (stored === 'dark' || stored === 'light') {
+        document.documentElement.classList.add(stored);
+      } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.add('light');
+      }
+    } catch (e) {}
+  })();
+`;
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -69,6 +85,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased`}
       >

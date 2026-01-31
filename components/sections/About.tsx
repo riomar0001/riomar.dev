@@ -1,3 +1,4 @@
+import BokehBackground from "../bokeh-background";
 import { ScrollAnimation } from "../ScrollAnimation";
 
 const skills = [
@@ -21,13 +22,9 @@ const skills = [
 
 export function About() {
   return (
-    <section id="about" className="relative overflow-hidden px-6 py-24">
+    <section id="about" className="relative overflow-visible px-6 py-24">
       {/* Bokeh background */}
-      <div className="pointer-events-none absolute inset-0">
-        <div className="bokeh-circle bokeh-lg bokeh-green-1 bokeh-delay-1 absolute right-0 top-1/4 translate-x-1/3" />
-        <div className="bokeh-circle bokeh-md bokeh-green-2 bokeh-delay-2 absolute left-10 bottom-1/4" />
-        <div className="bokeh-circle bokeh-sm bokeh-teal-1 bokeh-delay-3 absolute right-1/4 bottom-10" />
-      </div>
+      <BokehBackground />
 
       <div className="relative mx-auto max-w-5xl">
         {/* Section header */}
@@ -45,10 +42,10 @@ export function About() {
           <div className="space-y-6">
             <ScrollAnimation animation="fade-right" delay={100}>
               <p className="text-lg leading-relaxed text-neutral-600 dark:text-neutral-400">
-                I&apos;m a Computer Science student at the University of Mindanao
-                and a full-stack developer passionate about building scalable web
-                and mobile applications. I also mentor fellow students in the
-                College of Computing Education.
+                I&apos;m a Computer Science student at the University of
+                Mindanao and a full-stack developer passionate about building
+                scalable web and mobile applications. I also mentor fellow
+                students in the College of Computing Education.
               </p>
             </ScrollAnimation>
             <ScrollAnimation animation="fade-right" delay={200}>
@@ -63,8 +60,8 @@ export function About() {
             <ScrollAnimation animation="fade-right" delay={300}>
               <p className="text-lg leading-relaxed text-neutral-600 dark:text-neutral-400">
                 I enjoy sharing knowledge through speaking engagements and
-                workshops, including advanced JavaScript mentorship for university
-                interns.
+                workshops, including advanced JavaScript mentorship for
+                university interns.
               </p>
             </ScrollAnimation>
           </div>
@@ -72,7 +69,11 @@ export function About() {
           {/* Skills */}
           <div className="space-y-8">
             {skills.map((skillGroup, groupIndex) => (
-              <ScrollAnimation key={skillGroup.category} animation="fade-left" delay={groupIndex * 100}>
+              <ScrollAnimation
+                key={skillGroup.category}
+                animation="fade-left"
+                delay={groupIndex * 100}
+              >
                 <div>
                   <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-neutral-500 dark:text-neutral-400">
                     {skillGroup.category}

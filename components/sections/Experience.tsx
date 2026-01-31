@@ -1,3 +1,4 @@
+import BokehBackground from "../bokeh-background";
 import { ScrollAnimation } from "../ScrollAnimation";
 
 const experiences = [
@@ -50,13 +51,9 @@ const achievements = [
 
 export function Experience() {
   return (
-    <section id="experience" className="relative overflow-hidden px-6 py-24">
+    <section id="experience" className="relative overflow-visible px-6 py-24">
       {/* Bokeh background */}
-      <div className="pointer-events-none absolute inset-0">
-        <div className="bokeh-circle bokeh-xl bokeh-green-1 bokeh-delay-1 absolute -left-20 top-1/3" />
-        <div className="bokeh-circle bokeh-md bokeh-green-3 bokeh-delay-2 absolute right-10 top-20" />
-        <div className="bokeh-circle bokeh-lg bokeh-teal-1 bokeh-delay-3 absolute right-1/4 bottom-20" />
-      </div>
+      <BokehBackground />
 
       <div className="relative mx-auto max-w-5xl">
         {/* Section header */}
