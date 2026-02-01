@@ -1,5 +1,3 @@
-'use client';
-
 export default function ScrollIndication() {
   return (
     <div className="animate-fade-in animate-on-load absolute left-1/2 hidden -translate-x-1/2 delay-700 sm:block lg:bottom-20">

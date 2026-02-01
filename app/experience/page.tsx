@@ -3,60 +3,12 @@ import Link from 'next/link';
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 import BokehBackground from '@/components/bokeh-background';
+import {experiences, achievements} from '@/contents';
 
 export const metadata: Metadata = {
   title: 'Experience',
   description: 'Professional experience, work history, and achievements of Mario Jr Inguito - Software Engineer.'
 };
-
-const experiences = [
-  {
-    role: 'Core Lead Developer',
-    company: 'MooManage',
-    location: 'Davao City, Philippines',
-    period: 'May 2024 - June 2025',
-    description: [
-      'Led the full development cycle of an Android mobile app using React Native with Expo, emphasizing rapid iteration, modular architecture, and native-like performance.',
-      'Built scalable codebases with expo-router, react-native-paper, and custom hooks, implementing OTP authentication, push notifications, and media uploads integrated with REST APIs.',
-      'Overcame complex build and deployment challenges using Expo EAS Build, enabling OTA updates and optimizing performance for Android devices.'
-    ],
-    tags: ['React Native', 'Expo', 'TypeScript', 'REST APIs']
-  },
-  {
-    role: 'Freelance Web Developer',
-    company: 'Various Clients',
-    location: 'Remote',
-    period: 'July 2022 - Present',
-    description: [
-      'Developed responsive full-stack web applications using React.js, Express.js, Prisma ORM, and MySQL, with a strong focus on clean UI/UX and performance optimization.',
-      'Integrated authentication, file uploads (Cloudinary, Supabase), and dynamic forms using React Hook Form, Redux Toolkit, and TailwindCSS.',
-      'Handled server deployment and domain management on Ubuntu VPS, including NGINX configuration, SSL setup, and CI/CD automation with GitHub Actions and Docker.'
-    ],
-    tags: ['React.js', 'Node.js', 'Docker', 'NGINX']
-  }
-];
-
-const achievements = [
-  {
-    title: 'DOST Speaker',
-    event: 'START Program - Department of Science and Technology',
-    date: 'June 2025',
-    description: 'Delivered a talk on modern front-end development covering HTML5, CSS3, JavaScript (ES6+), ReactJS, UI/UX principles, and responsive design.'
-  },
-  {
-    title: 'Speaker & Mentor',
-    event: 'JavaScript for Interns - University of Mindanao',
-    date: 'June 2025',
-    description: 'Conducted an advanced JavaScript workshop covering JS internals, async programming, closures, and the event loop for university interns.'
-  },
-  {
-    title: 'Hack4Gov 3 Finalist',
-    event: 'DICT Cybersecurity Competition',
-    date: 'August - October 2024',
-    description:
-      'Competed in regionals and selected as wildcard for nationals, tackling web exploitation, network forensics, reverse engineering, and incident response.'
-  }
-];
 
 export default function ExperiencePage() {
   return (

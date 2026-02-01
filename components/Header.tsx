@@ -4,15 +4,15 @@ import ThemeToggle from './ThemeToggle';
 
 const navLinks = [
   { href: '#about', label: 'About' },
-  { href: '#experience', label: 'Experience' },
   { href: '#projects', label: 'Projects' },
+  { href: '#experience', label: 'Experience' },
   { href: '#contact', label: 'Contact' }
 ];
 
 export default function Header() {
   return (
     <header className="fixed top-0 z-50 w-full">
-      <div className="mx-auto max-w-5xl py-4 px-4">
+      <div className="mx-auto max-w-5xl px-4 py-4">
         {/* Liquid Glass Container */}
         <nav className="liquid-glass relative flex items-center justify-between rounded-2xl px-5 py-3 shadow-lg shadow-neutral-900/5 backdrop-blur-xl dark:shadow-none dark:drop-shadow-xl dark:drop-shadow-emerald-200/10">
           {/* Gradient border overlay */}
@@ -34,7 +34,7 @@ export default function Header() {
                 <li key={link.href}>
                   <a
                     href={link.href}
-                    className="relative rounded-xl px-4 py-2 text-[13px] font-medium text-neutral-600 transition-all duration-300 hover:bg-white/50 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-white/10 dark:hover:text-white"
+                    className="relative rounded-xl px-4 py-2 text-[13px] font-medium text-neutral-600 transition-all duration-300 hover:bg-emerald-50 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-white/10 dark:hover:text-white"
                   >
                     {link.label}
                   </a>

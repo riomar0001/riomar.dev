@@ -1,5 +1,3 @@
-'use client';
-
 import { personalInfo } from '@/contents';
 
 export default function Content() {

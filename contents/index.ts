@@ -18,6 +18,31 @@ export const skills = [
   }
 ];
 
+export const projects = [
+  {
+    title: 'Project Alpha',
+    description:
+      'A modern e-commerce platform built with Next.js and Stripe integration. Features real-time inventory management and a seamless checkout experience.',
+    tags: ['Next.js', 'TypeScript', 'Stripe', 'PostgreSQL'],
+    link: '#',
+    github: '#'
+  },
+  {
+    title: 'Project Beta',
+    description: 'An AI-powered content management system that helps teams collaborate more effectively. Includes smart suggestions and automated workflows.',
+    tags: ['React', 'Node.js', 'OpenAI', 'MongoDB'],
+    link: '#',
+    github: '#'
+  },
+  {
+    title: 'Project Gamma',
+    description: 'A real-time analytics dashboard for tracking business metrics. Beautiful visualizations and custom reporting capabilities.',
+    tags: ['TypeScript', 'D3.js', 'WebSockets', 'Redis'],
+    link: '#',
+    github: '#'
+  }
+];
+
 // Experience data
 export const experiences = [
   {
@@ -28,7 +53,7 @@ export const experiences = [
     description: [
       'Contributed to the frontend development of the PyCon Davao 2025 website, helping build an engaging and responsive user experience for the Python community event.'
     ],
-    tags: ['React.js', 'Frontend', 'Open Source'],
+    tags: ['React.js', 'Next.js', 'Frontend'],
     link: 'https://pycon-davao.durianpy.org/'
   },
   {

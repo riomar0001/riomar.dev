@@ -4,7 +4,7 @@ import { personalInfo } from '@/contents';
 
 export default function Projects() {
   return (
-    <section id="projects" className="relative overflow-visible px-6">
+    <section id="projects" className="relative overflow-visible px-6 pt-24">
       {/* Bokeh background */}
       <BokehBackground />
 
