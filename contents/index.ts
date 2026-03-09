@@ -114,6 +114,12 @@ export const certifications = [
     description: 'Validated expertise in database concepts, design, and SQL query skills.'
   },
   {
+    title: 'IT Specialist - Network Security',
+    issuer: 'Certiport / Pearson VUE',
+    credlyUrl: 'https://www.credly.com/badges/aebb6621-fe9d-495d-a23c-5581d14a034f',
+    description: 'Demonstrated proficiency in network security concepts and practices.'
+  },
+  {
     title: 'IT Specialist - Java',
     issuer: 'Certiport / Pearson VUE',
     credlyUrl: 'https://www.credly.com/badges/1197b342-f8c7-41dc-adf2-e443bd434f41',
