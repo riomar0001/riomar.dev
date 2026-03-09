@@ -10,12 +10,12 @@ const Contact = dynamic(() => import('@/components/sections/Contact'));
 
 export default function Home() {
   return (
-    <div className="bg-background dark:bg-background min-h-screen">
+    <div className="bg-background dark:bg-green-950/20 min-h-screen">
       <Header />
       <main>
         <Hero />
         <About />
-        <Projects />
+        <Projects />/
         <Experience />
         <Contact />
       </main>
