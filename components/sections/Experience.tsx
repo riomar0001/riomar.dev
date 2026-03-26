@@ -1,9 +1,29 @@
 import Link from 'next/link';
 import ScrollAnimation from '../ScrollAnimation';
 import BokehBackground from '../bokeh-background';
-import { experiences, achievements, certifications } from '@/contents';
 
-export default function Experience() {
+type Experience = {
+  role: string;
+  company: string;
+  location: string;
+  period: string;
+  description: string[];
+  tags: string[];
+  link?: string;
+};
+
+type Achievement = { title: string; event: string; date: string; description: string };
+type Certification = { title: string; issuer: string; iconUrl?: string; credlyUrl?: string; description: string };
+
+export default function Experience({
+  experiences,
+  achievements,
+  certifications
+}: {
+  experiences: Experience[];
+  achievements: Achievement[];
+  certifications: Certification[];
+}) {
   return (
     <section id="experience" className="relative overflow-visible px-6 py-24">
       {/* Bokeh background */}
@@ -20,21 +40,39 @@ export default function Experience() {
 
         {/* Experience cards */}
         <div className="space-y-8">
+          {experiences.length === 0 && (
+            <ScrollAnimation animation="fade-up">
+              <div className="flex flex-col items-center justify-center rounded-2xl border border-neutral-100 bg-white p-10 text-center dark:border-neutral-800/50 dark:bg-neutral-900/80">
+                <div className="mb-3 inline-flex h-12 w-12 items-center justify-center rounded-full bg-neutral-100 dark:bg-neutral-800">
+                  <svg className="h-6 w-6 text-neutral-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                  </svg>
+                </div>
+                <p className="text-sm font-medium text-neutral-500 dark:text-neutral-400">No experience entries yet</p>
+              </div>
+            </ScrollAnimation>
+          )}
           {experiences.map((exp, index) => (
             <ScrollAnimation key={index} animation="fade-up" delay={index * 150}>
               <article className="group relative rounded-2xl border border-neutral-100 bg-white p-5 transition-all duration-300 hover:-translate-y-1 hover:border-emerald-300 hover:shadow-xl hover:shadow-emerald-500/15 sm:p-6 md:p-8 dark:border-neutral-800/50 dark:bg-neutral-900/80 dark:hover:border-emerald-500/50 dark:hover:shadow-emerald-500/10">
-                <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
-                  <div className="flex-1">
+                <div className="flex flex-col gap-2">
+                  <div className="flex flex-wrap items-start justify-between gap-x-4 gap-y-2">
                     <h3 className="text-base font-semibold text-neutral-900 transition-colors duration-300 group-hover:text-emerald-600 sm:text-lg md:text-xl dark:text-neutral-50 dark:group-hover:text-emerald-400">
-                      {exp.role}
+                      {exp.link ? (
+                        <a href={exp.link} target="_blank" rel="noopener noreferrer" className="hover:underline">
+                          {exp.role}
+                        </a>
+                      ) : (
+                        exp.role
+                      )}
                     </h3>
-                    <p className="mt-1 text-sm text-neutral-600 sm:text-base dark:text-neutral-400">
-                      {exp.company} · {exp.location}
-                    </p>
+                    <span className="shrink-0 whitespace-nowrap rounded-full border border-neutral-200 bg-neutral-50 px-2.5 py-0.5 text-xs text-neutral-600 sm:px-3 sm:py-1 sm:text-sm dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-400">
+                      {exp.period}
+                    </span>
                   </div>
-                  <span className="shrink-0 self-start rounded-full border border-neutral-200 bg-neutral-50 px-2.5 py-0.5 text-xs text-neutral-600 sm:px-3 sm:py-1 sm:text-sm dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-400">
-                    {exp.period}
-                  </span>
+                  <p className="text-sm text-neutral-600 sm:text-base dark:text-neutral-400">
+                    {exp.company} · {exp.location}
+                  </p>
                 </div>
 
                 <ul className="mt-4 space-y-2 sm:mt-6 sm:space-y-3">
@@ -62,7 +100,7 @@ export default function Experience() {
         </div>
 
         {/* View All Button */}
-        <ScrollAnimation animation="fade-up" delay={300}>
+        {experiences.length > 0 && <ScrollAnimation animation="fade-up" delay={300}>
           <div className="mt-12 flex justify-center">
             <Link
               href="/experience"
@@ -80,9 +118,10 @@ export default function Experience() {
               </svg>
             </Link>
           </div>
-        </ScrollAnimation>
+        </ScrollAnimation>}
 
         {/* Achievements section */}
+        {achievements.length > 0 && (
         <div className="mt-14 sm:mt-20">
           <ScrollAnimation animation="fade-up">
             <div className="mb-8 flex items-center gap-4 sm:mb-10 sm:gap-6">
@@ -116,8 +155,10 @@ export default function Experience() {
             ))}
           </div>
         </div>
+        )}
 
         {/* Certifications section */}
+        {certifications.length > 0 && (
         <div className="mt-14 sm:mt-20">
           <ScrollAnimation animation="fade-up">
             <div className="mb-8 flex items-center gap-4 sm:mb-10 sm:gap-6">
@@ -129,44 +170,65 @@ export default function Experience() {
           <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
             {certifications.map((cert, index) => (
               <ScrollAnimation key={index} animation="scale" delay={index * 100}>
-                <a
-                  href={cert.credlyUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex h-full flex-col rounded-2xl border border-neutral-100 bg-white p-4 transition-all duration-300 hover:-translate-y-2 hover:border-emerald-300 hover:shadow-xl hover:shadow-emerald-500/15 sm:p-6 dark:border-neutral-800/50 dark:bg-neutral-900/80 dark:hover:border-emerald-500/50 dark:hover:shadow-emerald-500/10"
-                >
-                  <div className="mb-2 inline-flex h-8 w-8 items-center justify-center rounded-full bg-emerald-100 text-emerald-600 sm:mb-3 sm:h-10 sm:w-10 dark:bg-emerald-900/30 dark:text-emerald-400">
-                    <svg className="h-4 w-4 sm:h-5 sm:w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
-                      />
-                    </svg>
+                {cert.credlyUrl ? (
+                  <a
+                    href={cert.credlyUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group flex h-full flex-col rounded-2xl border border-neutral-100 bg-white p-4 transition-all duration-300 hover:-translate-y-2 hover:border-emerald-300 hover:shadow-xl hover:shadow-emerald-500/15 sm:p-6 dark:border-neutral-800/50 dark:bg-neutral-900/80 dark:hover:border-emerald-500/50 dark:hover:shadow-emerald-500/10"
+                  >
+                    <CertContent cert={cert} />
+                  </a>
+                ) : (
+                  <div className="group flex h-full flex-col rounded-2xl border border-neutral-100 bg-white p-4 transition-all duration-300 hover:-translate-y-2 hover:border-emerald-300 hover:shadow-xl hover:shadow-emerald-500/15 sm:p-6 dark:border-neutral-800/50 dark:bg-neutral-900/80 dark:hover:border-emerald-500/50 dark:hover:shadow-emerald-500/10">
+                    <CertContent cert={cert} />
                   </div>
-                  <h4 className="text-sm font-semibold text-neutral-900 transition-colors duration-300 group-hover:text-emerald-600 sm:text-base dark:text-neutral-50 dark:group-hover:text-emerald-400">
-                    {cert.title}
-                  </h4>
-                  <p className="mt-1 text-xs text-neutral-500 sm:text-sm dark:text-neutral-500">{cert.issuer}</p>
-                  <p className="mt-2 flex-1 text-xs leading-relaxed text-neutral-600 sm:mt-3 sm:text-sm dark:text-neutral-400">{cert.description}</p>
-                  <div className="mt-3 inline-flex items-center gap-1 text-xs font-medium text-emerald-600 transition-colors group-hover:text-emerald-500 sm:mt-4 sm:text-sm dark:text-emerald-400">
-                    View on Credly
-                    <svg
-                      className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5 sm:h-4 sm:w-4"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      strokeWidth={2}
-                    >
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                    </svg>
-                  </div>
-                </a>
+                )}
               </ScrollAnimation>
             ))}
           </div>
         </div>
+        )}
       </div>
     </section>
+  );
+}
+
+function CertContent({ cert }: { cert: Certification }) {
+  return (
+    <>
+      <div className="mb-2 sm:mb-3">
+        {cert.iconUrl ? (
+          <img
+            src={cert.iconUrl}
+            alt={cert.issuer}
+            className="h-10 w-10 rounded-lg object-contain sm:h-12 sm:w-12"
+          />
+        ) : (
+          <div className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-emerald-100 text-emerald-600 sm:h-10 sm:w-10 dark:bg-emerald-900/30 dark:text-emerald-400">
+            <svg className="h-4 w-4 sm:h-5 sm:w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
+              />
+            </svg>
+          </div>
+        )}
+      </div>
+      <h4 className="text-sm font-semibold text-neutral-900 transition-colors duration-300 group-hover:text-emerald-600 sm:text-base dark:text-neutral-50 dark:group-hover:text-emerald-400">
+        {cert.title}
+      </h4>
+      <p className="mt-1 text-xs text-neutral-500 sm:text-sm dark:text-neutral-500">{cert.issuer}</p>
+      <p className="mt-2 flex-1 text-xs leading-relaxed text-neutral-600 sm:mt-3 sm:text-sm dark:text-neutral-400">{cert.description}</p>
+      {cert.credlyUrl && (
+        <div className="mt-3 inline-flex items-center gap-1 text-xs font-medium text-emerald-600 transition-colors group-hover:text-emerald-500 sm:mt-4 sm:text-sm dark:text-emerald-400">
+          View on Credly
+          <svg className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5 sm:h-4 sm:w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+          </svg>
+        </div>
+      )}
+    </>
   );
 }

@@ -4,7 +4,7 @@ import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 import BokehBackground from '@/components/bokeh-background';
 import ProjectCard from '@/components/sections/projects/project-card';
-import { projects } from '@/contents';
+import { projects, personalInfo } from '@/contents';
 
 export const metadata: Metadata = {
   title: 'Projects',
@@ -44,7 +44,7 @@ export default function ProjectsPage() {
             {/* Project cards grid */}
             <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
               {projects.map((project, index) => (
-                <ProjectCard key={index} project={project} />
+                <ProjectCard key={index} project={{ ...project, imageUrl: undefined }} />
               ))}
             </div>
 
@@ -74,7 +74,7 @@ export default function ProjectsPage() {
           </div>
         </section>
       </main>
-      <Footer />
+      <Footer personalInfo={personalInfo} />
     </div>
   );
 }

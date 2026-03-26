@@ -1,6 +1,6 @@
 import Image from 'next/image';
 
-export default function ProfileImage() {
+export default function ProfileImage({ photoUrl, name }: { photoUrl?: string; name?: string }) {
   return (
     <div className="animate-scale-in animate-on-load flex justify-center pl-0 lg:pl-20">
       <div className="relative flex items-center justify-center">
@@ -27,8 +27,11 @@ export default function ProfileImage() {
         {/* Main image container */}
         <div className="relative h-60 w-60 overflow-hidden rounded-full bg-linear-to-br from-emerald-400 via-teal-400 to-emerald-500 p-1.5 shadow-2xl shadow-emerald-500/30 sm:h-64 sm:w-64 lg:h-80 lg:w-80 dark:shadow-emerald-500/20">
           <div className="flex h-full w-full items-center justify-center rounded-full bg-neutral-100 dark:bg-neutral-800">
-            {/* Placeholder icon - replace with actual image */}
-            <Image src="/profile.jpg" alt="Profile Image" fill className="rounded-full border-3" priority />
+            {photoUrl ? (
+              <Image src={photoUrl} alt={name ?? 'Profile'} fill className="rounded-full object-cover" priority />
+            ) : (
+              <Image src="/profile.jpg" alt={name ?? 'Profile Image'} fill className="rounded-full border-3" priority />
+            )}
           </div>
         </div>
       </div>

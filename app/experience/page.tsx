@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 import BokehBackground from '@/components/bokeh-background';
-import {experiences, achievements} from '@/contents';
+import { experiences, achievements, personalInfo } from '@/contents';
 
 export const metadata: Metadata = {
   title: 'Experience',
@@ -119,7 +119,7 @@ export default function ExperiencePage() {
           </div>
         </section>
       </main>
-      <Footer />
+      <Footer personalInfo={personalInfo} />
     </div>
   );
 }

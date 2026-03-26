@@ -1,7 +1,9 @@
 import ScrollAnimation from '../ScrollAnimation';
-import { contactCards, personalInfo } from '@/contents';
 
-const icons = {
+type PersonalInfo = { name: string; email: string; linkedin: string; location: string };
+type ContactCard = { title: string; value: string; iconType: string };
+
+const icons: Record<string, React.ReactNode> = {
   location: (
     <svg className="h-5 w-5 sm:h-6 sm:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
       <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
@@ -24,7 +26,13 @@ const icons = {
   )
 };
 
-export default function Contact() {
+export default function Contact({
+  personalInfo,
+  contactCards
+}: {
+  personalInfo: PersonalInfo;
+  contactCards: ContactCard[];
+}) {
   return (
     <section id="contact" className="relative overflow-visible px-6 py-24">
       {/* Bokeh background */}
@@ -93,19 +101,21 @@ export default function Contact() {
         </ScrollAnimation>
 
         {/* Contact Cards */}
-        <div className="mt-10 grid gap-4 sm:mt-16 sm:grid-cols-3 sm:gap-6">
-          {contactCards.map((card, index) => (
-            <ScrollAnimation key={card.title} animation="fade-up" delay={400 + index * 100}>
-              <div className="group rounded-2xl border border-neutral-100 bg-white p-4 transition-all duration-300 hover:-translate-y-2 hover:border-emerald-300 hover:shadow-xl hover:shadow-emerald-500/15 sm:p-6 dark:border-neutral-800/50 dark:bg-neutral-900/80 dark:hover:border-emerald-500/50 dark:hover:shadow-emerald-500/10">
-                <div className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-full bg-neutral-100 text-neutral-600 transition-all duration-300 group-hover:scale-110 group-hover:bg-emerald-500 group-hover:text-white sm:mb-4 sm:h-12 sm:w-12 dark:bg-neutral-800 dark:text-neutral-400 dark:group-hover:bg-emerald-500 dark:group-hover:text-white">
-                  {icons[card.iconType]}
+        {contactCards.length > 0 && (
+          <div className="mt-10 grid gap-4 sm:mt-16 sm:grid-cols-3 sm:gap-6">
+            {contactCards.map((card, index) => (
+              <ScrollAnimation key={card.title} animation="fade-up" delay={400 + index * 100}>
+                <div className="group rounded-2xl border border-neutral-100 bg-white p-4 transition-all duration-300 hover:-translate-y-2 hover:border-emerald-300 hover:shadow-xl hover:shadow-emerald-500/15 sm:p-6 dark:border-neutral-800/50 dark:bg-neutral-900/80 dark:hover:border-emerald-500/50 dark:hover:shadow-emerald-500/10">
+                  <div className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-full bg-neutral-100 text-neutral-600 transition-all duration-300 group-hover:scale-110 group-hover:bg-emerald-500 group-hover:text-white sm:mb-4 sm:h-12 sm:w-12 dark:bg-neutral-800 dark:text-neutral-400 dark:group-hover:bg-emerald-500 dark:group-hover:text-white">
+                    {icons[card.iconType] ?? icons.location}
+                  </div>
+                  <h3 className="mb-1 text-sm font-semibold text-neutral-900 sm:text-base dark:text-neutral-50">{card.title}</h3>
+                  <p className="text-xs text-neutral-600 sm:text-sm dark:text-neutral-400">{card.value}</p>
                 </div>
-                <h3 className="mb-1 text-sm font-semibold text-neutral-900 sm:text-base dark:text-neutral-50">{card.title}</h3>
-                <p className="text-xs text-neutral-600 sm:text-sm dark:text-neutral-400">{card.value}</p>
-              </div>
-            </ScrollAnimation>
-          ))}
-        </div>
+              </ScrollAnimation>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );

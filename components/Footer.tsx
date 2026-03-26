@@ -1,4 +1,6 @@
-export default function Footer() {
+type PersonalInfo = { name: string; role: string; email: string; linkedin: string; github: string };
+
+export default function Footer({ personalInfo }: { personalInfo: PersonalInfo }) {
   const currentYear = new Date().getFullYear();
 
   return (
@@ -6,13 +8,13 @@ export default function Footer() {
       <div className="mx-auto max-w-5xl px-6 py-12">
         <div className="flex flex-col items-center justify-between gap-6 sm:flex-row">
           <div className="flex flex-col items-center gap-2 sm:items-start">
-            <span className="font-medium text-neutral-900 dark:text-neutral-100">Mario Jr Inguito</span>
-            <span className="text-sm text-neutral-500 dark:text-neutral-400">Full Stack Developer</span>
+            <span className="font-medium text-neutral-900 dark:text-neutral-100">{personalInfo.name}</span>
+            <span className="text-sm text-neutral-500 dark:text-neutral-400">{personalInfo.role}</span>
           </div>
 
           <div className="flex items-center gap-4">
             <a
-              href="https://github.com/riomar0001"
+              href={personalInfo.github}
               target="_blank"
               rel="noopener noreferrer"
               className="text-neutral-400 transition-all duration-300 hover:-translate-y-0.5 hover:text-neutral-900 dark:text-neutral-500 dark:hover:text-neutral-100"
@@ -27,7 +29,7 @@ export default function Footer() {
               </svg>
             </a>
             <a
-              href="https://linkedin.com/in/marioinguito"
+              href={personalInfo.linkedin}
               target="_blank"
               rel="noopener noreferrer"
               className="text-neutral-400 transition-all duration-300 hover:-translate-y-0.5 hover:text-neutral-900 dark:text-neutral-500 dark:hover:text-neutral-100"
@@ -38,7 +40,7 @@ export default function Footer() {
               </svg>
             </a>
             <a
-              href="mailto:hireme@riomar.dev"
+              href={`mailto:${personalInfo.email}`}
               className="text-neutral-400 transition-all duration-300 hover:-translate-y-0.5 hover:text-neutral-900 dark:text-neutral-500 dark:hover:text-neutral-100"
               aria-label="Email"
             >
@@ -54,7 +56,7 @@ export default function Footer() {
         </div>
 
         <div className="mt-8 border-t border-neutral-200 pt-8 text-center dark:border-neutral-800">
-          <p className="text-sm text-neutral-500 dark:text-neutral-400">{currentYear} Mario Jr Inguito. Crafted with care.</p>
+          <p className="text-sm text-neutral-500 dark:text-neutral-400">{currentYear} {personalInfo.name}. Crafted with care.</p>
         </div>
       </div>
     </footer>

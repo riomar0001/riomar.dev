@@ -1,6 +1,14 @@
-import { personalInfo } from '@/contents';
+type PersonalInfo = {
+  name: string;
+  role: string;
+  tagline: string;
+  email: string;
+  linkedin: string;
+  github: string;
+  location: string;
+};
 
-export default function Content() {
+export default function Content({ personalInfo }: { personalInfo: PersonalInfo }) {
   return (
     <div className="text-center md:text-center lg:text-left">
       {/* Status badge */}

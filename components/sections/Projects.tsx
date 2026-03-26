@@ -1,8 +1,19 @@
 import ScrollAnimation from '../ScrollAnimation';
 import BokehBackground from '../bokeh-background';
-import { personalInfo } from '@/contents';
+import ProjectCard from './projects/project-card';
 
-export default function Projects() {
+type Project = {
+  id?: string;
+  title: string;
+  description: string;
+  imageUrl?: string;
+  tags: string[];
+  link: string;
+  github: string;
+  featured?: boolean;
+};
+
+export default function Projects({ projects, github }: { projects: Project[]; github: string }) {
   return (
     <section id="projects" className="relative overflow-visible px-6 pt-24">
       {/* Bokeh background */}
@@ -17,30 +28,39 @@ export default function Projects() {
           </div>
         </ScrollAnimation>
 
-        {/* Coming Soon */}
-        <ScrollAnimation animation="scale">
-          <div className="flex flex-col items-center justify-center rounded-2xl border border-neutral-100 bg-white p-8 text-center sm:p-12 dark:border-neutral-800/50 dark:bg-neutral-900/80">
-            <div className="mb-3 inline-flex h-12 w-12 items-center justify-center rounded-full bg-emerald-100 text-emerald-600 sm:mb-4 sm:h-16 sm:w-16 dark:bg-emerald-900/30 dark:text-emerald-400">
-              <svg className="h-6 w-6 sm:h-8 sm:w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"
-                />
-              </svg>
-            </div>
-            <h3 className="mb-2 text-lg font-semibold text-neutral-900 sm:text-xl dark:text-neutral-50">Coming Soon</h3>
-            <p className="max-w-md text-sm text-neutral-600 sm:text-base dark:text-neutral-400">
-              I&apos;m currently working on some exciting projects. Check back soon to see what I&apos;ve been building!
-            </p>
+        {projects.length > 0 ? (
+          <div className="grid auto-rows-fr gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {projects.map((project, index) => (
+              <ScrollAnimation key={project.id ?? project.title} animation="scale" delay={index * 100}>
+                <ProjectCard project={project} />
+              </ScrollAnimation>
+            ))}
           </div>
-        </ScrollAnimation>
+        ) : (
+          <ScrollAnimation animation="scale">
+            <div className="flex flex-col items-center justify-center rounded-2xl border border-neutral-100 bg-white p-8 text-center sm:p-12 dark:border-neutral-800/50 dark:bg-neutral-900/80">
+              <div className="mb-3 inline-flex h-12 w-12 items-center justify-center rounded-full bg-emerald-100 text-emerald-600 sm:mb-4 sm:h-16 sm:w-16 dark:bg-emerald-900/30 dark:text-emerald-400">
+                <svg className="h-6 w-6 sm:h-8 sm:w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"
+                  />
+                </svg>
+              </div>
+              <h3 className="mb-2 text-lg font-semibold text-neutral-900 sm:text-xl dark:text-neutral-50">Coming Soon</h3>
+              <p className="max-w-md text-sm text-neutral-600 sm:text-base dark:text-neutral-400">
+                I&apos;m currently working on some exciting projects. Check back soon to see what I&apos;ve been building!
+              </p>
+            </div>
+          </ScrollAnimation>
+        )}
 
         {/* View more link */}
         <ScrollAnimation animation="fade-up" delay={300}>
           <div className="mt-16 text-center">
             <a
-              href={personalInfo.github}
+              href={github}
               target="_blank"
               rel="noopener noreferrer"
               className="group inline-flex items-center gap-2 text-neutral-600 transition-all duration-300 hover:text-emerald-600 dark:text-neutral-400 dark:hover:text-emerald-400"

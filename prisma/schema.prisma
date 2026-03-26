@@ -1,0 +1,147 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id             String         @id @default(uuid())
+  username       String         @unique
+  passwordHash   String
+  failedAttempts Int            @default(0)
+  lockedUntil    DateTime?
+  createdAt      DateTime       @default(now())
+  refreshTokens  RefreshToken[]
+  loginHistory   LoginHistory[]
+
+  @@map("users")
+}
+
+model RefreshToken {
+  id        String    @id @default(uuid())
+  token     String    @unique
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime  @default(now())
+  revokedAt DateTime?
+
+  @@map("refresh_tokens")
+}
+
+model LoginHistory {
+  id        String   @id @default(uuid())
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  ipAddress String?
+  userAgent String?
+  success   Boolean
+  reason    String?
+  createdAt DateTime @default(now())
+
+  @@map("login_history")
+}
+
+model PersonalInfo {
+  id        String   @id @default("singleton")
+  name      String
+  role      String
+  tagline   String
+  bio       String[]
+  email     String
+  linkedin  String
+  github    String
+  location  String
+  photoUrl  String?
+  resumeUrl String?
+  updatedAt DateTime @updatedAt
+
+  @@map("personal_info")
+}
+
+model SkillGroup {
+  id       String      @id @default(uuid())
+  category String
+  order    Int         @default(0)
+  items    SkillItem[]
+
+  @@map("skill_groups")
+}
+
+model SkillItem {
+  id      String     @id @default(uuid())
+  name    String
+  groupId String
+  group   SkillGroup @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  order   Int        @default(0)
+
+  @@map("skill_items")
+}
+
+model Project {
+  id          String   @id @default(uuid())
+  title       String
+  description String
+  imageUrl    String?
+  tags        String[]
+  link        String?
+  github      String?
+  featured    Boolean  @default(false)
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("projects")
+}
+
+model Experience {
+  id          String   @id @default(uuid())
+  role        String
+  company     String
+  location    String
+  period      String
+  description String[]
+  tags        String[]
+  link        String?
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+
+  @@map("experiences")
+}
+
+model Achievement {
+  id          String @id @default(uuid())
+  title       String
+  event       String
+  date        String
+  description String
+  order       Int    @default(0)
+
+  @@map("achievements")
+}
+
+model Certification {
+  id          String  @id @default(uuid())
+  title       String
+  issuer      String
+  iconUrl     String?
+  credlyUrl   String?
+  description String
+  order       Int     @default(0)
+
+  @@map("certifications")
+}
+
+model ContactCard {
+  id       String @id @default(uuid())
+  title    String
+  value    String
+  iconType String
+  order    Int    @default(0)
+
+  @@map("contact_cards")
+}
