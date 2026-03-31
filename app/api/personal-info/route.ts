@@ -23,7 +23,18 @@ export async function PUT(request: NextRequest) {
 
   const info = await prisma.personalInfo.upsert({
     where: { id: 'singleton' },
-    update: { name, role, tagline, bio, email, linkedin, github, location, photoUrl, resumeUrl } as Parameters<typeof prisma.personalInfo.upsert>[0]['update'],
+    update: {
+      name: name as string,
+      role: role as string,
+      tagline: tagline as string,
+      bio: (bio as string[]) ?? [],
+      email: email as string,
+      linkedin: linkedin as string,
+      github: github as string,
+      location: location as string,
+      photoUrl: photoUrl as string | null | undefined,
+      resumeUrl: resumeUrl as string | null | undefined
+    },
     create: {
       id: 'singleton',
       name: name as string,
