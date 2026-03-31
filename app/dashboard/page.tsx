@@ -14,6 +14,7 @@ import DashboardHeader from '@/components/dashboard/DashboardHeader';
 import LoginHistoryTab from '@/components/dashboard/LoginHistoryTab';
 import VisitorLogTab from '@/components/dashboard/VisitorLogTab';
 import { ConfirmDialog, Modal } from '@/components/dashboard/ui';
+import ChangePasswordForm from '@/components/dashboard/forms/ChangePasswordForm';
 import PersonalInfoForm from '@/components/dashboard/forms/PersonalInfoForm';
 import SkillForm from '@/components/dashboard/forms/SkillForm';
 import ProjectForm from '@/components/dashboard/forms/ProjectForm';
@@ -133,6 +134,7 @@ export default function DashboardPage() {
           username={user?.username}
           activeTab={activeTab}
           setActiveTab={setActiveTab}
+          onChangePassword={() => setModal('changePassword')}
           onLogout={handleLogout}
         />
 
@@ -183,6 +185,12 @@ export default function DashboardPage() {
         {modal === 'contactCard' && (
           <Modal title={editingItem ? 'Edit Contact Card' : 'Add Contact Card'} onClose={() => setModal(null)}>
             <ContactCardForm initial={editingItem ? (editingItem as unknown as ContactCard) : undefined} />
+          </Modal>
+        )}
+
+        {modal === 'changePassword' && (
+          <Modal title="Change Password" onClose={() => setModal(null)}>
+            <ChangePasswordForm onClose={() => setModal(null)} showToast={showToast} />
           </Modal>
         )}
 
