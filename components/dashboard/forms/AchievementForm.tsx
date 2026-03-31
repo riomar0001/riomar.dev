@@ -62,7 +62,7 @@ export default function AchievementForm({ initial }: { initial?: Achievement }) 
       </Field>
       <Field label="Description" error={errors.description}>
         <textarea
-          className={`${errors.description ? inputErrorCls : inputCls} min-h-[80px] resize-none`}
+          className={`${errors.description ? inputErrorCls : inputCls} min-h-20 resize-none`}
           value={form.description ?? ''}
           onChange={(e) => { setForm((f) => ({ ...f, description: e.target.value })); setErrors((er) => ({ ...er, description: undefined })); }}
           placeholder="Brief description…"

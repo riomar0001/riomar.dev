@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 'use client';
 
 import { useState } from 'react';
@@ -72,7 +73,7 @@ export default function PersonalInfoForm() {
       </div>
       <Field label="Tagline" error={errors.tagline}>
         <textarea
-          className={`${errors.tagline ? inputErrorCls : inputCls} min-h-[80px] resize-none`}
+          className={`${errors.tagline ? inputErrorCls : inputCls} min-h-20 resize-none`}
           value={form.tagline ?? ''}
           onChange={(e) => { setForm((f) => ({ ...f, tagline: e.target.value })); setErrors((er) => ({ ...er, tagline: undefined })); }}
           placeholder="Short bio shown in hero"
@@ -80,7 +81,7 @@ export default function PersonalInfoForm() {
       </Field>
       <Field label="Bio paragraphs (separate with blank line)" error={errors.bio}>
         <textarea
-          className={`${errors.bio ? inputErrorCls : inputCls} min-h-[120px] resize-y`}
+          className={`${errors.bio ? inputErrorCls : inputCls} min-h-30 resize-y`}
           value={bioText}
           onChange={(e) => { setBioText(e.target.value); setErrors((er) => ({ ...er, bio: undefined })); }}
           placeholder={"Paragraph 1\n\nParagraph 2\n\nParagraph 3"}

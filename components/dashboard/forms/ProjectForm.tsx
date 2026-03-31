@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 'use client';
 
 import { useState } from 'react';
@@ -57,7 +58,7 @@ export default function ProjectForm({ initial }: { initial?: Project }) {
       </Field>
       <Field label="Description" error={errors.description}>
         <textarea
-          className={`${errors.description ? inputErrorCls : inputCls} min-h-[100px] resize-none`}
+          className={`${errors.description ? inputErrorCls : inputCls} min-h-25 resize-none`}
           value={form.description ?? ''}
           onChange={(e) => { setForm((f) => ({ ...f, description: e.target.value })); setErrors((er) => ({ ...er, description: undefined })); }}
           placeholder="Project description…"

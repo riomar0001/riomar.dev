@@ -82,7 +82,7 @@ export default function ExperienceForm({ initial }: { initial?: Experience }) {
       </div>
       <Field label="Description bullets (one per line)" error={errors.description}>
         <textarea
-          className={`${errors.description ? inputErrorCls : inputCls} min-h-[120px] resize-y`}
+          className={`${errors.description ? inputErrorCls : inputCls} min-h-30 resize-y`}
           value={descText}
           onChange={(e) => { setDescText(e.target.value); setErrors((er) => ({ ...er, description: undefined })); }}
           placeholder={"Built scalable REST APIs…\nLed a team of 5 engineers…"}
