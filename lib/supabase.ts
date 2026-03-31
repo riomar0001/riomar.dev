@@ -15,7 +15,8 @@ export async function uploadFile(
 
   const { error } = await supabase.storage.from(bucket).upload(filename, file, {
     cacheControl: '3600',
-    upsert: false
+    upsert: false,
+    contentType: file.type
   });
 
   if (error) throw new Error(`Upload failed: ${error.message}`);
