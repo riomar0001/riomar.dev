@@ -41,3 +41,4 @@ export type Achievement = { id: string; title: string; event: string; date: stri
 export type Certification = { id: string; title: string; issuer: string; iconUrl?: string | null; credlyUrl?: string | null; description: string };
 export type ContactCard = { id: string; title: string; value: string; iconType: string };
 export type LoginHistory = { id: string; ipAddress?: string; userAgent?: string; success: boolean; reason?: string; createdAt: string };
+export type VisitorLog = { id: string; ipAddress: string; country?: string; countryCode?: string; region?: string; city?: string; isp?: string; page: string; userAgent?: string; createdAt: string };

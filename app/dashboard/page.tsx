@@ -7,11 +7,12 @@ import { apiFetch } from '@/lib/dashboard/api';
 import { DashboardContext } from '@/lib/dashboard/context';
 import type {
   PersonalInfo, SkillGroup, Project, Experience,
-  Achievement, Certification, ContactCard, LoginHistory
+  Achievement, Certification, ContactCard, LoginHistory, VisitorLog
 } from '@/lib/dashboard/types';
 
 import DashboardHeader from '@/components/dashboard/DashboardHeader';
 import LoginHistoryTab from '@/components/dashboard/LoginHistoryTab';
+import VisitorLogTab from '@/components/dashboard/VisitorLogTab';
 import { ConfirmDialog, Modal } from '@/components/dashboard/ui';
 import PersonalInfoForm from '@/components/dashboard/forms/PersonalInfoForm';
 import SkillForm from '@/components/dashboard/forms/SkillForm';
@@ -31,7 +32,7 @@ export default function DashboardPage() {
 
   const [user, setUser] = useState<{ username: string } | null>(null);
   const [authChecked, setAuthChecked] = useState(false);
-  const [activeTab, setActiveTab] = useState<'content' | 'history'>('content');
+  const [activeTab, setActiveTab] = useState<'content' | 'history' | 'visitors'>('content');
 
   // Data
   const [personalInfo, setPersonalInfo] = useState<PersonalInfo | null>(null);
@@ -42,6 +43,7 @@ export default function DashboardPage() {
   const [certifications, setCertifications] = useState<Certification[]>([]);
   const [contactCards, setContactCards] = useState<ContactCard[]>([]);
   const [loginHistory, setLoginHistory] = useState<LoginHistory[]>([]);
+  const [visitors, setVisitors] = useState<VisitorLog[]>([]);
 
   // Modal state
   const [modal, setModal] = useState<string | null>(null);
@@ -56,7 +58,7 @@ export default function DashboardPage() {
   }
 
   const loadAll = useCallback(async () => {
-    const [pi, sg, pr, ex, ac, ce, cc, lh] = await Promise.all([
+    const [pi, sg, pr, ex, ac, ce, cc, lh, vl] = await Promise.all([
       apiFetch('/api/personal-info').then((r) => r.json()).catch(() => null),
       apiFetch('/api/skills').then((r) => r.json()).catch(() => []),
       apiFetch('/api/projects').then((r) => r.json()).catch(() => []),
@@ -64,7 +66,8 @@ export default function DashboardPage() {
       apiFetch('/api/achievements').then((r) => r.json()).catch(() => []),
       apiFetch('/api/certifications').then((r) => r.json()).catch(() => []),
       apiFetch('/api/contact-cards').then((r) => r.json()).catch(() => []),
-      apiFetch('/api/auth/login-history').then((r) => r.json()).catch(() => [])
+      apiFetch('/api/auth/login-history').then((r) => r.json()).catch(() => []),
+      apiFetch('/api/visitor').then((r) => r.json()).catch(() => [])
     ]);
     if (pi && !pi.error) setPersonalInfo(pi);
     if (Array.isArray(sg)) setSkillGroups(sg);
@@ -74,6 +77,7 @@ export default function DashboardPage() {
     if (Array.isArray(ce)) setCertifications(ce);
     if (Array.isArray(cc)) setContactCards(cc);
     if (Array.isArray(lh)) setLoginHistory(lh);
+    if (Array.isArray(vl)) setVisitors(vl);
   }, []);
 
   useEffect(() => {
@@ -133,6 +137,7 @@ export default function DashboardPage() {
         />
 
         {activeTab === 'history' && <LoginHistoryTab loginHistory={loginHistory} />}
+        {activeTab === 'visitors' && <VisitorLogTab visitors={visitors} />}
 
         {activeTab === 'content' && (
           <main className="space-y-0">

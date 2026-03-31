@@ -36,7 +36,9 @@ export function isAuthError(result: unknown): result is NextResponse {
 }
 
 export function getClientIp(request: NextRequest): string {
+  // CF-Connecting-IP is the real client IP set by Cloudflare Tunnel
   return (
+    request.headers.get('cf-connecting-ip') ??
     request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ??
     request.headers.get('x-real-ip') ??
     'unknown'

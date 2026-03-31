@@ -146,3 +146,18 @@ model ContactCard {
 
   @@map("contact_cards")
 }
+
+model VisitorLog {
+  id          String   @id @default(uuid())
+  ipAddress   String
+  country     String?
+  countryCode String?
+  region      String?
+  city        String?
+  isp         String?
+  page        String   @default("/")
+  userAgent   String?
+  createdAt   DateTime @default(now())
+
+  @@map("visitor_logs")
+}

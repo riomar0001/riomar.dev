@@ -1,5 +1,6 @@
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
+import VisitorBeacon from '@/components/VisitorBeacon';
 import About from '@/components/sections/About';
 import Contact from '@/components/sections/Contact';
 import Experience from '@/components/sections/Experience';
@@ -118,6 +119,7 @@ export default async function Home() {
 
   return (
     <div className="bg-background dark:bg-green-950/20 min-h-screen">
+      <VisitorBeacon />
       <Header />
       <main>
         <Hero personalInfo={personalInfo} />

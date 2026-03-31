@@ -2,8 +2,8 @@
 
 type Props = {
   username?: string;
-  activeTab: 'content' | 'history';
-  setActiveTab: (tab: 'content' | 'history') => void;
+  activeTab: 'content' | 'history' | 'visitors';
+  setActiveTab: (tab: 'content' | 'history' | 'visitors') => void;
   onLogout: () => void;
 };
 
@@ -26,7 +26,7 @@ export default function DashboardHeader({ username, activeTab, setActiveTab, onL
         </div>
         <div className="flex items-center gap-3">
           <div className="flex rounded-full border border-neutral-200 bg-neutral-50 p-0.5 dark:border-neutral-700 dark:bg-neutral-800">
-            {(['content', 'history'] as const).map((tab) => (
+            {(['content', 'history', 'visitors'] as const).map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
@@ -36,7 +36,7 @@ export default function DashboardHeader({ username, activeTab, setActiveTab, onL
                     : 'text-neutral-500 hover:text-neutral-700 dark:text-neutral-400 dark:hover:text-neutral-300'
                 }`}
               >
-                {tab === 'history' ? 'Login History' : tab}
+                {tab === 'history' ? 'Login History' : tab === 'visitors' ? 'Visitors' : tab}
               </button>
             ))}
           </div>
