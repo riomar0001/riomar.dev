@@ -61,8 +61,9 @@ export default async function Home() {
 
   const bio = dbData?.personalInfo?.bio?.length ? dbData.personalInfo.bio : null;
 
-  const skills = dbData?.skillGroups
-    ? dbData.skillGroups.map((g) => ({ category: g.category, items: g.items.map((i) => i.name) }))
+  const skillGroups = dbData?.skillGroups ?? null;
+  const skills = skillGroups
+    ? skillGroups.map((g) => ({ category: g.category, items: g.items.map((i) => i.name) }))
     : staticSkills;
 
   const projects = (dbData?.projects ?? []).map((p) => ({
