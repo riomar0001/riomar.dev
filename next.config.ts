@@ -6,6 +6,9 @@ const supabaseHostname = process.env.NEXT_PUBLIC_SUPABASE_URL
 
 const nextConfig: NextConfig = {
   output: 'standalone',
+  outputFileTracingIncludes: {
+    '/*': ['./node_modules/.prisma/client/**/*', './node_modules/@prisma/engines/**/*']
+  },
   images: {
     remotePatterns: supabaseHostname
       ? [
