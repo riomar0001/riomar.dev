@@ -153,43 +153,43 @@ export default function DashboardPage() {
 
         {/* Modals */}
         {modal === 'personalInfo' && (
-          <Modal title="Edit Personal Info" onClose={() => setModal(null)}>
+          <Modal title="Edit Personal Info" onClose={() => setModal(null)} saving={saving}>
             <PersonalInfoForm />
           </Modal>
         )}
         {modal === 'skill' && (
-          <Modal title={editingItem ? 'Edit Skill Group' : 'Add Skill Group'} onClose={() => setModal(null)}>
+          <Modal title={editingItem ? 'Edit Skill Group' : 'Add Skill Group'} onClose={() => setModal(null)} saving={saving}>
             <SkillForm initial={editingItem ? (editingItem as unknown as SkillGroup) : undefined} />
           </Modal>
         )}
         {modal === 'project' && (
-          <Modal title={editingItem ? 'Edit Project' : 'Add Project'} onClose={() => setModal(null)}>
+          <Modal title={editingItem ? 'Edit Project' : 'Add Project'} onClose={() => setModal(null)} saving={saving}>
             <ProjectForm initial={editingItem ? (editingItem as unknown as Project) : undefined} />
           </Modal>
         )}
         {modal === 'experience' && (
-          <Modal title={editingItem ? 'Edit Experience' : 'Add Experience'} onClose={() => setModal(null)}>
+          <Modal title={editingItem ? 'Edit Experience' : 'Add Experience'} onClose={() => setModal(null)} saving={saving}>
             <ExperienceForm initial={editingItem ? (editingItem as unknown as Experience) : undefined} />
           </Modal>
         )}
         {modal === 'achievement' && (
-          <Modal title={editingItem ? 'Edit Achievement' : 'Add Achievement'} onClose={() => setModal(null)}>
+          <Modal title={editingItem ? 'Edit Achievement' : 'Add Achievement'} onClose={() => setModal(null)} saving={saving}>
             <AchievementForm initial={editingItem ? (editingItem as unknown as Achievement) : undefined} />
           </Modal>
         )}
         {modal === 'certification' && (
-          <Modal title={editingItem ? 'Edit Certification' : 'Add Certification'} onClose={() => setModal(null)}>
+          <Modal title={editingItem ? 'Edit Certification' : 'Add Certification'} onClose={() => setModal(null)} saving={saving}>
             <CertificationForm initial={editingItem ? (editingItem as unknown as Certification) : undefined} />
           </Modal>
         )}
         {modal === 'contactCard' && (
-          <Modal title={editingItem ? 'Edit Contact Card' : 'Add Contact Card'} onClose={() => setModal(null)}>
+          <Modal title={editingItem ? 'Edit Contact Card' : 'Add Contact Card'} onClose={() => setModal(null)} saving={saving}>
             <ContactCardForm initial={editingItem ? (editingItem as unknown as ContactCard) : undefined} />
           </Modal>
         )}
 
         {modal === 'changePassword' && (
-          <Modal title="Change Password" onClose={() => setModal(null)}>
+          <Modal title="Change Password" onClose={() => setModal(null)} saving={saving}>
             <ChangePasswordForm onClose={() => setModal(null)} showToast={showToast} />
           </Modal>
         )}

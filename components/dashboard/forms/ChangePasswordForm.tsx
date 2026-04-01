@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { apiFetch } from '@/lib/dashboard/api';
+import { useDashboard } from '@/lib/dashboard/context';
 import { Field, inputCls, inputErrorCls, Spinner } from '@/components/dashboard/ui';
 
 type Props = {
@@ -12,9 +13,9 @@ type Props = {
 type Errors = Partial<Record<'currentPassword' | 'newPassword' | 'confirmPassword', string>>;
 
 export default function ChangePasswordForm({ onClose, showToast }: Props) {
+  const { saving, setSaving } = useDashboard();
   const [form, setForm] = useState({ currentPassword: '', newPassword: '', confirmPassword: '' });
   const [errors, setErrors] = useState<Errors>({});
-  const [saving, setSaving] = useState(false);
 
   function set(field: keyof typeof form, value: string) {
     setForm((f) => ({ ...f, [field]: value }));
@@ -90,7 +91,8 @@ export default function ChangePasswordForm({ onClose, showToast }: Props) {
         <button
           type="button"
           onClick={onClose}
-          className="flex-1 rounded-xl border border-neutral-200 bg-white py-2.5 text-sm font-medium text-neutral-700 transition-colors hover:bg-neutral-50 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-300 dark:hover:bg-neutral-700"
+          disabled={saving}
+          className="flex-1 rounded-xl border border-neutral-200 bg-white py-2.5 text-sm font-medium text-neutral-700 transition-colors hover:bg-neutral-50 disabled:pointer-events-none disabled:opacity-40 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-300 dark:hover:bg-neutral-700"
         >
           Cancel
         </button>
