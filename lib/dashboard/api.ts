@@ -29,20 +29,19 @@ export function handleFilePick(onFile: (file: File, previewUrl: string) => void)
   const input = document.createElement('input');
   input.type = 'file';
   input.accept = 'image/*';
-  input.onchange = () => {
+  input.onchange = async () => {
     const file = input.files?.[0];
     if (!file) return;
-    const previewUrl = URL.createObjectURL(file);
-    onFile(file, previewUrl);
+    const compressed = file.type.startsWith('image/') ? await compressImage(file) : file;
+    const previewUrl = URL.createObjectURL(compressed);
+    onFile(compressed, previewUrl);
   };
   input.click();
 }
 
 export async function uploadFile(folder: 'photos' | 'projects', file: File): Promise<string> {
-  const toUpload = file.type.startsWith('image/') ? await compressImage(file) : file;
-
   const fd = new FormData();
-  fd.append('file', toUpload);
+  fd.append('file', file);
   fd.append('folder', folder);
   const res = await apiFetch('/api/upload', { method: 'POST', body: fd });
   const data = await res.json();
