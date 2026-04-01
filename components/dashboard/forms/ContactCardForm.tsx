@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useDashboard } from '@/lib/dashboard/context';
 import { apiFetch } from '@/lib/dashboard/api';
-import { Field, inputCls, inputErrorCls } from '@/components/dashboard/ui';
+import { Field, inputCls, inputErrorCls, Spinner } from '@/components/dashboard/ui';
 import type { ContactCard } from '@/lib/dashboard/types';
 
 type Errors = Partial<Record<'title' | 'value', string>>;
@@ -59,7 +59,7 @@ export default function ContactCardForm({ initial }: { initial?: ContactCard }) 
       </Field>
       <div className="flex justify-end gap-3 pt-2">
         <button onClick={() => setModal(null)} className="rounded-xl border border-neutral-200 px-4 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-50 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-800">Cancel</button>
-        <button onClick={onSave} disabled={saving} className="rounded-xl bg-emerald-500 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-600 disabled:opacity-60">{saving ? 'Saving…' : 'Save'}</button>
+        <button onClick={onSave} disabled={saving} className="flex items-center gap-2 rounded-xl bg-emerald-500 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-emerald-600 disabled:opacity-60">{saving && <Spinner />}{saving ? 'Saving…' : 'Save'}</button>
       </div>
     </div>
   );

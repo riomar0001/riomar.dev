@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { apiFetch } from '@/lib/dashboard/api';
-import { Field, inputCls, inputErrorCls } from '@/components/dashboard/ui';
+import { Field, inputCls, inputErrorCls, Spinner } from '@/components/dashboard/ui';
 
 type Props = {
   onClose: () => void;
@@ -97,9 +97,9 @@ export default function ChangePasswordForm({ onClose, showToast }: Props) {
         <button
           type="submit"
           disabled={saving}
-          className="flex-1 rounded-xl bg-emerald-500 py-2.5 text-sm font-medium text-white transition-colors hover:bg-emerald-600 disabled:opacity-60"
+          className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-emerald-500 py-2.5 text-sm font-medium text-white transition-colors hover:bg-emerald-600 disabled:opacity-60"
         >
-          {saving ? 'Saving…' : 'Change Password'}
+          {saving && <Spinner />}{saving ? 'Saving…' : 'Change Password'}
         </button>
       </div>
     </form>
