@@ -1,12 +1,18 @@
 import { NextRequest } from 'next/server';
 import { signAccessToken, verifyPassword, LOCKOUT_DURATION_MS, MAX_FAILED_ATTEMPTS, REFRESH_TOKEN_EXPIRY_MS } from '@/lib/auth';
 import { getClientIp, error, json } from '@/lib/api-helpers';
+import { checkRateLimit } from '@/lib/rate-limit';
 import { prisma } from '@/lib/prisma';
 import { randomUUID } from 'crypto';
 
 export async function POST(request: NextRequest) {
   const ip = getClientIp(request);
   const userAgent = request.headers.get('user-agent') ?? undefined;
+
+  // 10 login attempts per IP per 15 minutes
+  if (!checkRateLimit(`login:${ip}`, 10, 15 * 60 * 1000)) {
+    return error('Too many login attempts. Try again later.', 429);
+  }
 
   let body: { username?: string; password?: string };
   try {

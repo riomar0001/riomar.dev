@@ -1,5 +1,6 @@
 import { NextRequest } from 'next/server';
 import { error, isAuthError, json, requireAuth } from '@/lib/api-helpers';
+import { str, strOpt, urlOpt, strArray } from '@/lib/validate';
 import { prisma } from '@/lib/prisma';
 
 export async function GET() {
@@ -18,23 +19,21 @@ export async function POST(request: NextRequest) {
     return error('Invalid request body');
   }
 
-  const { title, description, imageUrl, tags, link, github, featured } = body;
+  const title       = str(body.title, 200);
+  const description = str(body.description, 2000);
   if (!title || !description) return error('Title and description are required');
+
+  const imageUrl = urlOpt(body.imageUrl);
+  const link     = urlOpt(body.link);
+  const github   = strOpt(body.github, 500);  // can be URL or "user/repo" path
+  const tags     = strArray(body.tags, 20, 50) ?? [];
+  const featured = typeof body.featured === 'boolean' ? body.featured : false;
 
   const maxOrder = await prisma.project.aggregate({ _max: { order: true } });
   const order = (maxOrder._max.order ?? -1) + 1;
 
   const project = await prisma.project.create({
-    data: {
-      title: title as string,
-      description: description as string,
-      imageUrl: imageUrl as string | undefined,
-      tags: (tags as string[]) ?? [],
-      link: link as string | undefined,
-      github: github as string | undefined,
-      featured: (featured as boolean) ?? false,
-      order
-    }
+    data: { title, description, imageUrl: imageUrl ?? null, tags, link: link ?? null, github: github ?? null, featured, order }
   });
 
   return json(project, 201);

@@ -1,3 +1,5 @@
+import Compressor from 'compressorjs';
+
 export async function apiFetch(url: string, options?: RequestInit) {
   let res = await fetch(url, options);
   if (res.status === 401) {
@@ -7,6 +9,20 @@ export async function apiFetch(url: string, options?: RequestInit) {
     }
   }
   return res;
+}
+
+function compressImage(file: File): Promise<File> {
+  return new Promise((resolve, reject) => {
+    new Compressor(file, {
+      quality: 0.6,
+      success(result) {
+        // Compressor returns a Blob; convert back to File to preserve the name
+        const compressed = new File([result], file.name, { type: result.type });
+        resolve(compressed);
+      },
+      error: reject
+    });
+  });
 }
 
 export function handleFilePick(onFile: (file: File, previewUrl: string) => void) {
@@ -23,8 +39,10 @@ export function handleFilePick(onFile: (file: File, previewUrl: string) => void)
 }
 
 export async function uploadFile(folder: 'photos' | 'projects', file: File): Promise<string> {
+  const toUpload = file.type.startsWith('image/') ? await compressImage(file) : file;
+
   const fd = new FormData();
-  fd.append('file', file);
+  fd.append('file', toUpload);
   fd.append('folder', folder);
   const res = await apiFetch('/api/upload', { method: 'POST', body: fd });
   const data = await res.json();

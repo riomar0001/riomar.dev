@@ -1,10 +1,17 @@
 import { NextRequest } from 'next/server';
-import { getClientIp, isAuthError, json, requireAuth } from '@/lib/api-helpers';
+import { getClientIp, isAuthError, json, error, requireAuth } from '@/lib/api-helpers';
+import { checkRateLimit } from '@/lib/rate-limit';
 import { getIpLocation } from '@/lib/geo';
 import { prisma } from '@/lib/prisma';
 
 export async function POST(request: NextRequest) {
   const ip = getClientIp(request);
+
+  // 5 logs per IP per minute — prevents DB flood from automated requests
+  if (!checkRateLimit(`visitor:${ip}`, 5, 60 * 1000)) {
+    return error('Rate limit exceeded', 429);
+  }
+
   const userAgent = request.headers.get('user-agent') ?? undefined;
 
   let page = '/';

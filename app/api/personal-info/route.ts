@@ -1,5 +1,6 @@
 import { NextRequest } from 'next/server';
 import { error, isAuthError, json, requireAuth } from '@/lib/api-helpers';
+import { str, strOpt, urlOpt, strArray } from '@/lib/validate';
 import { prisma } from '@/lib/prisma';
 
 export async function GET() {
@@ -19,35 +20,28 @@ export async function PUT(request: NextRequest) {
     return error('Invalid request body');
   }
 
-  const { name, role, tagline, bio, email, linkedin, github, location, photoUrl, resumeUrl } = body;
+  const name     = str(body.name, 100);
+  const role     = str(body.role, 100);
+  const tagline  = str(body.tagline, 200);
+  const bio      = strArray(body.bio, 20, 2000);
+  const email    = str(body.email, 254);
+  const linkedin = strOpt(body.linkedin, 2048);
+  const github   = strOpt(body.github, 2048);
+  const location = str(body.location, 200);
+  const photoUrl  = urlOpt(body.photoUrl);
+  const resumeUrl = urlOpt(body.resumeUrl);
+
+  if (!name)    return error('Name is required');
+  if (!role)    return error('Role is required');
+  if (!tagline) return error('Tagline is required');
+  if (!bio)     return error('Bio must be an array of strings');
+  if (!email)   return error('Email is required');
+  if (!location) return error('Location is required');
 
   const info = await prisma.personalInfo.upsert({
     where: { id: 'singleton' },
-    update: {
-      name: name as string,
-      role: role as string,
-      tagline: tagline as string,
-      bio: (bio as string[]) ?? [],
-      email: email as string,
-      linkedin: linkedin as string,
-      github: github as string,
-      location: location as string,
-      photoUrl: photoUrl as string | null | undefined,
-      resumeUrl: resumeUrl as string | null | undefined
-    },
-    create: {
-      id: 'singleton',
-      name: name as string,
-      role: role as string,
-      tagline: tagline as string,
-      bio: (bio as string[]) ?? [],
-      email: email as string,
-      linkedin: linkedin as string,
-      github: github as string,
-      location: location as string,
-      photoUrl: photoUrl as string | undefined,
-      resumeUrl: resumeUrl as string | undefined
-    }
+    update: { name, role, tagline, bio, email, linkedin: linkedin ?? undefined, github: github ?? undefined, location, photoUrl: photoUrl ?? null, resumeUrl: resumeUrl ?? null },
+    create: { id: 'singleton', name, role, tagline, bio, email, linkedin: linkedin ?? '', github: github ?? '', location, photoUrl: photoUrl ?? null, resumeUrl: resumeUrl ?? null }
   });
 
   return json(info);

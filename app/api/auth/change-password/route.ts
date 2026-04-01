@@ -1,11 +1,18 @@
 import { NextRequest } from 'next/server';
 import { hashPassword, verifyPassword } from '@/lib/auth';
-import { error, isAuthError, json, requireAuth } from '@/lib/api-helpers';
+import { error, getClientIp, isAuthError, json, requireAuth } from '@/lib/api-helpers';
+import { checkRateLimit } from '@/lib/rate-limit';
 import { prisma } from '@/lib/prisma';
 
 export async function POST(request: NextRequest) {
   const auth = await requireAuth(request);
   if (isAuthError(auth)) return auth;
+
+  // 5 attempts per IP per 15 minutes
+  const ip = getClientIp(request);
+  if (!checkRateLimit(`change-password:${ip}`, 5, 15 * 60 * 1000)) {
+    return error('Too many requests. Try again later.', 429);
+  }
 
   let body: { currentPassword?: string; newPassword?: string };
   try {

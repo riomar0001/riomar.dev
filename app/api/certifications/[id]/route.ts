@@ -1,5 +1,6 @@
 import { NextRequest } from 'next/server';
 import { error, isAuthError, json, requireAuth } from '@/lib/api-helpers';
+import { isUuid, str, urlOpt } from '@/lib/validate';
 import { prisma } from '@/lib/prisma';
 
 export async function PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
@@ -7,6 +8,7 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
   if (isAuthError(auth)) return auth;
 
   const { id } = await params;
+  if (!isUuid(id)) return error('Invalid ID', 400);
 
   let body: Record<string, unknown>;
   try {
@@ -18,11 +20,11 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
   const certification = await prisma.certification.update({
     where: { id },
     data: {
-      title: body.title as string | undefined,
-      issuer: body.issuer as string | undefined,
-      iconUrl: body.iconUrl as string | null | undefined,
-      credlyUrl: body.credlyUrl as string | null | undefined,
-      description: body.description as string | undefined
+      title:       str(body.title, 200)       ?? undefined,
+      issuer:      str(body.issuer, 100)      ?? undefined,
+      iconUrl:     urlOpt(body.iconUrl),
+      credlyUrl:   urlOpt(body.credlyUrl),
+      description: str(body.description, 2000) ?? undefined
     }
   });
 
@@ -34,6 +36,8 @@ export async function DELETE(request: NextRequest, { params }: { params: Promise
   if (isAuthError(auth)) return auth;
 
   const { id } = await params;
+  if (!isUuid(id)) return error('Invalid ID', 400);
+
   await prisma.certification.delete({ where: { id } });
   return json({ message: 'Deleted' });
 }

@@ -1,5 +1,6 @@
 import { NextRequest } from 'next/server';
 import { error, isAuthError, json, requireAuth } from '@/lib/api-helpers';
+import { isUuid, str } from '@/lib/validate';
 import { prisma } from '@/lib/prisma';
 
 export async function PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
@@ -7,6 +8,7 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
   if (isAuthError(auth)) return auth;
 
   const { id } = await params;
+  if (!isUuid(id)) return error('Invalid ID', 400);
 
   let body: Record<string, unknown>;
   try {
@@ -18,10 +20,10 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
   const achievement = await prisma.achievement.update({
     where: { id },
     data: {
-      title: body.title as string | undefined,
-      event: body.event as string | undefined,
-      date: body.date as string | undefined,
-      description: body.description as string | undefined
+      title:       str(body.title, 100)       ?? undefined,
+      event:       str(body.event, 200)       ?? undefined,
+      date:        str(body.date, 50)         ?? undefined,
+      description: str(body.description, 2000) ?? undefined
     }
   });
 
@@ -33,6 +35,8 @@ export async function DELETE(request: NextRequest, { params }: { params: Promise
   if (isAuthError(auth)) return auth;
 
   const { id } = await params;
+  if (!isUuid(id)) return error('Invalid ID', 400);
+
   await prisma.achievement.delete({ where: { id } });
   return json({ message: 'Deleted' });
 }
