@@ -27,10 +27,10 @@ export async function middleware(request: NextRequest) {
     const refreshToken = request.cookies.get('refresh_token')?.value;
     if (refreshToken) {
       const callbackUrl = encodeURIComponent(pathname);
-      return NextResponse.redirect(new URL(`/api/auth/refresh?redirect=${callbackUrl}`, request.url));
+      return NextResponse.redirect(new URL(`/api/auth/refresh?redirect=${callbackUrl}`, request.nextUrl));
     }
 
-    return NextResponse.redirect(new URL('/dashboard/login', request.url));
+    return NextResponse.redirect(new URL('/dashboard/login', request.nextUrl));
   }
 
   return NextResponse.next();

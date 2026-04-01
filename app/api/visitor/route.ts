@@ -44,10 +44,19 @@ export async function GET(request: NextRequest) {
   const auth = await requireAuth(request);
   if (isAuthError(auth)) return auth;
 
-  const logs = await prisma.visitorLog.findMany({
-    orderBy: { createdAt: 'desc' },
-    take: 100
-  });
+  const { searchParams } = request.nextUrl;
+  const page = Math.max(1, parseInt(searchParams.get('page') ?? '1', 10));
+  const limit = Math.min(100, Math.max(1, parseInt(searchParams.get('limit') ?? '20', 10)));
+  const skip = (page - 1) * limit;
 
-  return json(logs);
+  const [data, total] = await Promise.all([
+    prisma.visitorLog.findMany({
+      orderBy: { createdAt: 'desc' },
+      skip,
+      take: limit
+    }),
+    prisma.visitorLog.count()
+  ]);
+
+  return json({ data, total, page, limit });
 }

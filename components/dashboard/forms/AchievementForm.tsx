@@ -9,7 +9,7 @@ import type { Achievement } from '@/lib/dashboard/types';
 type Errors = Partial<Record<'title' | 'event' | 'date' | 'description', string>>;
 
 export default function AchievementForm({ initial }: { initial?: Achievement }) {
-  const { saving, setSaving, setModal, loadAll, showToast } = useDashboard();
+  const { saving, setSaving, setModal, reloadAchievements, showToast } = useDashboard();
   const [form, setForm] = useState<Partial<Achievement>>(initial ?? {});
   const [errors, setErrors] = useState<Errors>({});
 
@@ -29,7 +29,7 @@ export default function AchievementForm({ initial }: { initial?: Achievement }) 
     const res = initial
       ? await apiFetch(`/api/achievements/${initial.id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(form) })
       : await apiFetch('/api/achievements', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(form) });
-    if (res.ok) { await loadAll(); setModal(null); showToast(initial ? 'Achievement updated' : 'Achievement added'); }
+    if (res.ok) { await reloadAchievements(); setModal(null); showToast(initial ? 'Achievement updated' : 'Achievement added'); }
     else { const d = await res.json(); showToast(d.error ?? 'Save failed', 'error'); }
     setSaving(false);
   }

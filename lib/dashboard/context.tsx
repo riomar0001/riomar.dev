@@ -23,6 +23,13 @@ export type DashboardContextType = {
   setConfirmDelete: (v: { type: string; id: string; label: string } | null) => void;
   // Actions
   loadAll: () => Promise<void>;
+  reloadPersonalInfo: () => Promise<void>;
+  reloadSkills: () => Promise<void>;
+  reloadProjects: () => Promise<void>;
+  reloadExperiences: () => Promise<void>;
+  reloadAchievements: () => Promise<void>;
+  reloadCertifications: () => Promise<void>;
+  reloadContactCards: () => Promise<void>;
   showToast: (msg: string, type?: 'success' | 'error') => void;
 };
 

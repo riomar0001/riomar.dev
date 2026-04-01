@@ -10,7 +10,7 @@ import type { PersonalInfo } from '@/lib/dashboard/types';
 type Errors = Partial<Record<'name' | 'role' | 'tagline' | 'bio' | 'email' | 'location', string>>;
 
 export default function PersonalInfoForm() {
-  const { personalInfo, saving, setSaving, setModal, loadAll, showToast } = useDashboard();
+  const { personalInfo, saving, setSaving, setModal, reloadPersonalInfo, showToast } = useDashboard();
   const [form, setForm] = useState<Partial<PersonalInfo>>(personalInfo ?? {});
   const [bioText, setBioText] = useState((personalInfo?.bio ?? []).join('\n\n'));
   const [pendingPhoto, setPendingPhoto] = useState<File | null>(null);
@@ -46,7 +46,7 @@ export default function PersonalInfoForm() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ ...form, photoUrl, bio: bioText.split('\n\n').filter(Boolean) })
     });
-    if (res.ok) { await loadAll(); setModal(null); showToast('Personal info updated'); }
+    if (res.ok) { await reloadPersonalInfo(); setModal(null); showToast('Personal info updated'); }
     else { const d = await res.json(); showToast(d.error ?? 'Save failed', 'error'); }
     setSaving(false);
   }

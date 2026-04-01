@@ -12,7 +12,7 @@ export default function ProjectsSection() {
         <SectionHeader title="Featured Projects" onAdd={() => { setEditingItem(null); setModal('project'); }} addLabel="Add Project" />
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {projects.map((project) => (
-            <article key={project.id} className="group relative overflow-hidden rounded-2xl border border-neutral-100 bg-white transition-all duration-300 hover:-translate-y-1 hover:border-emerald-300 hover:shadow-xl hover:shadow-emerald-500/15 dark:border-neutral-800/50 dark:bg-neutral-900/80 dark:hover:border-emerald-500/50">
+            <article key={project.id} className="group relative overflow-hidden rounded-2xl border border-neutral-200 bg-white transition-all duration-300 hover:-translate-y-1 hover:border-emerald-300 hover:shadow-xl hover:shadow-emerald-500/15 dark:border-neutral-800/50 dark:bg-neutral-900/80 dark:hover:border-emerald-500/50">
               <div className="relative h-36 w-full overflow-hidden bg-linear-to-br from-emerald-50 to-teal-50 dark:from-emerald-950/30 dark:to-teal-950/30">
                 {project.imageUrl ? (
                   <img src={project.imageUrl} alt={project.title} className="h-full w-full object-cover" />
@@ -38,7 +38,7 @@ export default function ProjectsSection() {
                 <p className="mb-3 text-xs leading-relaxed text-neutral-600 line-clamp-2 dark:text-neutral-400">{project.description}</p>
                 <div className="flex flex-wrap gap-1.5">
                   {project.tags.map((tag) => (
-                    <span key={tag} className="rounded-full bg-neutral-100 px-2 py-0.5 text-[10px] font-medium text-neutral-600 dark:bg-neutral-800 dark:text-neutral-400">{tag}</span>
+                    <span key={tag} className="rounded-full bg-neutral-100 px-2 py-0.5 text-[10px] font-medium text-neutral-700 ring-1 ring-neutral-200 dark:bg-neutral-800 dark:text-neutral-400 dark:ring-transparent">{tag}</span>
                   ))}
                 </div>
               </div>
@@ -46,7 +46,7 @@ export default function ProjectsSection() {
           ))}
           <button
             onClick={() => { setEditingItem(null); setModal('project'); }}
-            className="flex min-h-[160px] flex-col items-center justify-center gap-2 rounded-2xl border border-dashed border-neutral-200 bg-neutral-50 text-sm text-neutral-400 transition-all hover:border-emerald-300 hover:bg-emerald-50 hover:text-emerald-600 dark:border-neutral-700 dark:bg-neutral-900/30 dark:hover:border-emerald-700 dark:hover:text-emerald-400"
+            className="flex min-h-[160px] flex-col items-center justify-center gap-2 rounded-2xl border border-dashed border-neutral-200 bg-neutral-50 text-sm text-neutral-400 transition-all hover:border-emerald-300 hover:bg-emerald-50 hover:text-emerald-600 dark:border-neutral-700 dark:bg-neutral-800/20 dark:text-neutral-500 dark:hover:border-emerald-700 dark:hover:bg-emerald-900/20 dark:hover:text-emerald-400"
           >
             <svg className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />

@@ -9,11 +9,11 @@ export default function LoginHistoryTab({ loginHistory }: { loginHistory: LoginH
         <h2 className="text-2xl font-bold text-neutral-900 dark:text-neutral-50">Login History</h2>
         <div className="h-px flex-1 bg-linear-to-r from-neutral-200 to-transparent dark:from-neutral-800" />
       </div>
-      <div className="overflow-hidden rounded-2xl border border-neutral-100 bg-white dark:border-neutral-800/50 dark:bg-neutral-900/80">
+      <div className="overflow-hidden rounded-2xl border border-neutral-200 bg-white dark:border-neutral-800/50 dark:bg-neutral-900/80">
         {loginHistory.length === 0 ? (
           <p className="p-8 text-center text-sm text-neutral-500">No login history yet.</p>
         ) : (
-          <div className="divide-y divide-neutral-100 dark:divide-neutral-800">
+          <div className="divide-y divide-neutral-200 dark:divide-neutral-800">
             {loginHistory.map((entry) => (
               <div key={entry.id} className="flex items-center gap-4 px-5 py-3">
                 <div className={`h-2 w-2 flex-shrink-0 rounded-full ${entry.success ? 'bg-emerald-500' : 'bg-red-500'}`} />

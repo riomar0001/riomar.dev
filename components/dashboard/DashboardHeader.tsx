@@ -1,5 +1,7 @@
 'use client';
 
+import ThemeToggle from '@/components/ThemeToggle';
+
 type Props = {
   username?: string;
   activeTab: 'content' | 'history' | 'visitors';
@@ -41,6 +43,7 @@ export default function DashboardHeader({ username, activeTab, setActiveTab, onC
               </button>
             ))}
           </div>
+          <ThemeToggle />
           <a
             href="/"
             target="_blank"

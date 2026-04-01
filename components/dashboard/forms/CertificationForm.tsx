@@ -10,7 +10,7 @@ import type { Certification } from '@/lib/dashboard/types';
 type Errors = Partial<Record<'title' | 'issuer' | 'description', string>>;
 
 export default function CertificationForm({ initial }: { initial?: Certification }) {
-  const { saving, setSaving, setModal, loadAll, showToast } = useDashboard();
+  const { saving, setSaving, setModal, reloadCertifications, showToast } = useDashboard();
   const [form, setForm] = useState<Partial<Certification>>(initial ?? {});
   const [pendingIcon, setPendingIcon] = useState<File | null>(null);
   const [errors, setErrors] = useState<Errors>({});
@@ -40,7 +40,7 @@ export default function CertificationForm({ initial }: { initial?: Certification
     const res = initial
       ? await apiFetch(`/api/certifications/${initial.id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...form, iconUrl }) })
       : await apiFetch('/api/certifications', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...form, iconUrl }) });
-    if (res.ok) { await loadAll(); setModal(null); showToast(initial ? 'Certification updated' : 'Certification added'); }
+    if (res.ok) { await reloadCertifications(); setModal(null); showToast(initial ? 'Certification updated' : 'Certification added'); }
     else { const d = await res.json(); showToast(d.error ?? 'Save failed', 'error'); }
     setSaving(false);
   }

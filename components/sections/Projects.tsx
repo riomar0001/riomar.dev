@@ -29,7 +29,7 @@ export default function Projects({ projects, github }: { projects: Project[]; gi
         </ScrollAnimation>
 
         {projects.length > 0 ? (
-          <div className="grid auto-rows-fr gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-6 sm:grid-cols-2">
             {projects.map((project, index) => (
               <ScrollAnimation key={project.id ?? project.title} animation="scale" delay={index * 100}>
                 <ProjectCard project={project} />

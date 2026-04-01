@@ -28,7 +28,7 @@ export default function PersonalInfoSection() {
         </div>
 
         {personalInfo ? (
-          <div className="grid gap-6 rounded-2xl border border-neutral-100 bg-white p-6 sm:grid-cols-2 dark:border-neutral-800/50 dark:bg-neutral-900/80">
+          <div className="grid gap-6 rounded-2xl border border-neutral-200 bg-white p-6 sm:grid-cols-2 dark:border-neutral-800/50 dark:bg-neutral-900/80">
             <div className="flex gap-4">
               <img
                 src={personalInfo.photoUrl ?? '/profile.jpg'}

@@ -9,7 +9,7 @@ import type { SkillGroup } from '@/lib/dashboard/types';
 type Errors = Partial<Record<'category' | 'items', string>>;
 
 export default function SkillForm({ initial }: { initial?: SkillGroup }) {
-  const { saving, setSaving, setModal, loadAll, showToast } = useDashboard();
+  const { saving, setSaving, setModal, reloadSkills, showToast } = useDashboard();
   const [category, setCategory] = useState(initial?.category ?? '');
   const [items, setItems] = useState((initial?.items ?? []).map((i) => i.name).join(', '));
   const [errors, setErrors] = useState<Errors>({});
@@ -29,7 +29,7 @@ export default function SkillForm({ initial }: { initial?: SkillGroup }) {
     const res = initial
       ? await apiFetch(`/api/skills/${initial.id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
       : await apiFetch('/api/skills', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
-    if (res.ok) { await loadAll(); setModal(null); showToast(initial ? 'Skill group updated' : 'Skill group added'); }
+    if (res.ok) { await reloadSkills(); setModal(null); showToast(initial ? 'Skill group updated' : 'Skill group added'); }
     else { const d = await res.json(); showToast(d.error ?? 'Save failed', 'error'); }
     setSaving(false);
   }

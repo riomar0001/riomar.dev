@@ -80,7 +80,7 @@ export function ItemActions({ onEdit, onDelete }: { onEdit: () => void; onDelete
     <div className="flex gap-1.5">
       <button
         onClick={onEdit}
-        className="rounded-lg border border-neutral-200 bg-white p-1.5 text-neutral-500 transition-all duration-200 hover:border-emerald-300 hover:bg-emerald-50 hover:text-emerald-600 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-400 dark:hover:border-emerald-600 dark:hover:bg-emerald-900/30 dark:hover:text-emerald-400"
+        className="rounded-lg border border-neutral-300 bg-neutral-50 p-1.5 text-neutral-600 transition-all duration-200 hover:border-emerald-300 hover:bg-emerald-50 hover:text-emerald-600 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-400 dark:hover:border-emerald-600 dark:hover:bg-emerald-900/30 dark:hover:text-emerald-400"
         title="Edit"
       >
         <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -89,7 +89,7 @@ export function ItemActions({ onEdit, onDelete }: { onEdit: () => void; onDelete
       </button>
       <button
         onClick={onDelete}
-        className="rounded-lg border border-neutral-200 bg-white p-1.5 text-neutral-500 transition-all duration-200 hover:border-red-300 hover:bg-red-50 hover:text-red-600 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-400 dark:hover:border-red-700 dark:hover:bg-red-900/30 dark:hover:text-red-400"
+        className="rounded-lg border border-neutral-300 bg-neutral-50 p-1.5 text-neutral-600 transition-all duration-200 hover:border-red-300 hover:bg-red-50 hover:text-red-600 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-400 dark:hover:border-red-700 dark:hover:bg-red-900/30 dark:hover:text-red-400"
         title="Delete"
       >
         <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>

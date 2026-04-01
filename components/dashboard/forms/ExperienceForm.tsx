@@ -9,7 +9,7 @@ import type { Experience } from '@/lib/dashboard/types';
 type Errors = Partial<Record<'role' | 'company' | 'location' | 'period' | 'description', string>>;
 
 export default function ExperienceForm({ initial }: { initial?: Experience }) {
-  const { saving, setSaving, setModal, loadAll, showToast } = useDashboard();
+  const { saving, setSaving, setModal, reloadExperiences, showToast } = useDashboard();
   const [form, setForm] = useState<Partial<Experience>>(initial ?? { description: [], tags: [] });
   const [descText, setDescText] = useState((initial?.description ?? []).join('\n'));
   const [tagsText, setTagsText] = useState((initial?.tags ?? []).join(', '));
@@ -37,7 +37,7 @@ export default function ExperienceForm({ initial }: { initial?: Experience }) {
     const res = initial
       ? await apiFetch(`/api/experiences/${initial.id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
       : await apiFetch('/api/experiences', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
-    if (res.ok) { await loadAll(); setModal(null); showToast(initial ? 'Experience updated' : 'Experience added'); }
+    if (res.ok) { await reloadExperiences(); setModal(null); showToast(initial ? 'Experience updated' : 'Experience added'); }
     else { const d = await res.json(); showToast(d.error ?? 'Save failed', 'error'); }
     setSaving(false);
   }

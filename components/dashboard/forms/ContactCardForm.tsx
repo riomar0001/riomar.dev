@@ -9,7 +9,7 @@ import type { ContactCard } from '@/lib/dashboard/types';
 type Errors = Partial<Record<'title' | 'value', string>>;
 
 export default function ContactCardForm({ initial }: { initial?: ContactCard }) {
-  const { saving, setSaving, setModal, loadAll, showToast } = useDashboard();
+  const { saving, setSaving, setModal, reloadContactCards, showToast } = useDashboard();
   const [form, setForm] = useState<Partial<ContactCard>>(initial ?? { iconType: 'location' });
   const [errors, setErrors] = useState<Errors>({});
 
@@ -27,7 +27,7 @@ export default function ContactCardForm({ initial }: { initial?: ContactCard }) 
     const res = initial
       ? await apiFetch(`/api/contact-cards/${initial.id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(form) })
       : await apiFetch('/api/contact-cards', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(form) });
-    if (res.ok) { await loadAll(); setModal(null); showToast(initial ? 'Card updated' : 'Card added'); }
+    if (res.ok) { await reloadContactCards(); setModal(null); showToast(initial ? 'Card updated' : 'Card added'); }
     else { const d = await res.json(); showToast(d.error ?? 'Save failed', 'error'); }
     setSaving(false);
   }

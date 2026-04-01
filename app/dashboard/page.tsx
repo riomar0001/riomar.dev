@@ -7,7 +7,7 @@ import { apiFetch } from '@/lib/dashboard/api';
 import { DashboardContext } from '@/lib/dashboard/context';
 import type {
   PersonalInfo, SkillGroup, Project, Experience,
-  Achievement, Certification, ContactCard, LoginHistory, VisitorLog
+  Achievement, Certification, ContactCard, LoginHistory, VisitorStats
 } from '@/lib/dashboard/types';
 
 import DashboardHeader from '@/components/dashboard/DashboardHeader';
@@ -44,7 +44,7 @@ export default function DashboardPage() {
   const [certifications, setCertifications] = useState<Certification[]>([]);
   const [contactCards, setContactCards] = useState<ContactCard[]>([]);
   const [loginHistory, setLoginHistory] = useState<LoginHistory[]>([]);
-  const [visitors, setVisitors] = useState<VisitorLog[]>([]);
+  const [visitorStats, setVisitorStats] = useState<VisitorStats | null>(null);
 
   // Modal state
   const [modal, setModal] = useState<string | null>(null);
@@ -58,8 +58,43 @@ export default function DashboardPage() {
     setTimeout(() => setToast(null), 3000);
   }
 
+  const reloadPersonalInfo = useCallback(async () => {
+    const pi = await apiFetch('/api/personal-info').then((r) => r.json()).catch(() => null);
+    if (pi && !pi.error) setPersonalInfo(pi);
+  }, []);
+
+  const reloadSkills = useCallback(async () => {
+    const sg = await apiFetch('/api/skills').then((r) => r.json()).catch(() => null);
+    if (Array.isArray(sg)) setSkillGroups(sg);
+  }, []);
+
+  const reloadProjects = useCallback(async () => {
+    const pr = await apiFetch('/api/projects').then((r) => r.json()).catch(() => null);
+    if (Array.isArray(pr)) setProjects(pr);
+  }, []);
+
+  const reloadExperiences = useCallback(async () => {
+    const ex = await apiFetch('/api/experiences').then((r) => r.json()).catch(() => null);
+    if (Array.isArray(ex)) setExperiences(ex);
+  }, []);
+
+  const reloadAchievements = useCallback(async () => {
+    const ac = await apiFetch('/api/achievements').then((r) => r.json()).catch(() => null);
+    if (Array.isArray(ac)) setAchievements(ac);
+  }, []);
+
+  const reloadCertifications = useCallback(async () => {
+    const ce = await apiFetch('/api/certifications').then((r) => r.json()).catch(() => null);
+    if (Array.isArray(ce)) setCertifications(ce);
+  }, []);
+
+  const reloadContactCards = useCallback(async () => {
+    const cc = await apiFetch('/api/contact-cards').then((r) => r.json()).catch(() => null);
+    if (Array.isArray(cc)) setContactCards(cc);
+  }, []);
+
   const loadAll = useCallback(async () => {
-    const [pi, sg, pr, ex, ac, ce, cc, lh, vl] = await Promise.all([
+    const [pi, sg, pr, ex, ac, ce, cc, lh, vs] = await Promise.all([
       apiFetch('/api/personal-info').then((r) => r.json()).catch(() => null),
       apiFetch('/api/skills').then((r) => r.json()).catch(() => []),
       apiFetch('/api/projects').then((r) => r.json()).catch(() => []),
@@ -68,7 +103,7 @@ export default function DashboardPage() {
       apiFetch('/api/certifications').then((r) => r.json()).catch(() => []),
       apiFetch('/api/contact-cards').then((r) => r.json()).catch(() => []),
       apiFetch('/api/auth/login-history').then((r) => r.json()).catch(() => []),
-      apiFetch('/api/visitor').then((r) => r.json()).catch(() => [])
+      apiFetch('/api/visitor/stats').then((r) => r.json()).catch(() => null)
     ]);
     if (pi && !pi.error) setPersonalInfo(pi);
     if (Array.isArray(sg)) setSkillGroups(sg);
@@ -78,7 +113,7 @@ export default function DashboardPage() {
     if (Array.isArray(ce)) setCertifications(ce);
     if (Array.isArray(cc)) setContactCards(cc);
     if (Array.isArray(lh)) setLoginHistory(lh);
-    if (Array.isArray(vl)) setVisitors(vl);
+    if (vs && !vs.error) setVisitorStats(vs);
   }, []);
 
   useEffect(() => {
@@ -108,8 +143,16 @@ export default function DashboardPage() {
       certification: `/api/certifications/${id}`,
       contactCard: `/api/contact-cards/${id}`
     };
+    const reloaders: Record<string, () => Promise<void>> = {
+      skill: reloadSkills,
+      project: reloadProjects,
+      experience: reloadExperiences,
+      achievement: reloadAchievements,
+      certification: reloadCertifications,
+      contactCard: reloadContactCards
+    };
     const res = await apiFetch(endpoints[type], { method: 'DELETE' });
-    if (res.ok) { await loadAll(); showToast('Deleted successfully'); }
+    if (res.ok) { await reloaders[type]?.(); showToast('Deleted successfully'); }
     else showToast('Delete failed', 'error');
     setConfirmDelete(null);
   }
@@ -127,7 +170,9 @@ export default function DashboardPage() {
       personalInfo, skillGroups, projects, experiences,
       achievements, certifications, contactCards,
       saving, setSaving, setModal, setEditingItem, setConfirmDelete,
-      loadAll, showToast
+      loadAll, reloadPersonalInfo, reloadSkills, reloadProjects,
+      reloadExperiences, reloadAchievements, reloadCertifications, reloadContactCards,
+      showToast
     }}>
       <div className="bg-background dark:bg-green-950/20 min-h-screen">
         <DashboardHeader
@@ -139,7 +184,7 @@ export default function DashboardPage() {
         />
 
         {activeTab === 'history' && <LoginHistoryTab loginHistory={loginHistory} />}
-        {activeTab === 'visitors' && <VisitorLogTab visitors={visitors} />}
+        {activeTab === 'visitors' && <VisitorLogTab stats={visitorStats} />}
 
         {activeTab === 'content' && (
           <main className="space-y-0">

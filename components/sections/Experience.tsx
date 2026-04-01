@@ -202,11 +202,11 @@ function CertContent({ cert }: { cert: Certification }) {
           <img
             src={cert.iconUrl}
             alt={cert.issuer}
-            className="h-10 w-10 rounded-lg object-contain sm:h-12 sm:w-12"
+            className="h-14 w-14 rounded-xl object-contain sm:h-16 sm:w-16"
           />
         ) : (
-          <div className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-emerald-100 text-emerald-600 sm:h-10 sm:w-10 dark:bg-emerald-900/30 dark:text-emerald-400">
-            <svg className="h-4 w-4 sm:h-5 sm:w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <div className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-100 text-emerald-600 sm:h-14 sm:w-14 dark:bg-emerald-900/30 dark:text-emerald-400">
+            <svg className="h-6 w-6 sm:h-7 sm:w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"

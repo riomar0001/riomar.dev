@@ -10,7 +10,7 @@ import type { Project } from '@/lib/dashboard/types';
 type Errors = Partial<Record<'title' | 'description', string>>;
 
 export default function ProjectForm({ initial }: { initial?: Project }) {
-  const { saving, setSaving, setModal, loadAll, showToast } = useDashboard();
+  const { saving, setSaving, setModal, reloadProjects, showToast } = useDashboard();
   const [form, setForm] = useState<Partial<Project>>(initial ?? { tags: [], featured: false });
   const [tagsText, setTagsText] = useState((initial?.tags ?? []).join(', '));
   const [pendingImage, setPendingImage] = useState<File | null>(null);
@@ -41,7 +41,7 @@ export default function ProjectForm({ initial }: { initial?: Project }) {
     const res = initial
       ? await apiFetch(`/api/projects/${initial.id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
       : await apiFetch('/api/projects', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
-    if (res.ok) { await loadAll(); setModal(null); showToast(initial ? 'Project updated' : 'Project added'); }
+    if (res.ok) { await reloadProjects(); setModal(null); showToast(initial ? 'Project updated' : 'Project added'); }
     else { const d = await res.json(); showToast(d.error ?? 'Save failed', 'error'); }
     setSaving(false);
   }

@@ -42,3 +42,10 @@ export type Certification = { id: string; title: string; issuer: string; iconUrl
 export type ContactCard = { id: string; title: string; value: string; iconType: string };
 export type LoginHistory = { id: string; ipAddress?: string; userAgent?: string; success: boolean; reason?: string; createdAt: string };
 export type VisitorLog = { id: string; ipAddress: string; country?: string; countryCode?: string; region?: string; city?: string; isp?: string; page: string; userAgent?: string; createdAt: string };
+
+export type VisitorStats = {
+  summary: { total: number; today: number; uniqueIps: number; countries: number };
+  daily: { date: string; count: number }[];
+  topCountries: { country: string; countryCode: string; count: number }[];
+  topPages: { page: string; count: number }[];
+};
