@@ -28,6 +28,12 @@ async function getPortfolioData() {
       prisma.contactCard.findMany({ orderBy: { order: 'asc' } })
     ]);
 
+    console.log('[DB] Successfully fetched data:', {
+      projects: pr.length,
+      experiences: ex.length,
+      achievements: ac.length
+    });
+
     return {
       personalInfo: pi ?? null,
       skillGroups: sg.length > 0 ? sg : null,
@@ -37,7 +43,9 @@ async function getPortfolioData() {
       certifications: ce.length > 0 ? ce : null,
       contactCards: cc.length > 0 ? cc : null
     };
-  } catch {
+  } catch (error) {
+    console.error('[DB] Failed to fetch portfolio data:', error);
+    console.error('[DB] DATABASE_URL is set:', !!process.env.DATABASE_URL);
     // DB not available, fall back to static data
     return null;
   }
