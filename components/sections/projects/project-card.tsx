@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 
 type Project = {
   title: string;
@@ -26,26 +27,30 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-6"
       onClick={onClose}
+      role="presentation"
     >
       {/* Backdrop */}
-      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
+      <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
 
       {/* Panel */}
       <div
-        className="relative z-10 w-full max-w-lg overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-2xl dark:border-neutral-700 dark:bg-neutral-900"
+        className="relative z-10 flex max-h-[90vh] w-full max-w-3xl flex-col overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-2xl dark:border-neutral-700 dark:bg-neutral-900"
         onClick={(e) => e.stopPropagation()}
+        role="dialog"
+        aria-modal="true"
+        aria-label={`${project.title} project details`}
       >
         {/* Image */}
         {project.imageUrl && (
-          <div className="h-48 w-full overflow-hidden">
-            <img src={project.imageUrl} alt={project.title} className="h-full w-full object-cover" />
+          <div className="h-56 w-full shrink-0 overflow-hidden md:h-72">
+            <img src={project.imageUrl} alt={project.title} className="h-full w-full object-cover object-top" />
           </div>
         )}
 
         {/* Content */}
-        <div className="p-6">
+        <div className="overflow-y-auto p-6">
           <div className="mb-3 flex items-start justify-between gap-3">
             <h3 className="text-lg font-semibold text-neutral-900 dark:text-neutral-50">{project.title}</h3>
             <button
@@ -112,21 +117,34 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
 
 export default function ProjectCard({ project }: { project: Project }) {
   const [open, setOpen] = useState(false);
+  const openModal = () => setOpen(true);
 
   return (
     <>
-      <article className="group relative flex flex-col overflow-hidden rounded-2xl border border-neutral-100 bg-white transition-all duration-300 hover:-translate-y-2 hover:border-emerald-300 hover:shadow-2xl hover:shadow-emerald-500/20 dark:border-neutral-800/50 dark:bg-neutral-900/80 dark:hover:border-emerald-500/50 dark:hover:shadow-emerald-500/10">
+      <article
+        className="group relative flex h-[30rem] flex-col overflow-hidden rounded-2xl border border-neutral-100 bg-white transition-all duration-300 hover:-translate-y-2 hover:border-emerald-300 hover:shadow-2xl hover:shadow-emerald-500/20 dark:border-neutral-800/50 dark:bg-neutral-900/80 dark:hover:border-emerald-500/50 dark:hover:shadow-emerald-500/10"
+        role="button"
+        tabIndex={0}
+        aria-label={`Open project details for ${project.title}`}
+        onClick={openModal}
+        onKeyDown={(event) => {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            openModal();
+          }
+        }}
+      >
         {/* Gradient overlay on hover */}
         <div className="pointer-events-none absolute inset-0 bg-linear-to-br from-emerald-500/8 to-teal-500/5 opacity-0 transition-opacity duration-300 group-hover:opacity-100 dark:from-emerald-500/12 dark:to-teal-500/8" />
 
         {/* Project image or placeholder */}
         <div className="relative h-40 w-full overflow-hidden bg-linear-to-br from-emerald-50 to-teal-50 dark:from-emerald-950/30 dark:to-teal-950/30">
           {project.imageUrl ? (
-            <img
-              src={project.imageUrl}
-              alt={project.title}
-              className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-            />
+              <img
+                src={project.imageUrl}
+                alt={project.title}
+                className="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
+              />
           ) : (
             <div className="flex h-full w-full items-center justify-center">
               <div className="text-center">
@@ -155,6 +173,7 @@ export default function ProjectCard({ project }: { project: Project }) {
                 href={project.github}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={(event) => event.stopPropagation()}
                 className="rounded-full bg-white/90 p-2 text-neutral-600 shadow-sm backdrop-blur-sm transition-all duration-200 hover:scale-110 hover:bg-emerald-500 hover:text-white dark:bg-neutral-800/90 dark:text-neutral-300 dark:hover:bg-emerald-500 dark:hover:text-white"
                 aria-label="View on GitHub"
               >
@@ -172,6 +191,7 @@ export default function ProjectCard({ project }: { project: Project }) {
                 href={project.link}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={(event) => event.stopPropagation()}
                 className="rounded-full bg-white/90 p-2 text-neutral-600 shadow-sm backdrop-blur-sm transition-all duration-200 hover:scale-110 hover:bg-emerald-500 hover:text-white dark:bg-neutral-800/90 dark:text-neutral-300 dark:hover:bg-emerald-500 dark:hover:text-white"
                 aria-label="View live demo"
               >
@@ -185,15 +205,18 @@ export default function ProjectCard({ project }: { project: Project }) {
 
         {/* Content */}
         <div className="relative flex flex-1 flex-col p-5">
-          <h3 className="mb-2 font-semibold text-neutral-900 transition-colors duration-300 group-hover:text-emerald-600 dark:text-neutral-50 dark:group-hover:text-emerald-400">
+          <h3 className="mb-2 line-clamp-2 min-h-[3rem] font-semibold text-neutral-900 transition-colors duration-300 group-hover:text-emerald-600 dark:text-neutral-50 dark:group-hover:text-emerald-400">
             {project.title}
           </h3>
 
           {/* Truncated description + Read more */}
           <div className="mb-4">
-            <p className="text-sm leading-relaxed text-neutral-600 line-clamp-3 dark:text-neutral-400">{project.description}</p>
+            <p className="text-sm leading-relaxed text-neutral-600 line-clamp-2 dark:text-neutral-400">{project.description}</p>
             <button
-              onClick={() => setOpen(true)}
+              onClick={(event) => {
+                event.stopPropagation();
+                openModal();
+              }}
               className="mt-1 text-xs font-medium text-emerald-600 transition-colors hover:text-emerald-700 dark:text-emerald-400 dark:hover:text-emerald-300"
             >
               Read more
@@ -201,7 +224,7 @@ export default function ProjectCard({ project }: { project: Project }) {
           </div>
 
           {/* Tags */}
-          <div className="mb-4 flex flex-wrap gap-1.5">
+          <div className="mb-4 flex max-h-[4.5rem] flex-wrap gap-1.5 overflow-hidden">
             {project.tags.map((tag) => (
               <span
                 key={tag}
@@ -214,12 +237,13 @@ export default function ProjectCard({ project }: { project: Project }) {
 
           {/* Links */}
           {(project.github && project.github !== '#') || (project.link && project.link !== '#') ? (
-            <div className="flex items-center gap-4 border-t border-neutral-100 pt-3.5 dark:border-neutral-800">
+            <div className="mt-auto flex items-center gap-4 border-t border-neutral-100 pt-3.5 dark:border-neutral-800">
               {project.github && project.github !== '#' && (
                 <a
                   href={project.github}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={(event) => event.stopPropagation()}
                   className="flex items-center gap-1.5 text-xs font-medium text-neutral-500 transition-colors duration-200 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100"
                 >
                   <svg className="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 24 24">
@@ -233,6 +257,7 @@ export default function ProjectCard({ project }: { project: Project }) {
                   href={project.link}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={(event) => event.stopPropagation()}
                   className="flex items-center gap-1.5 text-xs font-medium text-neutral-500 transition-colors duration-200 hover:text-emerald-600 dark:text-neutral-400 dark:hover:text-emerald-400"
                 >
                   <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -246,7 +271,12 @@ export default function ProjectCard({ project }: { project: Project }) {
         </div>
       </article>
 
-      {open && <ProjectModal project={project} onClose={() => setOpen(false)} />}
+      {open &&
+        typeof document !== 'undefined' &&
+        createPortal(
+          <ProjectModal project={project} onClose={() => setOpen(false)} />,
+          document.body
+        )}
     </>
   );
 }
