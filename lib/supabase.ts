@@ -16,10 +16,11 @@ const MIME_TO_EXT: Record<string, string> = {
 
 export async function uploadFile(
   file: File,
-  folder: 'photos' | 'resumes' | 'projects'
+  folder: 'photos' | 'resumes' | 'projects' | 'certificates'
 ): Promise<{ url: string; path: string }> {
+  const folderPath = folder === 'certificates' ? 'certificate_badges' : folder;
   const ext = MIME_TO_EXT[file.type] ?? 'bin';
-  const filename = `${folder}/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+  const filename = `${folderPath}/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
 
   const { error } = await supabase.storage.from(bucket).upload(filename, file, {
     cacheControl: '3600',

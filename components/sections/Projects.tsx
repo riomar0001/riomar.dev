@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import ScrollAnimation from '../ScrollAnimation';
 import BokehBackground from '../bokeh-background';
 import ProjectCard from './projects/project-card';
@@ -29,7 +30,7 @@ export default function Projects({ projects, github }: { projects: Project[]; gi
         </ScrollAnimation>
 
         {projects.length > 0 ? (
-          <div className="grid gap-6 sm:grid-cols-2">
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {projects.map((project, index) => (
               <ScrollAnimation key={project.id ?? project.title} animation="scale" delay={index * 100}>
                 <ProjectCard project={project} />
@@ -56,9 +57,24 @@ export default function Projects({ projects, github }: { projects: Project[]; gi
           </ScrollAnimation>
         )}
 
-        {/* View more link */}
+        {/* Bottom links */}
         <ScrollAnimation animation="fade-up" delay={300}>
-          <div className="mt-16 text-center">
+          <div className="mt-16 flex flex-col items-center gap-4 sm:flex-row sm:justify-center sm:gap-8">
+            <Link
+              href="/projects"
+              className="group inline-flex items-center gap-2 rounded-full border border-emerald-500 px-5 py-2 text-sm font-medium text-emerald-600 transition-all duration-300 hover:bg-emerald-500 hover:text-white dark:border-emerald-500 dark:text-emerald-400 dark:hover:bg-emerald-500 dark:hover:text-white"
+            >
+              View All Projects
+              <svg
+                className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </Link>
             <a
               href={github}
               target="_blank"

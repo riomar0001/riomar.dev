@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 import VisitorBeacon from '@/components/VisitorBeacon';
@@ -21,7 +23,7 @@ async function getPortfolioData() {
     const [pi, sg, pr, ex, ac, ce, cc] = await Promise.all([
       prisma.personalInfo.findUnique({ where: { id: 'singleton' } }),
       prisma.skillGroup.findMany({ orderBy: { order: 'asc' }, include: { items: { orderBy: { order: 'asc' } } } }),
-      prisma.project.findMany({ orderBy: { order: 'asc' } }),
+      prisma.project.findMany({ where: { featured: true }, orderBy: { order: 'asc' } }),
       prisma.experience.findMany({ orderBy: { order: 'asc' } }),
       prisma.achievement.findMany({ orderBy: { order: 'asc' } }),
       prisma.certification.findMany({ orderBy: { order: 'asc' } }),

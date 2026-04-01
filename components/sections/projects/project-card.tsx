@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 
 type Project = {
@@ -14,9 +14,27 @@ type Project = {
 };
 
 function ProjectModal({ project, onClose }: { project: Project; onClose: () => void }) {
+  const [visible, setVisible] = useState(false);
+
+  const close = useCallback(() => {
+    setVisible(false);
+    setTimeout(onClose, 280);
+  }, [onClose]);
+
+  useEffect(() => {
+    let r1: number, r2: number;
+    r1 = requestAnimationFrame(() => {
+      r2 = requestAnimationFrame(() => setVisible(true));
+    });
+    return () => {
+      cancelAnimationFrame(r1);
+      cancelAnimationFrame(r2);
+    };
+  }, []);
+
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
-      if (e.key === 'Escape') onClose();
+      if (e.key === 'Escape') close();
     }
     document.addEventListener('keydown', onKey);
     document.body.style.overflow = 'hidden';
@@ -24,20 +42,20 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
       document.removeEventListener('keydown', onKey);
       document.body.style.overflow = '';
     };
-  }, [onClose]);
+  }, [close]);
 
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-6"
-      onClick={onClose}
+      onClick={close}
       role="presentation"
     >
       {/* Backdrop */}
-      <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
+      <div className={`absolute inset-0 bg-black/70 backdrop-blur-sm transition-opacity duration-200 ease-out ${visible ? 'opacity-100' : 'opacity-0'}`} />
 
       {/* Panel */}
       <div
-        className="relative z-10 flex max-h-[90vh] w-full max-w-3xl flex-col overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-2xl dark:border-neutral-700 dark:bg-neutral-900"
+        className={`relative z-10 flex max-h-[90vh] w-full max-w-3xl flex-col overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-2xl transition-all duration-300 ease-out dark:border-neutral-700 dark:bg-neutral-900 ${visible ? 'translate-y-0 scale-100' : 'translate-y-8 scale-95 opacity-0'}`}
         onClick={(e) => e.stopPropagation()}
         role="dialog"
         aria-modal="true"
@@ -55,7 +73,7 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
           <div className="mb-3 flex items-start justify-between gap-3">
             <h3 className="text-lg font-semibold text-neutral-900 dark:text-neutral-50">{project.title}</h3>
             <button
-              onClick={onClose}
+              onClick={close}
               className="shrink-0 rounded-full p-1 text-neutral-400 transition-colors hover:bg-neutral-100 hover:text-neutral-700 dark:hover:bg-neutral-800 dark:hover:text-neutral-200"
               aria-label="Close"
             >
@@ -123,7 +141,7 @@ export default function ProjectCard({ project }: { project: Project }) {
   return (
     <>
       <article
-        className="group relative flex h-120 flex-col overflow-hidden rounded-2xl border border-neutral-100 bg-white transition-all duration-300 hover:-translate-y-2 hover:border-emerald-300 hover:shadow-2xl hover:shadow-emerald-500/20 dark:border-neutral-800/50 dark:bg-neutral-900/80 dark:hover:border-emerald-500/50 dark:hover:shadow-emerald-500/10"
+        className="group relative flex flex-col overflow-hidden rounded-2xl border border-neutral-100 bg-white transition-all duration-300 hover:-translate-y-2 hover:border-emerald-300 hover:shadow-2xl hover:shadow-emerald-500/20 dark:border-neutral-800/50 dark:bg-neutral-900/80 dark:hover:border-emerald-500/50 dark:hover:shadow-emerald-500/10"
         role="button"
         tabIndex={0}
         aria-label={`Open project details for ${project.title}`}
@@ -139,12 +157,12 @@ export default function ProjectCard({ project }: { project: Project }) {
         <div className="pointer-events-none absolute inset-0 bg-linear-to-br from-emerald-500/8 to-teal-500/5 opacity-0 transition-opacity duration-300 group-hover:opacity-100 dark:from-emerald-500/12 dark:to-teal-500/8" />
 
         {/* Project image or placeholder */}
-        <div className="relative h-40 w-full overflow-hidden bg-linear-to-br from-emerald-50 to-teal-50 dark:from-emerald-950/30 dark:to-teal-950/30">
+        <div className="relative h-56 w-full overflow-hidden bg-linear-to-br from-emerald-50 to-teal-50 dark:from-emerald-950/30 dark:to-teal-950/30">
           {project.imageUrl ? (
               <img
                 src={project.imageUrl}
                 alt={project.title}
-                className="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                className="h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
               />
           ) : (
             <div className="flex h-full w-full items-center justify-center">

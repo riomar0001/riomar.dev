@@ -269,10 +269,10 @@ html.theme-transition *::after {
 @keyframes bokeh-pulse {
   0%,
   100% {
-    opacity: 0.4;
+    opacity: 0.6;
   }
   50% {
-    opacity: 0.6;
+    opacity: 1;
   }
 }
 
@@ -344,19 +344,19 @@ html.theme-transition *::after {
 
 /* Color variants - light mode */
 .bokeh-green-1 {
-  background: radial-gradient(circle, rgba(16, 185, 129, 0.35) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(16, 185, 129, 0.65) 0%, transparent 70%);
 }
 
 .bokeh-green-2 {
-  background: radial-gradient(circle, rgba(52, 211, 153, 0.3) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(52, 211, 153, 0.55) 0%, transparent 70%);
 }
 
 .bokeh-green-3 {
-  background: radial-gradient(circle, rgba(110, 231, 183, 0.28) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(110, 231, 183, 0.55) 0%, transparent 70%);
 }
 
 .bokeh-teal-1 {
-  background: radial-gradient(circle, rgba(20, 184, 166, 0.3) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(20, 184, 166, 0.55) 0%, transparent 70%);
 }
 
 /* Color variants - dark mode */

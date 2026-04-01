@@ -30,7 +30,7 @@ export default function CertificationForm({ initial }: { initial?: Certification
     let iconUrl = form.iconUrl;
     if (pendingIcon) {
       try {
-        iconUrl = await uploadFile('projects', pendingIcon);
+        iconUrl = await uploadFile('certificates', pendingIcon);
       } catch (e) {
         showToast((e as Error).message, 'error');
         setSaving(false);
