@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -122,7 +123,7 @@ export default function ProjectCard({ project }: { project: Project }) {
   return (
     <>
       <article
-        className="group relative flex h-[30rem] flex-col overflow-hidden rounded-2xl border border-neutral-100 bg-white transition-all duration-300 hover:-translate-y-2 hover:border-emerald-300 hover:shadow-2xl hover:shadow-emerald-500/20 dark:border-neutral-800/50 dark:bg-neutral-900/80 dark:hover:border-emerald-500/50 dark:hover:shadow-emerald-500/10"
+        className="group relative flex h-120 flex-col overflow-hidden rounded-2xl border border-neutral-100 bg-white transition-all duration-300 hover:-translate-y-2 hover:border-emerald-300 hover:shadow-2xl hover:shadow-emerald-500/20 dark:border-neutral-800/50 dark:bg-neutral-900/80 dark:hover:border-emerald-500/50 dark:hover:shadow-emerald-500/10"
         role="button"
         tabIndex={0}
         aria-label={`Open project details for ${project.title}`}
@@ -205,7 +206,7 @@ export default function ProjectCard({ project }: { project: Project }) {
 
         {/* Content */}
         <div className="relative flex flex-1 flex-col p-5">
-          <h3 className="mb-2 line-clamp-2 min-h-[3rem] font-semibold text-neutral-900 transition-colors duration-300 group-hover:text-emerald-600 dark:text-neutral-50 dark:group-hover:text-emerald-400">
+          <h3 className="mb-2 line-clamp-2 min-h-12 font-semibold text-neutral-900 transition-colors duration-300 group-hover:text-emerald-600 dark:text-neutral-50 dark:group-hover:text-emerald-400">
             {project.title}
           </h3>
 
@@ -224,7 +225,7 @@ export default function ProjectCard({ project }: { project: Project }) {
           </div>
 
           {/* Tags */}
-          <div className="mb-4 flex max-h-[4.5rem] flex-wrap gap-1.5 overflow-hidden">
+          <div className="mb-4 flex max-h-18 flex-wrap gap-1.5 overflow-hidden">
             {project.tags.map((tag) => (
               <span
                 key={tag}

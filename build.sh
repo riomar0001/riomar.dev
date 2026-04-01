@@ -3,7 +3,7 @@
 set -e
 
 echo "Building new Docker image..."
-docker build -t portfolio:new .
+docker build --no-cache -t portfolio:new .
 
 echo "Stopping and removing old container..."
 docker rm -f portfolio || true
