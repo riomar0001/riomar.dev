@@ -115,12 +115,14 @@ model Experience {
 }
 
 model Achievement {
-  id          String @id @default(uuid())
+  id          String  @id @default(uuid())
   title       String
   event       String
-  date        String
+  date        String?
   description String
-  order       Int    @default(0)
+  imageUrl    String?
+  link        String?
+  order       Int     @default(0)
 
   @@map("achievements")
 }

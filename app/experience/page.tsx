@@ -1,8 +1,8 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
-import Footer from '@/components/Footer';
-import Header from '@/components/Header';
-import BokehBackground from '@/components/bokeh-background';
+import Background from '@/components/Background';
+import Navbar from '@/components/Navbar';
+import { firaCode } from '@/lib/fonts';
 import { experiences, achievements, personalInfo } from '@/contents';
 
 export const metadata: Metadata = {
@@ -12,114 +12,78 @@ export const metadata: Metadata = {
 
 export default function ExperiencePage() {
   return (
-    <div className="min-h-screen bg-neutral-50 dark:bg-neutral-950">
-      <Header />
-      <main>
-        <section className="relative overflow-visible px-6 pt-32 pb-24">
-          {/* Bokeh background */}
-          <BokehBackground />
+    <div className={`${firaCode.variable} site-root bg-white text-black dark:bg-black dark:text-white min-h-screen`}>
+      <Background />
+      <Navbar />
+      <main className="relative z-10">
+        <div className="max-w-[1160px] mx-auto px-6 pt-[120px] pb-24">
+          <Link
+            href="/#experience"
+            className="mb-10 inline-flex items-center gap-2 font-mono text-xs tracking-wider uppercase opacity-70 hover:opacity-100 transition-opacity"
+          >
+            &larr; Back to Home
+          </Link>
 
-          <div className="relative mx-auto max-w-5xl">
-            {/* Back link */}
-            <Link
-              href="/#experience"
-              className="mb-8 inline-flex items-center gap-2 text-sm text-neutral-500 transition-colors hover:text-emerald-500 dark:text-neutral-400 dark:hover:text-emerald-400"
-            >
-              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-              </svg>
-              Back to Home
-            </Link>
+          <div className="mb-12 border-b border-black/15 dark:border-white/15 pb-8">
+            <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-3">Experience</h1>
+            <p className="max-w-2xl text-[15px] leading-relaxed opacity-75">
+              My professional journey, work experience, and notable achievements in software development and technology.
+            </p>
+          </div>
 
-            {/* Page header */}
-            <div className="mb-16">
-              <h1 className="text-4xl font-bold tracking-tight text-neutral-900 sm:text-5xl dark:text-neutral-50">Experience</h1>
-              <p className="mt-4 max-w-2xl text-lg text-neutral-600 dark:text-neutral-400">
-                My professional journey, work experience, and notable achievements in software development and technology.
-              </p>
-            </div>
-
-            {/* Experience cards */}
-            <div className="space-y-8">
-              {experiences.map((exp, index) => (
-                <article
-                  key={index}
-                  className="group relative rounded-2xl border border-neutral-100 bg-white p-6 transition-all duration-300 hover:-translate-y-1 hover:border-emerald-300 hover:shadow-xl hover:shadow-emerald-500/15 sm:p-8 dark:border-neutral-800/50 dark:bg-neutral-900/80 dark:hover:border-emerald-500/50 dark:hover:shadow-emerald-500/10"
-                >
-                  <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-                    <div className="flex-1">
-                      <h2 className="text-xl font-semibold text-neutral-900 transition-colors duration-300 group-hover:text-emerald-600 dark:text-neutral-50 dark:group-hover:text-emerald-400">
-                        {exp.role}
-                      </h2>
-                      <p className="mt-1 text-neutral-600 dark:text-neutral-400">
-                        {exp.company} · {exp.location}
-                      </p>
-                    </div>
-                    <span className="shrink-0 rounded-full border border-neutral-200 bg-neutral-50 px-3 py-1 text-sm text-neutral-600 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-400">
-                      {exp.period}
+          {/* Experience cards */}
+          <div>
+            {experiences.map((exp, index) => (
+              <div key={index} className="flex flex-wrap gap-2 gap-x-6 py-6 border-t border-black/20 dark:border-white/20">
+                <div className="font-mono text-[13px] opacity-60 basis-[130px] grow-0 shrink-0">{exp.period}</div>
+                <div className="grow shrink basis-[280px]">
+                  <div className="flex items-baseline gap-3.5 flex-wrap">
+                    <h2 className="text-[17px] font-medium">{exp.role}</h2>
+                    <span className="font-mono text-[13px] opacity-55">
+                      {exp.company} &middot; {exp.location}
                     </span>
                   </div>
+                  {exp.description.map((item, i) => (
+                    <p key={i} className="text-[13px] leading-relaxed opacity-75 mt-2 max-w-[660px]">
+                      {item}
+                    </p>
+                  ))}
+                  {exp.tags.length > 0 && (
+                    <div className="flex flex-wrap gap-1.5 mt-3">
+                      {exp.tags.map((tag) => (
+                        <span key={tag} className="font-mono text-[11px] opacity-60 border border-black/20 dark:border-white/20 px-2 py-0.5">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
 
-                  <ul className="mt-6 space-y-3">
-                    {exp.description.map((item, i) => (
-                      <li key={i} className="flex gap-3 text-neutral-600 dark:text-neutral-400">
-                        <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-500" />
-                        <span className="leading-relaxed">{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-
-                  <div className="mt-6 flex flex-wrap gap-2">
-                    {exp.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="rounded-full bg-neutral-100 px-3 py-1 text-xs font-medium text-neutral-600 transition-all duration-200 hover:bg-emerald-500 hover:text-white dark:bg-neutral-800 dark:text-neutral-400 dark:hover:bg-emerald-500 dark:hover:text-white"
-                      >
-                        {tag}
-                      </span>
-                    ))}
+          {/* Awards & Recognition */}
+          <div className="mt-16">
+            <h2 className="text-xl font-medium tracking-tight mb-7 border-b border-black/15 dark:border-white/15 pb-4">Awards &amp; Recognition</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-black/20 dark:bg-white/20 border border-black/20 dark:border-white/20">
+              {achievements.map((achievement, index) => (
+                <div key={index} className="bg-white dark:bg-black p-5 flex flex-col h-[170px]">
+                  <h3 className="text-sm font-semibold mb-1.5">{achievement.title}</h3>
+                  <div className="font-mono text-[11px] opacity-55 mb-2">
+                    {achievement.event} &middot; {achievement.date}
                   </div>
-                </article>
+                  <p className="text-xs leading-relaxed opacity-75 line-clamp-4">{achievement.description}</p>
+                </div>
               ))}
             </div>
-
-            {/* Achievements section */}
-            <div className="mt-20">
-              <div className="mb-10 flex items-center gap-6">
-                <h2 className="text-2xl font-bold tracking-tight text-neutral-900 dark:text-neutral-50">Awards & Recognition</h2>
-                <div className="h-px flex-1 bg-linear-to-r from-neutral-200 to-transparent dark:from-neutral-800" />
-              </div>
-
-              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                {achievements.map((achievement, index) => (
-                  <div
-                    key={index}
-                    className="group rounded-2xl border border-neutral-100 bg-white p-6 transition-all duration-300 hover:-translate-y-2 hover:border-emerald-300 hover:shadow-xl hover:shadow-emerald-500/15 dark:border-neutral-800/50 dark:bg-neutral-900/80 dark:hover:border-emerald-500/50 dark:hover:shadow-emerald-500/10"
-                  >
-                    <div className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-full bg-emerald-100 text-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-400">
-                      <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"
-                        />
-                      </svg>
-                    </div>
-                    <h3 className="font-semibold text-neutral-900 transition-colors duration-300 group-hover:text-emerald-600 dark:text-neutral-50 dark:group-hover:text-emerald-400">
-                      {achievement.title}
-                    </h3>
-                    <p className="mt-1 text-sm text-neutral-500 dark:text-neutral-500">
-                      {achievement.event} · {achievement.date}
-                    </p>
-                    <p className="mt-3 text-sm leading-relaxed text-neutral-600 dark:text-neutral-400">{achievement.description}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
           </div>
-        </section>
+
+          <div className="mt-16 pt-5 border-t border-black/15 dark:border-white/15 flex justify-between flex-wrap gap-2 font-mono text-[11px] opacity-40">
+            <span>&copy; {new Date().getFullYear()} {personalInfo.name}</span>
+            <span>Crafted with care.</span>
+          </div>
+        </div>
       </main>
-      <Footer personalInfo={personalInfo} />
     </div>
   );
 }

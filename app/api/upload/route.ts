@@ -23,12 +23,12 @@ export async function POST(request: NextRequest) {
   if (!ALLOWED_TYPES.includes(file.type)) return error('File type not allowed');
   if (file.size > MAX_SIZE) return error('File too large (max 5MB)');
 
-  const validFolders = ['photos', 'resumes', 'projects', 'certificates'] as const;
+  const validFolders = ['photos', 'resumes', 'projects', 'certificates', 'achievements'] as const;
   if (!validFolders.includes(folder as (typeof validFolders)[number])) {
     return error('Invalid folder');
   }
 
-  const { url, path } = await uploadFile(file, folder as 'photos' | 'resumes' | 'projects' | 'certificates');
+  const { url, path } = await uploadFile(file, folder as 'photos' | 'resumes' | 'projects' | 'certificates' | 'achievements');
 
   return json({ url, path }, 201);
 }

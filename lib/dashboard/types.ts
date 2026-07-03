@@ -37,7 +37,7 @@ export type Experience = {
   link?: string | null;
 };
 
-export type Achievement = { id: string; title: string; event: string; date: string; description: string };
+export type Achievement = { id: string; title: string; event: string; date?: string | null; description: string; imageUrl?: string | null; link?: string | null };
 export type Certification = { id: string; title: string; issuer: string; iconUrl?: string | null; credlyUrl?: string | null; description: string };
 export type ContactCard = { id: string; title: string; value: string; iconType: string };
 export type LoginHistory = { id: string; ipAddress?: string; userAgent?: string; success: boolean; reason?: string; createdAt: string };

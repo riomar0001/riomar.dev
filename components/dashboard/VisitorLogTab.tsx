@@ -23,9 +23,9 @@ function fmtDate(iso: string) {
 
 function StatCard({ label, value }: { label: string; value: number }) {
   return (
-    <div className="rounded-2xl border border-neutral-200 bg-white p-4 dark:border-neutral-800 dark:bg-neutral-900">
-      <p className="text-xs font-medium uppercase tracking-wide text-neutral-400 dark:text-neutral-500">{label}</p>
-      <p className="mt-1 text-2xl font-bold tabular-nums text-neutral-900 dark:text-neutral-50">{value.toLocaleString()}</p>
+    <div className="border border-black/15 p-4 dark:border-white/15">
+      <p className="font-mono text-[10px] tracking-widest uppercase opacity-40">{label}</p>
+      <p className="mt-1 text-2xl font-bold tabular-nums tracking-tight">{value.toLocaleString()}</p>
     </div>
   );
 }
@@ -49,25 +49,24 @@ function DailyChart({ data }: { data: { date: string; count: number }[] }) {
               onMouseLeave={() => setHovered(null)}
             >
               {isHov && (
-                <div className="pointer-events-none absolute bottom-full left-1/2 z-10 mb-2 -translate-x-1/2 whitespace-nowrap rounded-lg bg-neutral-900 px-2.5 py-1 text-xs text-white shadow-lg dark:bg-neutral-700">
+                <div className="pointer-events-none absolute bottom-full left-1/2 z-10 mb-2 -translate-x-1/2 whitespace-nowrap border border-black bg-black px-2.5 py-1 font-mono text-[11px] text-white dark:border-white dark:bg-white dark:text-black">
                   <span className="font-semibold">{d.count}</span>
                   <span className="ml-1.5 opacity-60">{fmtDate(d.date)}</span>
                 </div>
               )}
               <div
-                className="w-full rounded-t-sm"
+                className="w-full bg-black dark:bg-white"
                 style={{
                   height: `${Math.max(pct, d.count > 0 ? 4 : 0.5)}%`,
-                  backgroundColor: isHov ? '#10b981' : '#34d399',
-                  opacity: hovered !== null && !isHov ? 0.3 : 0.8,
-                  transition: 'background-color 0.1s ease, opacity 0.1s ease'
+                  opacity: hovered !== null && !isHov ? 0.25 : 0.75,
+                  transition: 'opacity 0.1s ease'
                 }}
               />
             </div>
           );
         })}
       </div>
-      <div className="mt-2 flex justify-between text-xs text-neutral-400">
+      <div className="mt-2 flex justify-between font-mono text-[11px] opacity-40">
         <span>{fmtDate(data[0]?.date ?? '')}</span>
         <span>{fmtDate(data[14]?.date ?? '')}</span>
         <span>{fmtDate(data[29]?.date ?? '')}</span>
@@ -76,22 +75,19 @@ function DailyChart({ data }: { data: { date: string; count: number }[] }) {
   );
 }
 
-function HorizontalBars({ data, color = '#10b981' }: { data: { label: string; count: number }[]; color?: string }) {
+function HorizontalBars({ data }: { data: { label: string; count: number }[] }) {
   const max = Math.max(...data.map((d) => d.count), 1);
   return (
     <div className="space-y-3">
       {data.map((d, i) => (
         <div key={i} className="flex items-center gap-3">
-          <span className="w-20 shrink-0 truncate text-right font-mono text-xs text-neutral-500 dark:text-neutral-400">
+          <span className="w-20 shrink-0 truncate text-right font-mono text-[11px] uppercase opacity-60">
             {d.label}
           </span>
-          <div className="flex-1 overflow-hidden rounded-full bg-neutral-100 dark:bg-neutral-800">
-            <div
-              className="h-2 rounded-full transition-all duration-500"
-              style={{ width: `${(d.count / max) * 100}%`, backgroundColor: color }}
-            />
+          <div className="flex-1 border border-black/15 dark:border-white/15">
+            <div className="h-2.5 bg-black opacity-80 transition-all duration-500 dark:bg-white" style={{ width: `${(d.count / max) * 100}%` }} />
           </div>
-          <span className="w-8 shrink-0 text-right text-xs tabular-nums text-neutral-500 dark:text-neutral-400">
+          <span className="w-8 shrink-0 text-right font-mono text-[11px] tabular-nums opacity-60">
             {d.count}
           </span>
         </div>
@@ -119,7 +115,6 @@ function PaginationBar({
   const from = (page - 1) * limit + 1;
   const to = Math.min(page * limit, total);
 
-  // Build page number list: always show first, last, current ±2, with ellipsis
   const pages: (number | '…')[] = [];
   const range = new Set<number>();
   range.add(1);
@@ -131,45 +126,44 @@ function PaginationBar({
     pages.push(sorted[i]);
   }
 
+  const btn = 'border border-black/20 px-2.5 py-1 font-mono text-[11px] uppercase tracking-wider transition-colors hover:bg-black hover:text-white disabled:pointer-events-none disabled:opacity-30 dark:border-white/20 dark:hover:bg-white dark:hover:text-black';
+
   return (
-    <div className="flex items-center justify-between gap-4 border-t border-neutral-200 px-5 py-3 dark:border-neutral-800">
-      <span className="text-xs text-neutral-400">
+    <div className="flex items-center justify-between gap-4 border-t border-black/15 px-5 py-3 dark:border-white/15">
+      <span className="font-mono text-[11px] opacity-40">
         {from}–{to} of {total.toLocaleString()}
       </span>
-      <div className="flex items-center gap-1">
-        <button
-          onClick={() => onPage(page - 1)}
-          disabled={page === 1 || loading}
-          className="rounded-lg border border-neutral-200 bg-white px-2.5 py-1 text-xs font-medium text-neutral-600 transition-colors hover:bg-neutral-50 disabled:cursor-not-allowed disabled:opacity-40 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-400 dark:hover:bg-neutral-700"
-        >
-          ← Prev
-        </button>
+      <div className="flex items-center gap-1.5">
+        <button onClick={() => onPage(page - 1)} disabled={page === 1 || loading} className={btn}>← Prev</button>
         {pages.map((p, i) =>
           p === '…' ? (
-            <span key={`e${i}`} className="px-1 text-xs text-neutral-400">…</span>
+            <span key={`e${i}`} className="px-1 font-mono text-[11px] opacity-40">…</span>
           ) : (
             <button
               key={p}
               onClick={() => onPage(p)}
               disabled={loading}
-              className={`min-w-[28px] rounded-lg border px-2 py-1 text-xs font-medium transition-colors disabled:cursor-not-allowed ${
+              className={`min-w-[28px] border px-2 py-1 font-mono text-[11px] transition-colors disabled:pointer-events-none ${
                 p === page
-                  ? 'border-emerald-400 bg-emerald-500 text-white'
-                  : 'border-neutral-200 bg-white text-neutral-600 hover:bg-neutral-50 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-400 dark:hover:bg-neutral-700'
+                  ? 'border-black bg-black text-white dark:border-white dark:bg-white dark:text-black'
+                  : 'border-black/20 hover:bg-black hover:text-white dark:border-white/20 dark:hover:bg-white dark:hover:text-black'
               }`}
             >
               {p}
             </button>
           )
         )}
-        <button
-          onClick={() => onPage(page + 1)}
-          disabled={page === totalPages || loading}
-          className="rounded-lg border border-neutral-200 bg-white px-2.5 py-1 text-xs font-medium text-neutral-600 transition-colors hover:bg-neutral-50 disabled:cursor-not-allowed disabled:opacity-40 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-400 dark:hover:bg-neutral-700"
-        >
-          Next →
-        </button>
+        <button onClick={() => onPage(page + 1)} disabled={page === totalPages || loading} className={btn}>Next →</button>
       </div>
+    </div>
+  );
+}
+
+function LoadingRow({ label }: { label: string }) {
+  return (
+    <div className="flex flex-col items-center gap-2.5 py-16 font-mono text-xs tracking-wider uppercase opacity-50">
+      <span className="inline-block h-[7px] w-[7px] animate-blink bg-black dark:bg-white" />
+      {label}
     </div>
   );
 }
@@ -202,18 +196,20 @@ export default function VisitorLogTab({ stats }: { stats: VisitorStats | null })
   const chartData = days.map((date) => ({ date, count: dailyMap.get(date) ?? 0 }));
 
   return (
-    <div className="mx-auto max-w-5xl space-y-6 px-6 py-12">
+    <div className="relative z-10 mx-auto max-w-[1160px] space-y-8 px-6 py-14">
       {/* Header */}
-      <div className="flex items-center gap-4">
-        <h2 className="text-2xl font-bold text-neutral-900 dark:text-neutral-50">Visitor Statistics</h2>
-        <div className="h-px flex-1 bg-linear-to-r from-neutral-200 to-transparent dark:from-neutral-800" />
-        {stats && <span className="text-xs text-neutral-500">{stats.summary.total.toLocaleString()} total</span>}
+      <div className="flex items-end justify-between gap-4">
+        <div>
+          <div className="mb-2 font-mono text-xs tracking-widest uppercase opacity-50">/ Analytics</div>
+          <h2 className="text-[18px] font-medium tracking-tight sm:text-[26px]">Visitor Statistics</h2>
+        </div>
+        {stats && <span className="font-mono text-[11px] uppercase tracking-wider opacity-50">{stats.summary.total.toLocaleString()} total</span>}
       </div>
 
       {stats ? (
         <>
           {/* Summary Cards */}
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
             <StatCard label="All-time" value={stats.summary.total} />
             <StatCard label="Today" value={stats.summary.today} />
             <StatCard label="Unique IPs" value={stats.summary.uniqueIps} />
@@ -221,99 +217,83 @@ export default function VisitorLogTab({ stats }: { stats: VisitorStats | null })
           </div>
 
           {/* Daily Chart */}
-          <div className="rounded-2xl border border-neutral-200 bg-white p-5 dark:border-neutral-800 dark:bg-neutral-900">
-            <p className="mb-4 text-sm font-semibold text-neutral-700 dark:text-neutral-300">
-              Daily Visits — Last 30 Days
-            </p>
+          <div className="border border-black/15 p-5 dark:border-white/15">
+            <p className="mb-4 font-mono text-[11px] tracking-widest uppercase opacity-50">Daily Visits — Last 30 Days</p>
             <DailyChart data={chartData} />
           </div>
 
           {/* Country + Pages */}
-          <div className="grid gap-4 sm:grid-cols-2">
-            <div className="rounded-2xl border border-neutral-200 bg-white p-5 dark:border-neutral-800 dark:bg-neutral-900">
-              <p className="mb-4 text-sm font-semibold text-neutral-700 dark:text-neutral-300">Top Countries</p>
+          <div className="grid gap-5 sm:grid-cols-2">
+            <div className="border border-black/15 p-5 dark:border-white/15">
+              <p className="mb-4 font-mono text-[11px] tracking-widest uppercase opacity-50">Top Countries</p>
               {stats.topCountries.length > 0 ? (
-                <HorizontalBars data={stats.topCountries.map((c) => ({ label: c.countryCode, count: c.count }))} color="#10b981" />
+                <HorizontalBars data={stats.topCountries.map((c) => ({ label: c.countryCode, count: c.count }))} />
               ) : (
-                <p className="text-xs text-neutral-400">No location data yet.</p>
+                <p className="font-mono text-[11px] opacity-40">No location data yet.</p>
               )}
             </div>
-            <div className="rounded-2xl border border-neutral-200 bg-white p-5 dark:border-neutral-800 dark:bg-neutral-900">
-              <p className="mb-4 text-sm font-semibold text-neutral-700 dark:text-neutral-300">Top Pages</p>
+            <div className="border border-black/15 p-5 dark:border-white/15">
+              <p className="mb-4 font-mono text-[11px] tracking-widest uppercase opacity-50">Top Pages</p>
               {stats.topPages.length > 0 ? (
-                <HorizontalBars data={stats.topPages.map((p) => ({ label: p.page || '/', count: p.count }))} color="#34d399" />
+                <HorizontalBars data={stats.topPages.map((p) => ({ label: p.page || '/', count: p.count }))} />
               ) : (
-                <p className="text-xs text-neutral-400">No page data yet.</p>
+                <p className="font-mono text-[11px] opacity-40">No page data yet.</p>
               )}
             </div>
           </div>
         </>
       ) : (
-        <div className="flex h-48 items-center justify-center rounded-2xl border border-neutral-200 bg-white dark:border-neutral-800 dark:bg-neutral-900">
-          <div className="flex flex-col items-center gap-2">
-            <div className="h-5 w-5 animate-spin rounded-full border-2 border-neutral-200 border-t-emerald-500" />
-            <p className="text-xs text-neutral-400">Loading statistics…</p>
-          </div>
+        <div className="flex items-center justify-center border border-black/15 dark:border-white/15">
+          <LoadingRow label="Loading statistics" />
         </div>
       )}
 
       {/* Paginated Visitor Log */}
       <div>
-        <div className="mb-4 flex items-center gap-4">
-          <h3 className="text-lg font-semibold text-neutral-700 dark:text-neutral-300">Recent Visitors</h3>
-          <div className="h-px flex-1 bg-linear-to-r from-neutral-200 to-transparent dark:from-neutral-800" />
+        <div className="mb-4 flex items-center justify-between gap-4 border-t border-black/15 pt-8 dark:border-white/15">
+          <h3 className="font-mono text-xs tracking-widest uppercase opacity-60">Recent Visitors</h3>
           {!loading && total > 0 && (
-            <span className="text-xs text-neutral-500">{total.toLocaleString()} total</span>
+            <span className="font-mono text-[11px] uppercase tracking-wider opacity-50">{total.toLocaleString()} total</span>
           )}
         </div>
 
-        <div className="overflow-hidden rounded-2xl border border-neutral-200 bg-white dark:border-neutral-800/50 dark:bg-neutral-900/80">
+        <div className="border border-black/15 dark:border-white/15">
           {loading ? (
-            <div className="flex items-center justify-center py-16">
-              <div className="h-5 w-5 animate-spin rounded-full border-2 border-neutral-200 border-t-emerald-500" />
-            </div>
+            <LoadingRow label="Loading" />
           ) : visitors.length === 0 ? (
-            <p className="p-8 text-center text-sm text-neutral-500">No visitors logged yet.</p>
+            <p className="p-8 text-center font-mono text-xs tracking-wider uppercase opacity-40">No visitors logged yet</p>
           ) : (
             <>
-              <div className="divide-y divide-neutral-200 dark:divide-neutral-800">
+              <div className="divide-y divide-black/10 dark:divide-white/10">
                 {visitors.map((v) => (
-                  <div key={v.id} className="flex items-start gap-4 px-5 py-3">
-                    <div className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-emerald-100 text-xs font-semibold text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-400">
+                  <div key={v.id} className="flex items-start gap-4 px-5 py-3.5">
+                    <div className="flex h-7 w-7 shrink-0 items-center justify-center border border-black/20 font-mono text-[10px] font-semibold dark:border-white/20">
                       {v.countryCode ?? '??'}
                     </div>
                     <div className="min-w-0 flex-1">
                       <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5">
-                        <span className="text-sm font-medium text-neutral-800 dark:text-neutral-200">
+                        <span className="text-sm opacity-90">
                           {[v.city, v.region, v.country].filter(Boolean).join(', ') || 'Unknown location'}
                         </span>
-                        <span className="text-xs text-neutral-400">·</span>
-                        <span className="font-mono text-xs text-neutral-500">{v.ipAddress}</span>
+                        <span className="opacity-30">·</span>
+                        <span className="font-mono text-[11px] opacity-55">{v.ipAddress}</span>
                         {v.page && v.page !== '/' && (
                           <>
-                            <span className="text-xs text-neutral-400">·</span>
-                            <span className="text-xs text-neutral-500">{v.page}</span>
+                            <span className="opacity-30">·</span>
+                            <span className="font-mono text-[11px] opacity-55">{v.page}</span>
                           </>
                         )}
                       </div>
-                      {v.isp && <p className="text-xs text-neutral-400">{v.isp}</p>}
-                      {v.userAgent && (
-                        <p className="truncate text-xs text-neutral-400">{v.userAgent.slice(0, 80)}</p>
-                      )}
+                      {v.isp && <p className="font-mono text-[11px] opacity-40">{v.isp}</p>}
+                      {v.userAgent && <p className="truncate font-mono text-[11px] opacity-40">{v.userAgent.slice(0, 80)}</p>}
                     </div>
-                    <time className="flex-shrink-0 text-xs text-neutral-400">
+                    <time className="shrink-0 font-mono text-[11px] opacity-40">
                       {new Date(v.createdAt).toLocaleString()}
                     </time>
                   </div>
                 ))}
               </div>
-              <PaginationBar
-                page={page}
-                total={total}
-                limit={LIMIT}
-                loading={loading}
-                onPage={(p) => fetchPage(p)}
-              />
+              <PaginationBar page={page} total={total} limit={LIMIT} loading={loading} onPage={(p) => fetchPage(p)} />
             </>
           )}
         </div>

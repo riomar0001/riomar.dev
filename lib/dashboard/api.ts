@@ -14,7 +14,7 @@ export async function apiFetch(url: string, options?: RequestInit) {
 function compressImage(file: File): Promise<File> {
   return new Promise((resolve, reject) => {
     new Compressor(file, {
-      quality: 0.8,
+      quality: 0.9,
       mimeType: 'image/webp',
       convertSize: 0,
       success(result) {
@@ -40,10 +40,11 @@ export function handleFilePick(onFile: (file: File, previewUrl: string) => void)
   input.click();
 }
 
-export async function uploadFile(folder: 'photos' | 'projects' | 'certificates', file: File): Promise<string> {
-  const toUpload = file.type.startsWith('image/') ? await compressImage(file) : file;
+export async function uploadFile(folder: 'photos' | 'projects' | 'certificates' | 'achievements', file: File): Promise<string> {
+  // `file` is already compressed to WebP by handleFilePick — do NOT compress
+  // again here, or the second lossy pass produces crunchy/blocky artifacts.
   const fd = new FormData();
-  fd.append('file', toUpload);
+  fd.append('file', file);
   fd.append('folder', folder);
   const res = await apiFetch('/api/upload', { method: 'POST', body: fd });
   const data = await res.json();

@@ -3,33 +3,12 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-:root {
-  --background: #f8f8f8;
-  --foreground: #2c2c2c;
-  --accent-primary: #10b981;
-  --accent-ring: rgba(16, 185, 129, 0.5);
-}
-
-.dark {
-  --background: #0a0a0a;
-  --foreground: #ededed;
-  --accent-ring: rgba(52, 211, 153, 0.4);
-}
-
 html {
   scroll-behavior: smooth;
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-sans), system-ui, sans-serif;
 }
 
 ::selection {
@@ -39,126 +18,6 @@ body {
 
 .dark ::selection {
   background-color: rgb(52 211 153 / 0.4);
-}
-
-/* ===== Animation Keyframes ===== */
-
-@keyframes fade-in {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes slide-up {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes scale-in {
-  from {
-    opacity: 0;
-    transform: scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-@keyframes blur-in {
-  from {
-    opacity: 0;
-    filter: blur(12px);
-  }
-  to {
-    opacity: 1;
-    filter: blur(0);
-  }
-}
-
-@keyframes gentle-float {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(6px);
-  }
-}
-
-@keyframes subtle-pulse {
-  0%,
-  100% {
-    opacity: 0.6;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0;
-    transform: scale(2);
-  }
-}
-
-/* ===== Animation Utilities ===== */
-
-.animate-fade-in {
-  animation: fade-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-.animate-slide-up {
-  animation: slide-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-.animate-scale-in {
-  animation: scale-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-.animate-blur-in {
-  animation: blur-in 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-.animate-gentle-float {
-  animation: gentle-float 2.5s ease-in-out infinite;
-}
-
-.animate-subtle-pulse {
-  animation: subtle-pulse 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-}
-
-/* Stagger delays */
-.delay-100 {
-  animation-delay: 100ms;
-}
-.delay-200 {
-  animation-delay: 200ms;
-}
-.delay-300 {
-  animation-delay: 300ms;
-}
-.delay-400 {
-  animation-delay: 400ms;
-}
-.delay-500 {
-  animation-delay: 500ms;
-}
-.delay-600 {
-  animation-delay: 600ms;
-}
-.delay-700 {
-  animation-delay: 700ms;
-}
-
-/* Initial state for animated elements */
-.animate-on-load {
-  opacity: 0;
 }
 
 /* ===== Typography ===== */
@@ -179,44 +38,8 @@ p {
 /* ===== Focus States ===== */
 
 :focus-visible {
-  outline: 2px solid rgb(16 185 129 / 0.4);
+  outline: 2px solid currentColor;
   outline-offset: 2px;
-  border-radius: 4px;
-}
-
-/* ===== Liquid Glass Effect ===== */
-
-.liquid-glass {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.92) 0%, rgba(255, 255, 255, 0.85) 50%, rgba(255, 255, 255, 0.9) 100%);
-  backdrop-filter: blur(24px) saturate(200%);
-  -webkit-backdrop-filter: blur(24px) saturate(200%);
-  box-shadow:
-    0 8px 32px rgba(0, 0, 0, 0.08),
-    0 1px 2px rgba(0, 0, 0, 0.06),
-    inset 0 1px 0 rgba(255, 255, 255, 0.9);
-}
-
-.dark .liquid-glass {
-  background: linear-gradient(135deg, rgba(23, 23, 23, 0.7) 0%, rgba(10, 10, 10, 0.8) 50%, rgba(23, 23, 23, 0.6) 100%);
-  backdrop-filter: blur(24px) saturate(200%);
-  -webkit-backdrop-filter: blur(24px) saturate(200%);
-  box-shadow:
-    0 8px 32px rgba(0, 0, 0, 0.4),
-    0 1px 2px rgba(0, 0, 0, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.08);
-}
-
-/* Mobile: reduce backdrop blur for performance */
-@media (max-width: 768px) {
-  .liquid-glass {
-    backdrop-filter: blur(12px) saturate(150%);
-    -webkit-backdrop-filter: blur(12px) saturate(150%);
-  }
-
-  .dark .liquid-glass {
-    backdrop-filter: blur(12px) saturate(150%);
-    -webkit-backdrop-filter: blur(12px) saturate(150%);
-  }
 }
 
 /* ===== Theme Transition ===== */
@@ -248,290 +71,202 @@ html.theme-transition *::after {
   }
 }
 
-/* ===== Bokeh Effect ===== */
+/* =========================================================
+   Public site (brutalist/mono design) — scoped to `.site-root`
+   so the /dashboard admin panel keeps its own Geist look.
+   ========================================================= */
 
-@keyframes bokeh-float {
-  0%,
-  100% {
-    transform: translate(0, 0) scale(1);
-  }
-  25% {
-    transform: translate(30px, -40px) scale(1.05);
-  }
-  50% {
-    transform: translate(-20px, 50px) scale(0.95);
-  }
-  75% {
-    transform: translate(-40px, -20px) scale(1.03);
+.site-root {
+  font-family: var(--font-fira-code), monospace;
+  font-size: 12px;
+}
+
+@media (min-width: 640px) {
+  .site-root {
+    font-size: 14px;
   }
 }
 
-@keyframes bokeh-pulse {
+.site-root ::selection {
+  background: #000;
+  color: #fff;
+}
+
+.dark .site-root ::selection {
+  background: #fff;
+  color: #000;
+}
+
+/* =========================================================
+   Dashboard admin panel — shares the public site's
+   brutalist/mono aesthetic (Fira Code, square borders,
+   black/white inversions).
+   ========================================================= */
+
+.dashboard-root {
+  font-family: var(--font-fira-code), monospace;
+  font-size: 13px;
+  color-scheme: light;
+}
+
+.dark .dashboard-root {
+  color-scheme: dark;
+}
+
+@media (min-width: 640px) {
+  .dashboard-root {
+    font-size: 14px;
+  }
+}
+
+.dashboard-root ::selection {
+  background: #000;
+  color: #fff;
+}
+
+.dark .dashboard-root ::selection {
+  background: #fff;
+  color: #000;
+}
+
+/* Square, mono form controls inside the dashboard */
+.dashboard-root select {
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2712%27%20height%3D%2712%27%20viewBox%3D%270%200%2024%2024%27%20fill%3D%27none%27%20stroke%3D%27currentColor%27%20stroke-width%3D%272%27%3E%3Cpath%20d%3D%27M6%209l6%206%206-6%27%2F%3E%3C%2Fsvg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+@keyframes rotateSlow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes rotateSlowRev {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes drift {
   0%,
   100% {
-    opacity: 0.6;
+    transform: translate(0, 0);
   }
   50% {
+    transform: translate(20px, -30px);
+  }
+}
+
+@keyframes blink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes dashTrail {
+  to {
+    stroke-dashoffset: -2000;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
     opacity: 1;
   }
 }
 
-.bokeh-circle {
-  border-radius: 50%;
-  pointer-events: none;
-  will-change: transform, opacity;
-  animation:
-    bokeh-float 12s ease-in-out infinite,
-    bokeh-pulse 6s ease-in-out infinite;
-}
-
-/* Size variants */
-.bokeh-xl {
-  width: 500px;
-  height: 500px;
-  filter: blur(80px);
-}
-
-.bokeh-lg {
-  width: 350px;
-  height: 350px;
-  filter: blur(70px);
-}
-
-.bokeh-md {
-  width: 250px;
-  height: 250px;
-  filter: blur(60px);
-}
-
-.bokeh-sm {
-  width: 150px;
-  height: 150px;
-  filter: blur(50px);
-}
-
-/* Mobile optimizations for bokeh - reduce blur and disable animations */
-@media (max-width: 768px) {
-  .bokeh-circle {
-    animation: none;
-    will-change: auto;
+@layer utilities {
+  .animate-rotate-slow {
+    animation: rotateSlow 60s linear infinite;
   }
 
-  .bokeh-xl {
-    width: 300px;
-    height: 300px;
-    filter: blur(50px);
+  .animate-rotate-slow-rev {
+    animation: rotateSlowRev 80s linear infinite;
   }
 
-  .bokeh-lg {
-    width: 200px;
-    height: 200px;
-    filter: blur(40px);
+  .animate-drift {
+    animation: drift 14s ease-in-out infinite;
   }
 
-  .bokeh-md {
-    width: 150px;
-    height: 150px;
-    filter: blur(35px);
+  .animate-drift-2 {
+    animation: drift 18s ease-in-out infinite 2s;
   }
 
-  .bokeh-sm {
-    width: 100px;
-    height: 100px;
-    filter: blur(30px);
-  }
-}
-
-/* Color variants - light mode */
-.bokeh-green-1 {
-  background: radial-gradient(circle, rgba(16, 185, 129, 0.65) 0%, transparent 70%);
-}
-
-.bokeh-green-2 {
-  background: radial-gradient(circle, rgba(52, 211, 153, 0.55) 0%, transparent 70%);
-}
-
-.bokeh-green-3 {
-  background: radial-gradient(circle, rgba(110, 231, 183, 0.55) 0%, transparent 70%);
-}
-
-.bokeh-teal-1 {
-  background: radial-gradient(circle, rgba(20, 184, 166, 0.55) 0%, transparent 70%);
-}
-
-/* Color variants - dark mode */
-.dark .bokeh-green-1 {
-  background: radial-gradient(circle, rgba(16, 185, 129, 0.55) 0%, transparent 70%);
-}
-
-.dark .bokeh-green-2 {
-  background: radial-gradient(circle, rgba(52, 211, 153, 0.5) 0%, transparent 70%);
-}
-
-.dark .bokeh-green-3 {
-  background: radial-gradient(circle, rgba(110, 231, 183, 0.4) 0%, transparent 70%);
-}
-
-.dark .bokeh-teal-1 {
-  background: radial-gradient(circle, rgba(20, 184, 166, 0.45) 0%, transparent 70%);
-}
-
-/* Animation delay variants */
-.bokeh-delay-1 {
-  animation-delay: 0s, 0s;
-}
-.bokeh-delay-2 {
-  animation-delay:
-    -5s,
-    -2s;
-}
-.bokeh-delay-3 {
-  animation-delay:
-    -10s,
-    -4s;
-}
-.bokeh-delay-4 {
-  animation-delay:
-    -15s,
-    -6s;
-}
-
-/* ===== Profile Image Animations ===== */
-
-@keyframes spin-around {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes spin-around-reverse {
-  from {
-    transform: rotate(360deg);
-  }
-  to {
-    transform: rotate(0deg);
-  }
-}
-
-@keyframes ring-breathe {
-  0%,
-  100% {
-    transform: scale(1);
-    opacity: 0.6;
-  }
-  50% {
-    transform: scale(1.1);
-    opacity: 0.3;
-  }
-}
-
-@keyframes ring-breathe-slow {
-  0%,
-  100% {
-    transform: scale(1);
-    opacity: 0.4;
-  }
-  50% {
-    transform: scale(1.15);
-    opacity: 0.2;
-  }
-}
-
-.animate-spin-slow {
-  animation: spin-around 12s linear infinite;
-  will-change: transform;
-}
-
-.animate-spin-slower {
-  animation: spin-around 20s linear infinite;
-  will-change: transform;
-}
-
-.animate-spin-reverse {
-  animation: spin-around-reverse 15s linear infinite;
-  will-change: transform;
-}
-
-.animate-ring-breathe {
-  animation: ring-breathe 3s ease-in-out infinite;
-  will-change: transform, opacity;
-}
-
-.animate-ring-breathe-slow {
-  animation: ring-breathe-slow 4s ease-in-out infinite;
-  will-change: transform, opacity;
-}
-
-/* Mobile: simplify spinning animations */
-@media (max-width: 768px) {
-  .animate-spin-slow,
-  .animate-spin-slower,
-  .animate-spin-reverse {
-    animation: none;
-    will-change: auto;
+  .animate-drift-3 {
+    animation: drift 20s ease-in-out infinite 4s;
   }
 
-  .animate-ring-breathe,
-  .animate-ring-breathe-slow {
-    animation-duration: 6s;
+  .animate-blink {
+    animation: blink 1.4s step-start infinite;
   }
-}
 
-/* ===== Scroll Animations ===== */
+  .animate-fade-in {
+    animation: fadeIn 0.6s ease-out both;
+  }
 
-.scroll-animation {
-  transition:
-    opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: opacity, transform;
-}
+  .animate-fade-in-up {
+    animation: fadeInUp 0.7s ease-out both;
+  }
 
-.scroll-fade-up {
-  opacity: 0;
-  transform: translateY(30px);
-}
+  .delay-1 {
+    animation-delay: 0.1s;
+  }
 
-.scroll-fade-down {
-  opacity: 0;
-  transform: translateY(-30px);
-}
+  .delay-2 {
+    animation-delay: 0.15s;
+  }
 
-.scroll-fade-left {
-  opacity: 0;
-  transform: translateX(30px);
-}
+  .delay-3 {
+    animation-delay: 0.2s;
+  }
 
-.scroll-fade-right {
-  opacity: 0;
-  transform: translateX(-30px);
-}
+  .trail-rect {
+    stroke-dasharray: 100 900;
+    animation: dashTrail 8s linear infinite;
+  }
 
-.scroll-scale {
-  opacity: 0;
-  transform: scale(0.95);
-}
+  .trail-group {
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
 
-.scroll-fade {
-  opacity: 0;
-}
+  .trail-parent:hover .trail-group {
+    opacity: 1;
+  }
 
-.scroll-visible {
-  opacity: 1;
-  transform: translateY(0) translateX(0) scale(1);
-}
+  #nav-links::-webkit-scrollbar {
+    display: none;
+  }
 
-/* Remove will-change after animation completes */
-.scroll-visible.scroll-animation {
-  will-change: auto;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .scroll-animation {
-    opacity: 1 !important;
-    transform: none !important;
-    transition: none !important;
+  #nav-links {
+    scrollbar-width: none;
   }
 }

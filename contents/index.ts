@@ -71,20 +71,23 @@ export const achievements = [
     title: 'DOST Speaker',
     event: 'START Program - Department of Science and Technology',
     date: 'June 2025',
-    description: 'Delivered a talk on modern front-end development covering HTML5, CSS3, JavaScript (ES6+), ReactJS, UI/UX principles, and responsive design.'
+    description: 'Delivered a talk on modern front-end development covering HTML5, CSS3, JavaScript (ES6+), ReactJS, UI/UX principles, and responsive design.',
+    imageUrl: undefined as string | undefined
   },
   {
     title: 'Speaker & Mentor',
     event: 'JavaScript for Interns - University of Mindanao',
     date: 'June 2025',
-    description: 'Conducted an advanced JavaScript workshop covering JS internals, async programming, closures, and the event loop for university interns.'
+    description: 'Conducted an advanced JavaScript workshop covering JS internals, async programming, closures, and the event loop for university interns.',
+    imageUrl: undefined as string | undefined
   },
   {
     title: 'Hack4Gov 3 Finalist',
     event: 'DICT Cybersecurity Competition',
     date: 'August - October 2024',
     description:
-      'Competed in regionals and selected as wildcard for nationals, tackling web exploitation, network forensics, reverse engineering, and incident response.'
+      'Competed in regionals and selected as wildcard for nationals, tackling web exploitation, network forensics, reverse engineering, and incident response.',
+    imageUrl: undefined as string | undefined
   }
 ];
 

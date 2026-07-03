@@ -3,7 +3,8 @@
 import { useState } from 'react';
 import { useDashboard } from '@/lib/dashboard/context';
 import { apiFetch } from '@/lib/dashboard/api';
-import { Field, inputCls, inputErrorCls, Spinner } from '@/components/dashboard/ui';
+import { Field, inputCls, inputErrorCls, FormActions } from '@/components/dashboard/ui';
+import { composePeriod, parsePeriod } from '@/lib/format';
 import type { Experience } from '@/lib/dashboard/types';
 
 type Errors = Partial<Record<'role' | 'company' | 'location' | 'period' | 'description', string>>;
@@ -14,6 +15,20 @@ export default function ExperienceForm({ initial }: { initial?: Experience }) {
   const [descText, setDescText] = useState((initial?.description ?? []).join('\n'));
   const [tagsText, setTagsText] = useState((initial?.tags ?? []).join(', '));
   const [errors, setErrors] = useState<Errors>({});
+
+  const initPeriod = parsePeriod(initial?.period);
+  const [start, setStart] = useState(initPeriod.start);
+  const [end, setEnd] = useState(initPeriod.end);
+  const [present, setPresent] = useState(initPeriod.present);
+
+  function updatePeriod(nextStart: string, nextEnd: string, nextPresent: boolean) {
+    const cleanEnd = nextPresent ? '' : nextEnd;
+    setStart(nextStart);
+    setEnd(cleanEnd);
+    setPresent(nextPresent);
+    setForm((f) => ({ ...f, period: composePeriod(nextStart, cleanEnd, nextPresent) }));
+    setErrors((er) => ({ ...er, period: undefined }));
+  }
 
   function validate(): boolean {
     const e: Errors = {};
@@ -62,24 +77,47 @@ export default function ExperienceForm({ initial }: { initial?: Experience }) {
           />
         </Field>
       </div>
-      <div className="grid grid-cols-2 gap-4">
-        <Field label="Location" error={errors.location}>
+      <Field label="Location" error={errors.location}>
+        <input
+          className={errors.location ? inputErrorCls : inputCls}
+          value={form.location ?? ''}
+          onChange={(e) => { setForm((f) => ({ ...f, location: e.target.value })); setErrors((er) => ({ ...er, location: undefined })); }}
+          placeholder="Remote"
+        />
+      </Field>
+      <Field label="Period" error={errors.period}>
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <span className="mb-1 block font-mono text-[10px] tracking-wider uppercase opacity-40">Start</span>
+            <input
+              type="month"
+              className={errors.period ? inputErrorCls : inputCls}
+              value={start}
+              onChange={(e) => updatePeriod(e.target.value, end, present)}
+            />
+          </div>
+          <div>
+            <span className="mb-1 block font-mono text-[10px] tracking-wider uppercase opacity-40">End</span>
+            <input
+              type="month"
+              className={`${inputCls} ${present ? 'opacity-40' : ''}`}
+              value={end}
+              disabled={present}
+              onChange={(e) => updatePeriod(start, e.target.value, present)}
+            />
+          </div>
+        </div>
+        <label className="mt-2.5 flex w-fit cursor-pointer items-center gap-2.5 font-mono text-xs tracking-wider uppercase">
           <input
-            className={errors.location ? inputErrorCls : inputCls}
-            value={form.location ?? ''}
-            onChange={(e) => { setForm((f) => ({ ...f, location: e.target.value })); setErrors((er) => ({ ...er, location: undefined })); }}
-            placeholder="Remote"
+            type="checkbox"
+            checked={present}
+            onChange={(e) => updatePeriod(start, end, e.target.checked)}
+            className="h-4 w-4 accent-black dark:accent-white"
           />
-        </Field>
-        <Field label="Period" error={errors.period}>
-          <input
-            className={errors.period ? inputErrorCls : inputCls}
-            value={form.period ?? ''}
-            onChange={(e) => { setForm((f) => ({ ...f, period: e.target.value })); setErrors((er) => ({ ...er, period: undefined })); }}
-            placeholder="Jan 2024 – Present"
-          />
-        </Field>
-      </div>
+          Currently here (Present)
+        </label>
+        {form.period && <p className="mt-2 font-mono text-[11px] opacity-50">Preview · {form.period}</p>}
+      </Field>
       <Field label="Description bullets (one per line)" error={errors.description}>
         <textarea
           className={`${errors.description ? inputErrorCls : inputCls} min-h-30 resize-y`}
@@ -94,10 +132,7 @@ export default function ExperienceForm({ initial }: { initial?: Experience }) {
       <Field label="Website URL (optional)">
         <input className={inputCls} value={form.link ?? ''} onChange={(e) => setForm((f) => ({ ...f, link: e.target.value }))} placeholder="https://…" />
       </Field>
-      <div className="flex justify-end gap-3 pt-2">
-        <button onClick={() => setModal(null)} disabled={saving} className="rounded-xl border border-neutral-200 px-4 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-50 disabled:pointer-events-none disabled:opacity-40 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-800">Cancel</button>
-        <button onClick={onSave} disabled={saving} className="flex items-center gap-2 rounded-xl bg-emerald-500 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-emerald-600 disabled:opacity-60">{saving && <Spinner />}{saving ? 'Saving…' : 'Save'}</button>
-      </div>
+      <FormActions onCancel={() => setModal(null)} onSave={onSave} saving={saving} />
     </div>
   );
 }

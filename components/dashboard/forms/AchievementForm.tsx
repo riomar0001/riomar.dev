@@ -2,22 +2,22 @@
 
 import { useState } from 'react';
 import { useDashboard } from '@/lib/dashboard/context';
-import { apiFetch } from '@/lib/dashboard/api';
-import { Field, inputCls, inputErrorCls, Spinner } from '@/components/dashboard/ui';
+import { apiFetch, uploadFile } from '@/lib/dashboard/api';
+import { Field, inputCls, inputErrorCls, FormActions, ImagePicker } from '@/components/dashboard/ui';
 import type { Achievement } from '@/lib/dashboard/types';
 
-type Errors = Partial<Record<'title' | 'event' | 'date' | 'description', string>>;
+type Errors = Partial<Record<'title' | 'event' | 'description', string>>;
 
 export default function AchievementForm({ initial }: { initial?: Achievement }) {
   const { saving, setSaving, setModal, reloadAchievements, showToast } = useDashboard();
   const [form, setForm] = useState<Partial<Achievement>>(initial ?? {});
+  const [pendingImage, setPendingImage] = useState<File | null>(null);
   const [errors, setErrors] = useState<Errors>({});
 
   function validate(): boolean {
     const e: Errors = {};
     if (!form.title?.trim()) e.title = 'Title is required';
     if (!form.event?.trim()) e.event = 'Event is required';
-    if (!form.date?.trim()) e.date = 'Date is required';
     if (!form.description?.trim()) e.description = 'Description is required';
     setErrors(e);
     return Object.keys(e).length === 0;
@@ -26,9 +26,20 @@ export default function AchievementForm({ initial }: { initial?: Achievement }) 
   async function onSave() {
     if (!validate()) return;
     setSaving(true);
+    let imageUrl = form.imageUrl;
+    if (pendingImage) {
+      try {
+        imageUrl = await uploadFile('achievements', pendingImage);
+      } catch (e) {
+        showToast((e as Error).message, 'error');
+        setSaving(false);
+        return;
+      }
+    }
+    const body = { ...form, imageUrl };
     const res = initial
-      ? await apiFetch(`/api/achievements/${initial.id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(form) })
-      : await apiFetch('/api/achievements', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(form) });
+      ? await apiFetch(`/api/achievements/${initial.id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
+      : await apiFetch('/api/achievements', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
     if (res.ok) { await reloadAchievements(); setModal(null); showToast(initial ? 'Achievement updated' : 'Achievement added'); }
     else { const d = await res.json(); showToast(d.error ?? 'Save failed', 'error'); }
     setSaving(false);
@@ -36,6 +47,13 @@ export default function AchievementForm({ initial }: { initial?: Achievement }) 
 
   return (
     <div className="space-y-4">
+      <ImagePicker
+        label="Photo"
+        value={form.imageUrl}
+        isPending={!!pendingImage}
+        onPick={(file, previewUrl) => { setPendingImage(file); setForm((f) => ({ ...f, imageUrl: previewUrl })); }}
+        onRemove={() => { setPendingImage(null); setForm((f) => ({ ...f, imageUrl: null })); }}
+      />
       <Field label="Title" error={errors.title}>
         <input
           className={errors.title ? inputErrorCls : inputCls}
@@ -52,12 +70,20 @@ export default function AchievementForm({ initial }: { initial?: Achievement }) 
           placeholder="Event or Organization"
         />
       </Field>
-      <Field label="Date" error={errors.date}>
+      <Field label="Date (optional)">
         <input
-          className={errors.date ? inputErrorCls : inputCls}
+          type="date"
+          className={inputCls}
           value={form.date ?? ''}
-          onChange={(e) => { setForm((f) => ({ ...f, date: e.target.value })); setErrors((er) => ({ ...er, date: undefined })); }}
-          placeholder="June 2025"
+          onChange={(e) => setForm((f) => ({ ...f, date: e.target.value }))}
+        />
+      </Field>
+      <Field label="Link URL (optional)">
+        <input
+          className={inputCls}
+          value={form.link ?? ''}
+          onChange={(e) => setForm((f) => ({ ...f, link: e.target.value }))}
+          placeholder="https://…"
         />
       </Field>
       <Field label="Description" error={errors.description}>
@@ -68,10 +94,7 @@ export default function AchievementForm({ initial }: { initial?: Achievement }) 
           placeholder="Brief description…"
         />
       </Field>
-      <div className="flex justify-end gap-3 pt-2">
-        <button onClick={() => setModal(null)} disabled={saving} className="rounded-xl border border-neutral-200 px-4 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-50 disabled:pointer-events-none disabled:opacity-40 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-800">Cancel</button>
-        <button onClick={onSave} disabled={saving} className="flex items-center gap-2 rounded-xl bg-emerald-500 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-emerald-600 disabled:opacity-60">{saving && <Spinner />}{saving ? 'Saving…' : 'Save'}</button>
-      </div>
+      <FormActions onCancel={() => setModal(null)} onSave={onSave} saving={saving} />
     </div>
   );
 }

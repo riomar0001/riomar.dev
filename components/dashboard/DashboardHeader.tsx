@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-html-link-for-pages */
 'use client';
 
 import ThemeToggle from '@/components/ThemeToggle';
@@ -10,61 +11,69 @@ type Props = {
   onLogout: () => void;
 };
 
+const TABS: { id: 'content' | 'history' | 'visitors'; label: string }[] = [
+  { id: 'content', label: 'Content' },
+  { id: 'history', label: 'Logins' },
+  { id: 'visitors', label: 'Visitors' }
+];
+
 export default function DashboardHeader({ username, activeTab, setActiveTab, onChangePassword, onLogout }: Props) {
   return (
-    <header className="sticky top-0 z-40 border-b border-neutral-200/60 bg-white/80 px-6 py-3 backdrop-blur-md dark:border-neutral-800/60 dark:bg-neutral-950/80">
-      <div className="mx-auto flex max-w-6xl items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-emerald-500 text-white">
-            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h7" />
-            </svg>
-          </div>
-          <span className="font-semibold text-neutral-900 dark:text-neutral-50">CMS Dashboard</span>
+    <header className="sticky top-0 z-40 border-b border-black/15 bg-white/70 backdrop-blur-md dark:border-white/15 dark:bg-black/70">
+      <div className="mx-auto flex max-w-[1160px] items-center justify-between gap-4 px-6 py-3.5">
+        <div className="flex items-center gap-3 shrink-0">
+          <a href="/" className="font-mono text-[15px] font-medium tracking-wide">riomar.dev/admin_</a>
           {username && (
-            <span className="hidden rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-medium text-emerald-700 sm:block dark:bg-emerald-900/30 dark:text-emerald-400">
+            <span className="hidden border border-black/20 px-2 py-0.5 font-mono text-[10px] tracking-wider uppercase opacity-60 sm:block dark:border-white/20">
               {username}
             </span>
           )}
         </div>
+
         <div className="flex items-center gap-3">
-          <div className="flex rounded-full border border-neutral-200 bg-neutral-50 p-0.5 dark:border-neutral-700 dark:bg-neutral-800">
-            {(['content', 'history', 'visitors'] as const).map((tab) => (
+          {/* Tabs */}
+          <nav className="flex items-center gap-4">
+            {TABS.map((tab) => (
               <button
-                key={tab}
-                onClick={() => setActiveTab(tab)}
-                className={`rounded-full px-3 py-1 text-xs font-medium capitalize transition-all duration-200 ${
-                  activeTab === tab
-                    ? 'bg-white text-neutral-900 shadow-sm dark:bg-neutral-700 dark:text-neutral-50'
-                    : 'text-neutral-500 hover:text-neutral-700 dark:text-neutral-400 dark:hover:text-neutral-300'
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`font-mono text-xs tracking-wider uppercase transition-opacity ${
+                  activeTab === tab.id ? 'opacity-100 underline underline-offset-4' : 'opacity-50 hover:opacity-100'
                 }`}
               >
-                {tab === 'history' ? 'Login History' : tab === 'visitors' ? 'Visitors' : tab}
+                {tab.label}
               </button>
             ))}
-          </div>
+          </nav>
+
+          <span className="h-5 w-px bg-black/15 dark:bg-white/15" />
+
           <ThemeToggle />
+
           <a
             href="/"
             target="_blank"
-            className="hidden rounded-lg border border-neutral-200 bg-white p-1.5 text-neutral-500 transition-all hover:border-emerald-300 hover:text-emerald-600 sm:block dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-400 dark:hover:border-emerald-600"
+            title="View site"
+            className="hidden h-9 w-9 items-center justify-center border border-black transition-colors hover:bg-black hover:text-white sm:flex dark:border-white dark:hover:bg-white dark:hover:text-black"
           >
             <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
             </svg>
           </a>
+
           <button
             onClick={onChangePassword}
-            title="Change Password"
-            className="rounded-lg border border-neutral-200 bg-white p-1.5 text-neutral-500 transition-all hover:border-emerald-300 hover:text-emerald-600 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-400 dark:hover:border-emerald-600"
+            title="Change password"
+            className="flex h-9 w-9 items-center justify-center border border-black transition-colors hover:bg-black hover:text-white dark:border-white dark:hover:bg-white dark:hover:text-black"
           >
             <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
             </svg>
           </button>
+
           <button
             onClick={onLogout}
-            className="rounded-xl border border-neutral-200 bg-white px-3 py-1.5 text-xs font-medium text-neutral-700 transition-all hover:border-red-300 hover:bg-red-50 hover:text-red-600 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-300"
+            className="border border-black px-3.5 py-2 font-mono text-xs tracking-wider uppercase transition-colors hover:bg-black hover:text-white dark:border-white dark:hover:bg-white dark:hover:text-black"
           >
             Logout
           </button>

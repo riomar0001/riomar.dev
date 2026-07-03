@@ -25,9 +25,12 @@ export function strOpt(val: unknown, max = 500): string | null | undefined {
 
 /**
  * Optional URL — validates scheme (http/https only).
- * Same absence/empty semantics as strOpt.
+ * Absence semantics like strOpt, with one difference: an explicit `null`
+ * means "clear this field" (returns null) rather than "not provided", so
+ * removing an uploaded image persists. `undefined` still means unchanged.
  */
 export function urlOpt(val: unknown): string | null | undefined {
+  if (val === null) return null;
   const s = strOpt(val, 2048);
   if (s === undefined || s === null) return s;
   try {

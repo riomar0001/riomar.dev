@@ -49,10 +49,7 @@ export async function GET(request: NextRequest) {
     return res;
   }
 
-  const rawRedirect = request.nextUrl.searchParams.get('redirect') ?? '/dashboard';
-  // Only allow relative /dashboard paths — prevents open redirect attacks
-  const redirectPath = /^\/dashboard(\/|$)/.test(rawRedirect) ? rawRedirect : '/dashboard';
-  const res = NextResponse.redirect(new URL(redirectPath, request.url));
+  const res = NextResponse.redirect(new URL('/dashboard', request.url));
 
   res.cookies.set('access_token', accessToken!, {
     httpOnly: true,

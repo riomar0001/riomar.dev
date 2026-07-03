@@ -1,10 +1,9 @@
-/* eslint-disable @next/next/no-img-element */
 'use client';
 
 import { useState } from 'react';
 import { useDashboard } from '@/lib/dashboard/context';
-import { apiFetch, handleFilePick, uploadFile } from '@/lib/dashboard/api';
-import { Field, inputCls, inputErrorCls, Spinner } from '@/components/dashboard/ui';
+import { apiFetch, uploadFile } from '@/lib/dashboard/api';
+import { Field, inputCls, inputErrorCls, FormActions, ImagePicker } from '@/components/dashboard/ui';
 import type { Certification } from '@/lib/dashboard/types';
 
 type Errors = Partial<Record<'title' | 'issuer' | 'description', string>>;
@@ -47,6 +46,14 @@ export default function CertificationForm({ initial }: { initial?: Certification
 
   return (
     <div className="space-y-4">
+      <ImagePicker
+        label="Icon (optional)"
+        value={form.iconUrl}
+        isPending={!!pendingIcon}
+        fit="contain"
+        onPick={(file, previewUrl) => { setPendingIcon(file); setForm((f) => ({ ...f, iconUrl: previewUrl })); }}
+        onRemove={() => { setPendingIcon(null); setForm((f) => ({ ...f, iconUrl: null })); }}
+      />
       <Field label="Title" error={errors.title}>
         <input
           className={errors.title ? inputErrorCls : inputCls}
@@ -63,21 +70,6 @@ export default function CertificationForm({ initial }: { initial?: Certification
           placeholder="Certiport / Pearson VUE"
         />
       </Field>
-      <Field label="Icon (optional)">
-        <div className="flex items-center gap-3">
-          {form.iconUrl && <img src={form.iconUrl} alt="Icon" className="h-10 w-10 rounded-lg object-contain border border-neutral-200 dark:border-neutral-700" />}
-          <button
-            type="button"
-            onClick={() => handleFilePick((file, previewUrl) => { setPendingIcon(file); setForm((f) => ({ ...f, iconUrl: previewUrl })); })}
-            className="rounded-xl border border-neutral-200 bg-neutral-50 px-3.5 py-2 text-sm text-neutral-700 transition-all hover:border-emerald-300 hover:bg-emerald-50 hover:text-emerald-700 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-300"
-          >
-            {pendingIcon ? 'Change Icon' : 'Upload Icon'}
-          </button>
-          {form.iconUrl && (
-            <button type="button" onClick={() => { setPendingIcon(null); setForm((f) => ({ ...f, iconUrl: null })); }} className="text-xs text-red-500 hover:underline">Remove</button>
-          )}
-        </div>
-      </Field>
       <Field label="Credly URL (optional)">
         <input className={inputCls} value={form.credlyUrl ?? ''} onChange={(e) => setForm((f) => ({ ...f, credlyUrl: e.target.value }))} placeholder="https://credly.com/badges/…" />
       </Field>
@@ -89,10 +81,7 @@ export default function CertificationForm({ initial }: { initial?: Certification
           placeholder="Brief description…"
         />
       </Field>
-      <div className="flex justify-end gap-3 pt-2">
-        <button onClick={() => setModal(null)} disabled={saving} className="rounded-xl border border-neutral-200 px-4 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-50 disabled:pointer-events-none disabled:opacity-40 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-800">Cancel</button>
-        <button onClick={onSave} disabled={saving} className="flex items-center gap-2 rounded-xl bg-emerald-500 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-emerald-600 disabled:opacity-60">{saving && <Spinner />}{saving ? 'Saving…' : 'Save'}</button>
-      </div>
+      <FormActions onCancel={() => setModal(null)} onSave={onSave} saving={saving} />
     </div>
   );
 }

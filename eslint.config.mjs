@@ -11,7 +11,9 @@ const eslintConfig = defineConfig([
     '.next/**',
     'out/**',
     'build/**',
-    'next-env.d.ts'
+    'next-env.d.ts',
+    // Independent nested app, not part of this project's lint/build:
+    'portfolio-v2/**'
   ])
 ]);
 

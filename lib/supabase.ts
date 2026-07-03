@@ -16,9 +16,9 @@ const MIME_TO_EXT: Record<string, string> = {
 
 export async function uploadFile(
   file: File,
-  folder: 'photos' | 'resumes' | 'projects' | 'certificates'
+  folder: 'photos' | 'resumes' | 'projects' | 'certificates' | 'achievements'
 ): Promise<{ url: string; path: string }> {
-  const folderPath = folder === 'certificates' ? 'certificate_badges' : folder;
+  const folderPath = folder === 'certificates' ? 'certificate_badges' : folder === 'achievements' ? 'achievement_photos' : folder;
   const ext = MIME_TO_EXT[file.type] ?? 'bin';
   const filename = `${folderPath}/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
 

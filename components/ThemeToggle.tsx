@@ -8,12 +8,12 @@ export default function ThemeToggle() {
   return (
     <button
       onClick={toggleTheme}
-      className="relative flex h-8 w-8 items-center justify-center rounded-xl transition-all duration-300 hover:bg-white/50 dark:hover:bg-white/10"
+      className="relative flex h-9 w-9 items-center justify-center border border-black transition-colors hover:bg-black hover:text-white dark:border-white dark:hover:bg-white dark:hover:text-black"
       aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
     >
       {/* Sun icon */}
       <svg
-        className="h-4.5 w-4.5 scale-100 rotate-0 text-neutral-600 transition-all duration-500 dark:scale-0 dark:-rotate-90"
+        className="h-4 w-4 scale-100 rotate-0 transition-all duration-500 dark:scale-0 dark:-rotate-90"
         fill="none"
         viewBox="0 0 24 24"
         stroke="currentColor"
@@ -27,7 +27,7 @@ export default function ThemeToggle() {
       </svg>
       {/* Moon icon */}
       <svg
-        className="absolute h-4.5 w-4.5 scale-0 rotate-90 text-neutral-400 transition-all duration-500 dark:scale-100 dark:rotate-0"
+        className="absolute h-4 w-4 scale-0 rotate-90 transition-all duration-500 dark:scale-100 dark:rotate-0"
         fill="none"
         viewBox="0 0 24 24"
         stroke="currentColor"

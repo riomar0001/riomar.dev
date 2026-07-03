@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { apiFetch } from '@/lib/dashboard/api';
 import { useDashboard } from '@/lib/dashboard/context';
-import { Field, inputCls, inputErrorCls, Spinner } from '@/components/dashboard/ui';
+import { Field, inputCls, inputErrorCls, Spinner, btnPrimaryCls, btnGhostCls } from '@/components/dashboard/ui';
 
 type Props = {
   onClose: () => void;
@@ -88,19 +88,10 @@ export default function ChangePasswordForm({ onClose, showToast }: Props) {
         />
       </Field>
       <div className="flex gap-3 pt-2">
-        <button
-          type="button"
-          onClick={onClose}
-          disabled={saving}
-          className="flex-1 rounded-xl border border-neutral-200 bg-white py-2.5 text-sm font-medium text-neutral-700 transition-colors hover:bg-neutral-50 disabled:pointer-events-none disabled:opacity-40 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-300 dark:hover:bg-neutral-700"
-        >
+        <button type="button" onClick={onClose} disabled={saving} className={`flex-1 ${btnGhostCls}`}>
           Cancel
         </button>
-        <button
-          type="submit"
-          disabled={saving}
-          className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-emerald-500 py-2.5 text-sm font-medium text-white transition-colors hover:bg-emerald-600 disabled:opacity-60"
-        >
+        <button type="submit" disabled={saving} className={`flex-1 ${btnPrimaryCls}`}>
           {saving && <Spinner />}{saving ? 'Saving…' : 'Change Password'}
         </button>
       </div>

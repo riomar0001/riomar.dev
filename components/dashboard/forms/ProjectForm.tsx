@@ -1,10 +1,9 @@
-/* eslint-disable @next/next/no-img-element */
 'use client';
 
 import { useState } from 'react';
 import { useDashboard } from '@/lib/dashboard/context';
-import { apiFetch, handleFilePick, uploadFile } from '@/lib/dashboard/api';
-import { Field, inputCls, inputErrorCls, Spinner } from '@/components/dashboard/ui';
+import { apiFetch, uploadFile } from '@/lib/dashboard/api';
+import { Field, inputCls, inputErrorCls, FormActions, ImagePicker } from '@/components/dashboard/ui';
 import type { Project } from '@/lib/dashboard/types';
 
 type Errors = Partial<Record<'title' | 'description', string>>;
@@ -48,6 +47,13 @@ export default function ProjectForm({ initial }: { initial?: Project }) {
 
   return (
     <div className="space-y-4">
+      <ImagePicker
+        label="Project Image"
+        value={form.imageUrl}
+        isPending={!!pendingImage}
+        onPick={(file, previewUrl) => { setPendingImage(file); setForm((f) => ({ ...f, imageUrl: previewUrl })); }}
+        onRemove={() => { setPendingImage(null); setForm((f) => ({ ...f, imageUrl: null })); }}
+      />
       <Field label="Title" error={errors.title}>
         <input
           className={errors.title ? inputErrorCls : inputCls}
@@ -64,21 +70,6 @@ export default function ProjectForm({ initial }: { initial?: Project }) {
           placeholder="Project description…"
         />
       </Field>
-      <Field label="Project Image">
-        <div className="flex items-center gap-3">
-          {form.imageUrl && <img src={form.imageUrl} alt="Project" className="h-12 w-16 rounded-lg object-cover" />}
-          <button
-            type="button"
-            onClick={() => handleFilePick((file, previewUrl) => { setPendingImage(file); setForm((f) => ({ ...f, imageUrl: previewUrl })); })}
-            className="rounded-xl border border-neutral-200 bg-neutral-50 px-3.5 py-2 text-sm text-neutral-700 transition-all hover:border-emerald-300 hover:bg-emerald-50 hover:text-emerald-700 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-300"
-          >
-            {pendingImage ? 'Change Image' : 'Upload Image'}
-          </button>
-          {form.imageUrl && (
-            <button type="button" onClick={() => { setPendingImage(null); setForm((f) => ({ ...f, imageUrl: null })); }} className="text-xs text-red-500 hover:underline">Remove</button>
-          )}
-        </div>
-      </Field>
       <Field label="Tags (comma-separated)">
         <input className={inputCls} value={tagsText} onChange={(e) => setTagsText(e.target.value)} placeholder="React, TypeScript, Node.js" />
       </Field>
@@ -90,14 +81,11 @@ export default function ProjectForm({ initial }: { initial?: Project }) {
           <input className={inputCls} value={form.github ?? ''} onChange={(e) => setForm((f) => ({ ...f, github: e.target.value }))} placeholder="https://github.com/…" />
         </Field>
       </div>
-      <label className="flex cursor-pointer items-center gap-2 text-sm text-neutral-700 dark:text-neutral-300">
-        <input type="checkbox" checked={form.featured ?? false} onChange={(e) => setForm((f) => ({ ...f, featured: e.target.checked }))} className="h-4 w-4 rounded accent-emerald-500" />
+      <label className="flex cursor-pointer items-center gap-2.5 font-mono text-xs uppercase tracking-wider">
+        <input type="checkbox" checked={form.featured ?? false} onChange={(e) => setForm((f) => ({ ...f, featured: e.target.checked }))} className="h-4 w-4 accent-black dark:accent-white" />
         Featured project
       </label>
-      <div className="flex justify-end gap-3 pt-2">
-        <button onClick={() => setModal(null)} disabled={saving} className="rounded-xl border border-neutral-200 px-4 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-50 disabled:pointer-events-none disabled:opacity-40 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-800">Cancel</button>
-        <button onClick={onSave} disabled={saving} className="flex items-center gap-2 rounded-xl bg-emerald-500 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-emerald-600 disabled:opacity-60">{saving && <Spinner />}{saving ? 'Saving…' : 'Save'}</button>
-      </div>
+      <FormActions onCancel={() => setModal(null)} onSave={onSave} saving={saving} />
     </div>
   );
 }

@@ -1,13 +1,17 @@
 export const dynamic = 'force-dynamic';
 
-import Footer from '@/components/Footer';
-import Header from '@/components/Header';
 import VisitorBeacon from '@/components/VisitorBeacon';
-import About from '@/components/sections/About';
-import Contact from '@/components/sections/Contact';
-import Experience from '@/components/sections/Experience';
-import Hero from '@/components/sections/Hero';
-import Projects from '@/components/sections/Projects';
+import Background from '@/components/Background';
+import Navbar from '@/components/Navbar';
+import Hero from '@/components/Hero';
+import About from '@/components/About';
+import Skills from '@/components/Skills';
+import Work from '@/components/Work';
+import Experience from '@/components/Experience';
+import Awards from '@/components/Awards';
+import Certifications from '@/components/Certifications';
+import Contact from '@/components/Contact';
+import { firaCode } from '@/lib/fonts';
 import { prisma } from '@/lib/prisma';
 import {
   achievements as staticAchievements,
@@ -30,12 +34,6 @@ async function getPortfolioData() {
       prisma.contactCard.findMany({ orderBy: { order: 'asc' } })
     ]);
 
-    console.log('[DB] Successfully fetched data:', {
-      projects: pr.length,
-      experiences: ex.length,
-      achievements: ac.length
-    });
-
     return {
       personalInfo: pi ?? null,
       skillGroups: sg.length > 0 ? sg : null,
@@ -47,7 +45,6 @@ async function getPortfolioData() {
     };
   } catch (error) {
     console.error('[DB] Failed to fetch portfolio data:', error);
-    console.error('[DB] DATABASE_URL is set:', !!process.env.DATABASE_URL);
     // DB not available, fall back to static data
     return null;
   }
@@ -84,8 +81,7 @@ export default async function Home() {
     imageUrl: p.imageUrl ?? undefined,
     tags: p.tags,
     link: p.link ?? '#',
-    github: p.github ?? '#',
-    featured: p.featured
+    github: p.github ?? '#'
   }));
 
   const experiences = dbData?.experiences
@@ -105,7 +101,9 @@ export default async function Home() {
         title: a.title,
         event: a.event,
         date: a.date,
-        description: a.description
+        description: a.description,
+        imageUrl: a.imageUrl ?? undefined,
+        link: a.link ?? undefined
       }))
     : staticAchievements;
 
@@ -128,17 +126,20 @@ export default async function Home() {
     : staticContactCards;
 
   return (
-    <div className="bg-background dark:bg-green-950/20 min-h-screen">
+    <div className={`${firaCode.variable} site-root bg-white text-black dark:bg-black dark:text-white`}>
       <VisitorBeacon />
-      <Header />
+      <Background />
+      <Navbar />
       <main>
         <Hero personalInfo={personalInfo} />
-        <About skills={skills} bio={bio} />
-        <Projects projects={projects} github={personalInfo.github} />
-        <Experience experiences={experiences} achievements={achievements} certifications={certifications} />
-        <Contact personalInfo={personalInfo} contactCards={contactCards} />
+        <About bio={bio} contactCards={contactCards} />
+        <Skills skills={skills} />
+        <Work projects={projects} github={personalInfo.github} />
+        <Experience experiences={experiences} />
+        <Awards achievements={achievements} />
+        <Certifications certifications={certifications} />
+        <Contact personalInfo={personalInfo} />
       </main>
-      <Footer personalInfo={personalInfo} />
     </div>
   );
 }

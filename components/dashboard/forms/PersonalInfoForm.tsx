@@ -1,10 +1,9 @@
-/* eslint-disable @next/next/no-img-element */
 'use client';
 
 import { useState } from 'react';
 import { useDashboard } from '@/lib/dashboard/context';
-import { handleFilePick, uploadFile } from '@/lib/dashboard/api';
-import { Field, inputCls, inputErrorCls, Spinner } from '@/components/dashboard/ui';
+import { uploadFile } from '@/lib/dashboard/api';
+import { Field, inputCls, inputErrorCls, FormActions, ImagePicker } from '@/components/dashboard/ui';
 import type { PersonalInfo } from '@/lib/dashboard/types';
 
 type Errors = Partial<Record<'name' | 'role' | 'tagline' | 'bio' | 'email' | 'location', string>>;
@@ -53,6 +52,14 @@ export default function PersonalInfoForm() {
 
   return (
     <div className="space-y-4">
+      <ImagePicker
+        label="Profile Photo"
+        value={form.photoUrl}
+        isPending={!!pendingPhoto}
+        objectTop
+        onPick={(file, previewUrl) => { setPendingPhoto(file); setForm((f) => ({ ...f, photoUrl: previewUrl })); }}
+        onRemove={() => { setPendingPhoto(null); setForm((f) => ({ ...f, photoUrl: null })); }}
+      />
       <div className="grid grid-cols-2 gap-4">
         <Field label="Name" error={errors.name}>
           <input
@@ -112,35 +119,7 @@ export default function PersonalInfoForm() {
           <input className={inputCls} value={form.github ?? ''} onChange={(e) => setForm((f) => ({ ...f, github: e.target.value }))} />
         </Field>
       </div>
-      <Field label="Profile Photo">
-        <div className="flex items-center gap-3">
-          {form.photoUrl ? (
-            <img src={form.photoUrl} alt="Photo" className="h-12 w-12 rounded-full object-cover" />
-          ) : (
-            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-neutral-200 dark:bg-neutral-700">
-              <svg className="h-7 w-7 text-neutral-400 dark:text-neutral-500" viewBox="0 0 24 24" fill="currentColor">
-                <path fillRule="evenodd" clipRule="evenodd" d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z" />
-              </svg>
-            </div>
-          )}
-          <button
-            type="button"
-            onClick={() => handleFilePick((file, previewUrl) => { setPendingPhoto(file); setForm((f) => ({ ...f, photoUrl: previewUrl })); })}
-            className="rounded-xl border border-neutral-200 bg-neutral-50 px-3.5 py-2 text-sm text-neutral-700 transition-all hover:border-emerald-300 hover:bg-emerald-50 hover:text-emerald-700 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-300"
-          >
-            {pendingPhoto ? 'Change Photo' : 'Upload Photo'}
-          </button>
-          {form.photoUrl && (
-            <button type="button" onClick={() => { setPendingPhoto(null); setForm((f) => ({ ...f, photoUrl: null })); }} className="text-xs text-red-500 hover:underline">
-              Remove
-            </button>
-          )}
-        </div>
-      </Field>
-      <div className="flex justify-end gap-3 pt-2">
-        <button onClick={() => setModal(null)} disabled={saving} className="rounded-xl border border-neutral-200 px-4 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-50 disabled:pointer-events-none disabled:opacity-40 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-800">Cancel</button>
-        <button onClick={onSave} disabled={saving} className="flex items-center gap-2 rounded-xl bg-emerald-500 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-emerald-600 disabled:opacity-60">{saving && <Spinner />}{saving ? 'Saving…' : 'Save'}</button>
-      </div>
+      <FormActions onCancel={() => setModal(null)} onSave={onSave} saving={saving} />
     </div>
   );
 }

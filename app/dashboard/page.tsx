@@ -10,6 +10,8 @@ import type {
   Achievement, Certification, ContactCard, LoginHistory, VisitorStats
 } from '@/lib/dashboard/types';
 
+import Background from '@/components/Background';
+import { firaCode } from '@/lib/fonts';
 import DashboardHeader from '@/components/dashboard/DashboardHeader';
 import LoginHistoryTab from '@/components/dashboard/LoginHistoryTab';
 import VisitorLogTab from '@/components/dashboard/VisitorLogTab';
@@ -159,8 +161,11 @@ export default function DashboardPage() {
 
   if (!authChecked) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-neutral-50 dark:bg-neutral-950">
-        <div className="h-8 w-8 animate-spin rounded-full border-2 border-neutral-200 border-t-emerald-500" />
+      <div className={`${firaCode.variable} dashboard-root flex min-h-screen items-center justify-center bg-white text-black dark:bg-black dark:text-white`}>
+        <div className="flex items-center gap-2.5 font-mono text-xs tracking-widest uppercase opacity-60">
+          <span className="inline-block h-[7px] w-[7px] animate-blink bg-black dark:bg-white" />
+          Authenticating
+        </div>
       </div>
     );
   }
@@ -174,7 +179,8 @@ export default function DashboardPage() {
       reloadExperiences, reloadAchievements, reloadCertifications, reloadContactCards,
       showToast
     }}>
-      <div className="bg-background dark:bg-green-950/20 min-h-screen">
+      <div className={`${firaCode.variable} dashboard-root relative min-h-screen bg-white text-black dark:bg-black dark:text-white`}>
+        <Background />
         <DashboardHeader
           username={user?.username}
           activeTab={activeTab}
@@ -187,7 +193,7 @@ export default function DashboardPage() {
         {activeTab === 'visitors' && <VisitorLogTab stats={visitorStats} />}
 
         {activeTab === 'content' && (
-          <main className="space-y-0">
+          <main className="relative z-10">
             <PersonalInfoSection />
             <SkillsSection />
             <ProjectsSection />
@@ -250,20 +256,12 @@ export default function DashboardPage() {
 
         {/* Toast */}
         {toast && (
-          <div className={`fixed right-4 bottom-4 z-50 flex items-center gap-2 rounded-xl border px-4 py-3 text-sm font-medium shadow-lg transition-all duration-300 ${
+          <div className={`animate-fade-in-up fixed right-4 bottom-4 z-50 flex items-center gap-2.5 border px-4 py-3 font-mono text-xs tracking-wide shadow-lg ${
             toast.type === 'success'
-              ? 'border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-800 dark:bg-emerald-900/50 dark:text-emerald-300'
-              : 'border-red-200 bg-red-50 text-red-700 dark:border-red-800 dark:bg-red-900/50 dark:text-red-300'
+              ? 'border-black bg-black text-white dark:border-white dark:bg-white dark:text-black'
+              : 'border-red-500 bg-red-500 text-white'
           }`}>
-            {toast.type === 'success' ? (
-              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-              </svg>
-            ) : (
-              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            )}
+            <span className="inline-block h-[7px] w-[7px] bg-current opacity-80" />
             {toast.msg}
           </div>
         )}
