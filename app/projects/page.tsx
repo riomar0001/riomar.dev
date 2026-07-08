@@ -1,4 +1,6 @@
-export const dynamic = 'force-dynamic';
+// ISR: serve a cached page, refresh from the DB at most once a minute.
+// CMS mutations call revalidatePublic() so edits still appear immediately.
+export const revalidate = 60;
 
 import { Metadata } from 'next';
 import Link from 'next/link';

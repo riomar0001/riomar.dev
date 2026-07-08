@@ -1,5 +1,5 @@
 import { NextRequest } from 'next/server';
-import { error, isAuthError, json, requireAuth } from '@/lib/api-helpers';
+import { error, isAuthError, json, requireAuth, revalidatePublic } from '@/lib/api-helpers';
 import { str } from '@/lib/validate';
 import { prisma } from '@/lib/prisma';
 
@@ -35,5 +35,6 @@ export async function POST(request: NextRequest) {
     data: { title, value, iconType, order }
   });
 
+  revalidatePublic();
   return json(card, 201);
 }

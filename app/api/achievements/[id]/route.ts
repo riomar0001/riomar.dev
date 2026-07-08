@@ -1,5 +1,5 @@
 import { NextRequest } from 'next/server';
-import { error, isAuthError, json, requireAuth } from '@/lib/api-helpers';
+import { error, isAuthError, json, requireAuth, revalidatePublic } from '@/lib/api-helpers';
 import { isUuid, str, strOpt, urlOpt } from '@/lib/validate';
 import { prisma } from '@/lib/prisma';
 
@@ -29,6 +29,7 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
     }
   });
 
+  revalidatePublic();
   return json(achievement);
 }
 
@@ -40,5 +41,6 @@ export async function DELETE(request: NextRequest, { params }: { params: Promise
   if (!isUuid(id)) return error('Invalid ID', 400);
 
   await prisma.achievement.delete({ where: { id } });
+  revalidatePublic();
   return json({ message: 'Deleted' });
 }

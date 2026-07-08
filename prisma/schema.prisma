@@ -149,17 +149,32 @@ model ContactCard {
   @@map("contact_cards")
 }
 
-model VisitorLog {
-  id          String   @id @default(uuid())
-  ipAddress   String
-  country     String?
-  countryCode String?
-  region      String?
-  city        String?
-  isp         String?
-  page        String   @default("/")
-  userAgent   String?
-  createdAt   DateTime @default(now())
+model TrackingLink {
+  id           String   @id @default(uuid())
+  label        String // human name shown in the dashboard, e.g. "Resume — PDF footer"
+  source       String // slug recorded as VisitorLog.source, e.g. "resume"
+  sourceDetail String? // optional slug recorded as VisitorLog.sourceDetail, e.g. "jobstreet"
+  createdAt    DateTime @default(now())
 
+  @@map("tracking_links")
+}
+
+model VisitorLog {
+  id           String   @id @default(uuid())
+  ipAddress    String
+  country      String?
+  countryCode  String?
+  region       String?
+  city         String?
+  isp          String?
+  page         String   @default("/")
+  source       String? // where the visit came from: ?from= param (linkedin, resume, application, …) or derived from referrer
+  sourceDetail String? // optional extra context: ?application-from= param (e.g. jobstreet, indeed)
+  referrer     String?
+  userAgent    String?
+  createdAt    DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([source])
   @@map("visitor_logs")
 }

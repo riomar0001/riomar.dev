@@ -41,6 +41,16 @@ export function urlOpt(val: unknown): string | null | undefined {
   }
 }
 
+// Tracking source slugs: "linkedin", "resume", "application", "job-street", …
+const SLUG_RE = /^[a-z0-9][a-z0-9_.-]{0,49}$/;
+
+/** Tracking slug — lowercased, trimmed. Returns null if missing/invalid. */
+export function slug(val: unknown): string | null {
+  if (typeof val !== 'string') return null;
+  const s = val.trim().toLowerCase().slice(0, 50);
+  return SLUG_RE.test(s) ? s : null;
+}
+
 /** String array — filters non-strings, trims, caps each item and total count. */
 export function strArray(val: unknown, maxItems = 50, maxItemLen = 500): string[] | null {
   if (!Array.isArray(val)) return null;

@@ -1,4 +1,4 @@
-import { cookies } from 'next/headers';
+import { revalidatePath } from 'next/cache';
 import { NextRequest, NextResponse } from 'next/server';
 import { verifyAccessToken } from './auth';
 import { prisma } from './prisma';
@@ -33,6 +33,15 @@ export async function requireAuth(request: NextRequest): Promise<{ userId: strin
 
 export function isAuthError(result: unknown): result is NextResponse {
   return result instanceof NextResponse;
+}
+
+/**
+ * Rebuild the ISR-cached public pages. Call after any CMS mutation so
+ * dashboard edits show up immediately instead of waiting for revalidation.
+ */
+export function revalidatePublic() {
+  revalidatePath('/');
+  revalidatePath('/projects');
 }
 
 export function getClientIp(request: NextRequest): string {

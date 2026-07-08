@@ -12,9 +12,10 @@ import type {
 
 import Background from '@/components/Background';
 import { firaCode } from '@/lib/fonts';
-import DashboardHeader from '@/components/dashboard/DashboardHeader';
+import DashboardHeader, { type DashboardTab } from '@/components/dashboard/DashboardHeader';
 import LoginHistoryTab from '@/components/dashboard/LoginHistoryTab';
 import VisitorLogTab from '@/components/dashboard/VisitorLogTab';
+import LinksTab from '@/components/dashboard/LinksTab';
 import { ConfirmDialog, Modal } from '@/components/dashboard/ui';
 import ChangePasswordForm from '@/components/dashboard/forms/ChangePasswordForm';
 import PersonalInfoForm from '@/components/dashboard/forms/PersonalInfoForm';
@@ -35,7 +36,7 @@ export default function DashboardPage() {
 
   const [user, setUser] = useState<{ username: string } | null>(null);
   const [authChecked, setAuthChecked] = useState(false);
-  const [activeTab, setActiveTab] = useState<'content' | 'history' | 'visitors'>('content');
+  const [activeTab, setActiveTab] = useState<DashboardTab>('content');
 
   // Data
   const [personalInfo, setPersonalInfo] = useState<PersonalInfo | null>(null);
@@ -94,6 +95,17 @@ export default function DashboardPage() {
     const cc = await apiFetch('/api/contact-cards').then((r) => r.json()).catch(() => null);
     if (Array.isArray(cc)) setContactCards(cc);
   }, []);
+
+  const reloadVisitorStats = useCallback(async () => {
+    const vs = await apiFetch('/api/visitor/stats').then((r) => r.json()).catch(() => null);
+    if (vs && !vs.error) setVisitorStats(vs);
+  }, []);
+
+  // Stats are loaded once with the dashboard; refresh them whenever the
+  // Visitors tab is opened so new visits show up without a full reload
+  useEffect(() => {
+    if (activeTab === 'visitors') reloadVisitorStats();
+  }, [activeTab, reloadVisitorStats]);
 
   const loadAll = useCallback(async () => {
     const [pi, sg, pr, ex, ac, ce, cc, lh, vs] = await Promise.all([
@@ -191,6 +203,7 @@ export default function DashboardPage() {
 
         {activeTab === 'history' && <LoginHistoryTab loginHistory={loginHistory} />}
         {activeTab === 'visitors' && <VisitorLogTab stats={visitorStats} />}
+        {activeTab === 'links' && <LinksTab showToast={showToast} />}
 
         {activeTab === 'content' && (
           <main className="relative z-10">

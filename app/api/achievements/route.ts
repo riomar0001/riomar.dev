@@ -1,5 +1,5 @@
 import { NextRequest } from 'next/server';
-import { error, isAuthError, json, requireAuth } from '@/lib/api-helpers';
+import { error, isAuthError, json, requireAuth, revalidatePublic } from '@/lib/api-helpers';
 import { str, strOpt, urlOpt } from '@/lib/validate';
 import { prisma } from '@/lib/prisma';
 
@@ -36,5 +36,6 @@ export async function POST(request: NextRequest) {
     data: { title, event, date: date ?? null, description, imageUrl: imageUrl ?? null, link: link ?? null, order }
   });
 
+  revalidatePublic();
   return json(achievement, 201);
 }

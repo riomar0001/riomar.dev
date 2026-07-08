@@ -8,8 +8,12 @@ export type IpLocation = {
 
 const PRIVATE_IP_RE = /^(127\.|10\.|172\.(1[6-9]|2\d|3[01])\.|192\.168\.|169\.254\.|::1$|::ffff:(127\.|10\.|172\.(1[6-9]|2\d|3[01])\.|192\.168\.|169\.254\.)|fe80:|fc[0-9a-f]{2}:|fd[0-9a-f]{2}:|localhost)/i;
 
+export function isPrivateIp(ip: string): boolean {
+  return !ip || ip === 'unknown' || PRIVATE_IP_RE.test(ip);
+}
+
 export async function getIpLocation(ip: string): Promise<IpLocation | null> {
-  if (!ip || ip === 'unknown' || PRIVATE_IP_RE.test(ip)) return null;
+  if (isPrivateIp(ip)) return null;
 
   try {
     const res = await fetch(

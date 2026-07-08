@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
+import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { apiFetch } from '@/lib/dashboard/api';
 import type { VisitorLog, VisitorStats } from '@/lib/dashboard/types';
 
@@ -30,41 +31,56 @@ function StatCard({ label, value }: { label: string; value: number }) {
   );
 }
 
-function DailyChart({ data }: { data: { date: string; count: number }[] }) {
-  const [hovered, setHovered] = useState<number | null>(null);
-  const max = Math.max(...data.map((d) => d.count), 1);
+function ChartTooltip({
+  active,
+  payload
+}: {
+  active?: boolean;
+  payload?: { payload: { date: string; count: number } }[];
+}) {
+  if (!active || !payload?.length) return null;
+  const d = payload[0].payload;
+  return (
+    <div className="border border-black bg-black px-2.5 py-1 font-mono text-[11px] text-white dark:border-white dark:bg-white dark:text-black">
+      <span className="font-semibold">{d.count}</span>
+      <span className="ml-1.5 opacity-60">{fmtDate(d.date)}</span>
+    </div>
+  );
+}
 
+// Square hover marker, to match the site's other square accents
+function SquareDot({ cx, cy }: { cx?: number; cy?: number }) {
+  if (cx === undefined || cy === undefined) return null;
+  return <rect x={cx - 4} y={cy - 4} width={8} height={8} fill="currentColor" />;
+}
+
+function DailyChart({ data }: { data: { date: string; count: number }[] }) {
   return (
     <div>
-      <div className="flex h-32 items-end gap-px">
-        {data.map((d, i) => {
-          const pct = (d.count / max) * 100;
-          const isHov = hovered === i;
-          return (
-            <div
-              key={i}
-              className="relative flex flex-1 flex-col justify-end"
-              style={{ height: '100%' }}
-              onMouseEnter={() => setHovered(i)}
-              onMouseLeave={() => setHovered(null)}
-            >
-              {isHov && (
-                <div className="pointer-events-none absolute bottom-full left-1/2 z-10 mb-2 -translate-x-1/2 whitespace-nowrap border border-black bg-black px-2.5 py-1 font-mono text-[11px] text-white dark:border-white dark:bg-white dark:text-black">
-                  <span className="font-semibold">{d.count}</span>
-                  <span className="ml-1.5 opacity-60">{fmtDate(d.date)}</span>
-                </div>
-              )}
-              <div
-                className="w-full bg-black dark:bg-white"
-                style={{
-                  height: `${Math.max(pct, d.count > 0 ? 4 : 0.5)}%`,
-                  opacity: hovered !== null && !isHov ? 0.25 : 0.75,
-                  transition: 'opacity 0.1s ease'
-                }}
-              />
-            </div>
-          );
-        })}
+      {/* currentColor = black in light mode, white in dark — one stroke fits both */}
+      <div className="h-32 border-b border-black/15 text-black dark:border-white/15 dark:text-white">
+        <ResponsiveContainer width="100%" height="100%">
+          <AreaChart data={data} margin={{ top: 6, right: 0, bottom: 0, left: 0 }}>
+            <XAxis dataKey="date" hide />
+            <YAxis hide domain={[0, 'auto']} />
+            <Tooltip
+              content={<ChartTooltip />}
+              cursor={{ stroke: 'currentColor', strokeOpacity: 0.25, strokeWidth: 1 }}
+              isAnimationActive={false}
+            />
+            <Area
+              type="monotone"
+              dataKey="count"
+              stroke="currentColor"
+              strokeOpacity={0.8}
+              strokeWidth={2}
+              fill="currentColor"
+              fillOpacity={0.08}
+              activeDot={<SquareDot />}
+              isAnimationActive={false}
+            />
+          </AreaChart>
+        </ResponsiveContainer>
       </div>
       <div className="mt-2 flex justify-between font-mono text-[11px] opacity-40">
         <span>{fmtDate(data[0]?.date ?? '')}</span>
@@ -85,7 +101,7 @@ function HorizontalBars({ data }: { data: { label: string; count: number }[] }) 
             {d.label}
           </span>
           <div className="flex-1 border border-black/15 dark:border-white/15">
-            <div className="h-2.5 bg-black opacity-80 transition-all duration-500 dark:bg-white" style={{ width: `${(d.count / max) * 100}%` }} />
+            <div className="h-2.5 bg-black opacity-80 transition-all duration-500 dark:bg-white" style={{ width: `${Math.max((d.count / max) * 100, d.count > 0 ? 2 : 0)}%` }} />
           </div>
           <span className="w-8 shrink-0 text-right font-mono text-[11px] tabular-nums opacity-60">
             {d.count}
@@ -196,7 +212,7 @@ export default function VisitorLogTab({ stats }: { stats: VisitorStats | null })
   const chartData = days.map((date) => ({ date, count: dailyMap.get(date) ?? 0 }));
 
   return (
-    <div className="relative z-10 mx-auto max-w-[1160px] space-y-8 px-6 py-14">
+    <div className="relative z-10 mx-auto max-w-[1160px] space-y-8 px-6 py-14 bg-white">
       {/* Header */}
       <div className="flex items-end justify-between gap-4">
         <div>
@@ -222,8 +238,8 @@ export default function VisitorLogTab({ stats }: { stats: VisitorStats | null })
             <DailyChart data={chartData} />
           </div>
 
-          {/* Country + Pages */}
-          <div className="grid gap-5 sm:grid-cols-2">
+          {/* Country + Pages + Sources */}
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             <div className="border border-black/15 p-5 dark:border-white/15">
               <p className="mb-4 font-mono text-[11px] tracking-widest uppercase opacity-50">Top Countries</p>
               {stats.topCountries.length > 0 ? (
@@ -238,6 +254,14 @@ export default function VisitorLogTab({ stats }: { stats: VisitorStats | null })
                 <HorizontalBars data={stats.topPages.map((p) => ({ label: p.page || '/', count: p.count }))} />
               ) : (
                 <p className="font-mono text-[11px] opacity-40">No page data yet.</p>
+              )}
+            </div>
+            <div className="border border-black/15 p-5 dark:border-white/15">
+              <p className="mb-4 font-mono text-[11px] tracking-widest uppercase opacity-50">Top Sources</p>
+              {(stats.topSources ?? []).length > 0 ? (
+                <HorizontalBars data={stats.topSources.map((s) => ({ label: s.source, count: s.count }))} />
+              ) : (
+                <p className="font-mono text-[11px] opacity-40">No source data yet.</p>
               )}
             </div>
           </div>
@@ -277,11 +301,13 @@ export default function VisitorLogTab({ stats }: { stats: VisitorStats | null })
                         </span>
                         <span className="opacity-30">·</span>
                         <span className="font-mono text-[11px] opacity-55">{v.ipAddress}</span>
-                        {v.page && v.page !== '/' && (
-                          <>
-                            <span className="opacity-30">·</span>
-                            <span className="font-mono text-[11px] opacity-55">{v.page}</span>
-                          </>
+                        <span className="opacity-30">·</span>
+                        <span className="font-mono text-[11px] opacity-55">{v.page || '/'}</span>
+                        {v.source && (
+                          <span className="border border-black/25 px-1.5 py-px font-mono text-[10px] tracking-wider uppercase opacity-70 dark:border-white/25">
+                            {v.source}
+                            {v.sourceDetail ? ` / ${v.sourceDetail}` : ''}
+                          </span>
                         )}
                       </div>
                       {v.isp && <p className="font-mono text-[11px] opacity-40">{v.isp}</p>}

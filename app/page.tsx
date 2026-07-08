@@ -1,6 +1,7 @@
-export const dynamic = 'force-dynamic';
+// ISR: serve a cached page, refresh from the DB at most once a minute.
+// CMS mutations call revalidatePublic() so edits still appear immediately.
+export const revalidate = 60;
 
-import VisitorBeacon from '@/components/VisitorBeacon';
 import Background from '@/components/Background';
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
@@ -127,7 +128,6 @@ export default async function Home() {
 
   return (
     <div className={`${firaCode.variable} site-root bg-white text-black dark:bg-black dark:text-white`}>
-      <VisitorBeacon />
       <Background />
       <Navbar />
       <main>

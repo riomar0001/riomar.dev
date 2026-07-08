@@ -3,18 +3,21 @@
 
 import ThemeToggle from '@/components/ThemeToggle';
 
+export type DashboardTab = 'content' | 'history' | 'visitors' | 'links';
+
 type Props = {
   username?: string;
-  activeTab: 'content' | 'history' | 'visitors';
-  setActiveTab: (tab: 'content' | 'history' | 'visitors') => void;
+  activeTab: DashboardTab;
+  setActiveTab: (tab: DashboardTab) => void;
   onChangePassword: () => void;
   onLogout: () => void;
 };
 
-const TABS: { id: 'content' | 'history' | 'visitors'; label: string }[] = [
+const TABS: { id: DashboardTab; label: string }[] = [
   { id: 'content', label: 'Content' },
   { id: 'history', label: 'Logins' },
-  { id: 'visitors', label: 'Visitors' }
+  { id: 'visitors', label: 'Visitors' },
+  { id: 'links', label: 'Links' }
 ];
 
 export default function DashboardHeader({ username, activeTab, setActiveTab, onChangePassword, onLogout }: Props) {
