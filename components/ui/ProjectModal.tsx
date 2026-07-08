@@ -2,12 +2,15 @@
 
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
+import { imageCropStyle } from '@/lib/image';
 
 type Project = {
   id: string;
   title: string;
   description: string;
   imageUrl?: string | null;
+  imagePosition?: string | null;
+  imageZoom?: number | null;
   tags: string[];
   link?: string | null;
   github?: string | null;
@@ -67,12 +70,15 @@ export default function ProjectModal({ project }: { project: Project }) {
             </button>
 
             {project.imageUrl && (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={project.imageUrl}
-                alt={project.title}
-                className="w-full aspect-[16/9] object-cover object-top block border-b border-black/15 dark:border-white/15"
-              />
+              <div className="w-full aspect-[16/9] overflow-hidden border-b border-black/15 dark:border-white/15">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={project.imageUrl}
+                  alt={project.title}
+                  style={imageCropStyle(project.imagePosition, project.imageZoom, 'center top')}
+                  className="h-full w-full object-cover"
+                />
+              </div>
             )}
 
             <div className="p-6 sm:p-8">

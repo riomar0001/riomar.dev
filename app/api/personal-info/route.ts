@@ -1,6 +1,6 @@
 import { NextRequest } from 'next/server';
 import { error, isAuthError, json, requireAuth, revalidatePublic } from '@/lib/api-helpers';
-import { str, strOpt, urlOpt, strArray } from '@/lib/validate';
+import { positionOpt, str, strOpt, urlOpt, strArray, zoomOpt } from '@/lib/validate';
 import { prisma } from '@/lib/prisma';
 
 export async function GET() {
@@ -28,7 +28,9 @@ export async function PUT(request: NextRequest) {
   const linkedin = strOpt(body.linkedin, 2048);
   const github   = strOpt(body.github, 2048);
   const location = str(body.location, 200);
-  const photoUrl  = urlOpt(body.photoUrl);
+  const photoUrl      = urlOpt(body.photoUrl);
+  const photoPosition = positionOpt(body.photoPosition);
+  const photoZoom     = zoomOpt(body.photoZoom);
   const resumeUrl = urlOpt(body.resumeUrl);
 
   if (!name)    return error('Name is required');
@@ -40,8 +42,8 @@ export async function PUT(request: NextRequest) {
 
   const info = await prisma.personalInfo.upsert({
     where: { id: 'singleton' },
-    update: { name, role, tagline, bio, email, linkedin: linkedin ?? undefined, github: github ?? undefined, location, photoUrl: photoUrl ?? null, resumeUrl: resumeUrl ?? null },
-    create: { id: 'singleton', name, role, tagline, bio, email, linkedin: linkedin ?? '', github: github ?? '', location, photoUrl: photoUrl ?? null, resumeUrl: resumeUrl ?? null }
+    update: { name, role, tagline, bio, email, linkedin: linkedin ?? undefined, github: github ?? undefined, location, photoUrl, photoPosition, photoZoom, resumeUrl },
+    create: { id: 'singleton', name, role, tagline, bio, email, linkedin: linkedin ?? '', github: github ?? '', location, photoUrl: photoUrl ?? null, photoPosition: photoPosition ?? null, photoZoom: photoZoom ?? null, resumeUrl: resumeUrl ?? null }
   });
 
   revalidatePublic();

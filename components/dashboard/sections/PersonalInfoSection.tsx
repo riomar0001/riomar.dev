@@ -3,6 +3,7 @@
 
 import { useDashboard } from '@/lib/dashboard/context';
 import { AddButton } from '@/components/dashboard/ui';
+import { imageCropStyle } from '@/lib/image';
 
 export default function PersonalInfoSection() {
   const { personalInfo, setModal } = useDashboard();
@@ -21,11 +22,22 @@ export default function PersonalInfoSection() {
         {personalInfo ? (
           <div className="grid gap-8 border border-black/15 p-6 sm:grid-cols-2 dark:border-white/15">
             <div className="flex gap-5">
-              <img
-                src={personalInfo.photoUrl ?? '/profile.jpg'}
-                alt="Profile"
-                className="h-24 w-24 shrink-0 border border-black/20 object-cover object-top dark:border-white/20"
-              />
+              <button
+                type="button"
+                onClick={() => setModal('profilePhoto')}
+                title="Edit profile photo"
+                className="group relative h-24 w-24 shrink-0 overflow-hidden border border-black/20 dark:border-white/20"
+              >
+                <img
+                  src={personalInfo.photoUrl ?? '/profile.jpg'}
+                  alt="Profile"
+                  style={imageCropStyle(personalInfo.photoPosition, personalInfo.photoZoom, 'center top')}
+                  className="h-full w-full object-cover"
+                />
+                <span className="absolute inset-0 flex items-center justify-center bg-black/0 font-mono text-[10px] tracking-wider uppercase text-white opacity-0 transition-all group-hover:bg-black/50 group-hover:opacity-100">
+                  Edit
+                </span>
+              </button>
               <div className="min-w-0">
                 <p className="text-lg font-bold tracking-tight">{personalInfo.name}</p>
                 <p className="mt-0.5 font-mono text-xs tracking-wider uppercase opacity-60">{personalInfo.role}</p>

@@ -1,7 +1,8 @@
 import ScrollReveal from '@/components/ui/ScrollReveal';
 import { formatAwardDate, awardDateValue } from '@/lib/format';
+import { imageCropStyle } from '@/lib/image';
 
-type Achievement = { title: string; event: string; date?: string | null; description: string; imageUrl?: string | null; link?: string | null };
+type Achievement = { title: string; event: string; date?: string | null; description: string; imageUrl?: string | null; imagePosition?: string | null; imageZoom?: number | null; link?: string | null };
 
 export default function Awards({ achievements }: { achievements: Achievement[] }) {
   // Sort by year then date, most recent first; awards without a date go last.
@@ -33,12 +34,15 @@ export default function Awards({ achievements }: { achievements: Achievement[] }
                   {/* Image */}
                   <div className="w-full sm:w-[300px] shrink-0">
                     {award.imageUrl ? (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img
-                        src={award.imageUrl}
-                        alt={award.title}
-                        className="w-full aspect-[16/9] object-cover block border border-black/15 dark:border-white/15 grayscale group-hover:grayscale-0 transition-[filter] duration-500"
-                      />
+                      <div className="w-full aspect-[16/9] overflow-hidden border border-black/15 dark:border-white/15">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={award.imageUrl}
+                          alt={award.title}
+                          style={imageCropStyle(award.imagePosition, award.imageZoom)}
+                          className="h-full w-full object-cover grayscale group-hover:grayscale-0 transition-[filter] duration-500"
+                        />
+                      </div>
                     ) : (
                       <div className="w-full aspect-[16/9] border border-black/15 dark:border-white/15 flex items-center justify-center font-mono text-xs opacity-30">
                         &#9733;

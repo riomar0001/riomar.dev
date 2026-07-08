@@ -8,6 +8,7 @@ import Background from '@/components/Background';
 import Navbar from '@/components/Navbar';
 import TrailCard from '@/components/ui/TrailCard';
 import { firaCode } from '@/lib/fonts';
+import { imageCropStyle } from '@/lib/image';
 import { prisma } from '@/lib/prisma';
 import { projects as staticProjects, personalInfo as staticPersonalInfo } from '@/contents';
 
@@ -37,11 +38,13 @@ export default async function ProjectsPage() {
         title: p.title,
         description: p.description,
         imageUrl: p.imageUrl ?? undefined,
+        imagePosition: p.imagePosition ?? undefined,
+        imageZoom: p.imageZoom ?? undefined,
         tags: p.tags,
         link: p.link ?? '#',
         github: p.github ?? '#'
       }))
-    : staticProjects.map((p, i) => ({ ...p, id: String(i), imageUrl: undefined as string | undefined }));
+    : staticProjects.map((p, i) => ({ ...p, id: String(i), imageUrl: undefined as string | undefined, imagePosition: undefined as string | undefined, imageZoom: undefined as number | undefined }));
 
   const personalInfo = dbData?.personalInfo
     ? {
@@ -77,8 +80,10 @@ export default async function ProjectsPage() {
                 <TrailCard key={project.id}>
                   <div className="bg-white dark:bg-black border border-black/20 dark:border-white/20">
                     {project.imageUrl ? (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img src={project.imageUrl} alt={project.title} className="w-full h-[140px] object-cover block" />
+                      <div className="w-full h-[140px] overflow-hidden">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src={project.imageUrl} alt={project.title} style={imageCropStyle(project.imagePosition, project.imageZoom, 'center top')} className="h-full w-full object-cover" />
+                      </div>
                     ) : (
                       <div className="w-full h-[140px] border-b border-black/15 dark:border-white/15 flex items-center justify-center font-mono text-xs opacity-30">
                         No image

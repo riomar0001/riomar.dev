@@ -2,8 +2,7 @@
 
 import { useState } from 'react';
 import { useDashboard } from '@/lib/dashboard/context';
-import { uploadFile } from '@/lib/dashboard/api';
-import { Field, inputCls, inputErrorCls, FormActions, ImagePicker } from '@/components/dashboard/ui';
+import { Field, inputCls, inputErrorCls, FormActions } from '@/components/dashboard/ui';
 import type { PersonalInfo } from '@/lib/dashboard/types';
 
 type Errors = Partial<Record<'name' | 'role' | 'tagline' | 'bio' | 'email' | 'location', string>>;
@@ -12,7 +11,6 @@ export default function PersonalInfoForm() {
   const { personalInfo, saving, setSaving, setModal, reloadPersonalInfo, showToast } = useDashboard();
   const [form, setForm] = useState<Partial<PersonalInfo>>(personalInfo ?? {});
   const [bioText, setBioText] = useState((personalInfo?.bio ?? []).join('\n\n'));
-  const [pendingPhoto, setPendingPhoto] = useState<File | null>(null);
   const [errors, setErrors] = useState<Errors>({});
 
   function validate(): boolean {
@@ -30,20 +28,10 @@ export default function PersonalInfoForm() {
   async function onSave() {
     if (!validate()) return;
     setSaving(true);
-    let photoUrl = form.photoUrl;
-    if (pendingPhoto) {
-      try {
-        photoUrl = await uploadFile('photos', pendingPhoto);
-      } catch (e) {
-        showToast((e as Error).message, 'error');
-        setSaving(false);
-        return;
-      }
-    }
     const res = await fetch('/api/personal-info', {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ...form, photoUrl, bio: bioText.split('\n\n').filter(Boolean) })
+      body: JSON.stringify({ ...form, bio: bioText.split('\n\n').filter(Boolean) })
     });
     if (res.ok) { await reloadPersonalInfo(); setModal(null); showToast('Personal info updated'); }
     else { const d = await res.json(); showToast(d.error ?? 'Save failed', 'error'); }
@@ -52,14 +40,6 @@ export default function PersonalInfoForm() {
 
   return (
     <div className="space-y-4">
-      <ImagePicker
-        label="Profile Photo"
-        value={form.photoUrl}
-        isPending={!!pendingPhoto}
-        objectTop
-        onPick={(file, previewUrl) => { setPendingPhoto(file); setForm((f) => ({ ...f, photoUrl: previewUrl })); }}
-        onRemove={() => { setPendingPhoto(null); setForm((f) => ({ ...f, photoUrl: null })); }}
-      />
       <div className="grid grid-cols-2 gap-4">
         <Field label="Name" error={errors.name}>
           <input

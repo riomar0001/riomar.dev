@@ -1,11 +1,14 @@
 import ScrollReveal from '@/components/ui/ScrollReveal';
 import ProjectModal from '@/components/ui/ProjectModal';
+import { imageCropStyle } from '@/lib/image';
 
 type Project = {
   id: string;
   title: string;
   description: string;
   imageUrl?: string | null;
+  imagePosition?: string | null;
+  imageZoom?: number | null;
   tags: string[];
   link?: string | null;
   github?: string | null;
@@ -34,12 +37,15 @@ export default function Work({ projects, github }: { projects: Project[]; github
                   {/* Image */}
                   <div className="w-full sm:w-[300px] shrink-0">
                     {project.imageUrl ? (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img
-                        src={project.imageUrl}
-                        alt={project.title}
-                        className="w-full aspect-[16/9] object-cover object-top block border border-black/15 dark:border-white/15 grayscale group-hover:grayscale-0 transition-[filter] duration-500"
-                      />
+                      <div className="w-full aspect-[16/9] overflow-hidden border border-black/15 dark:border-white/15">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={project.imageUrl}
+                          alt={project.title}
+                          style={imageCropStyle(project.imagePosition, project.imageZoom, 'center top')}
+                          className="h-full w-full object-cover grayscale group-hover:grayscale-0 transition-[filter] duration-500"
+                        />
+                      </div>
                     ) : (
                       <div className="w-full aspect-[16/9] border border-black/15 dark:border-white/15 flex items-center justify-center font-mono text-[11px] opacity-30">
                         No image

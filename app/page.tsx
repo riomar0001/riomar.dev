@@ -64,7 +64,9 @@ export default async function Home() {
         linkedin: dbData.personalInfo.linkedin,
         github: dbData.personalInfo.github,
         location: dbData.personalInfo.location,
-        photoUrl: dbData.personalInfo.photoUrl ?? undefined
+        photoUrl: dbData.personalInfo.photoUrl ?? undefined,
+        photoPosition: dbData.personalInfo.photoPosition ?? undefined,
+        photoZoom: dbData.personalInfo.photoZoom ?? undefined
       }
     : staticPersonalInfo;
 
@@ -80,6 +82,8 @@ export default async function Home() {
     title: p.title,
     description: p.description,
     imageUrl: p.imageUrl ?? undefined,
+    imagePosition: p.imagePosition ?? undefined,
+    imageZoom: p.imageZoom ?? undefined,
     tags: p.tags,
     link: p.link ?? '#',
     github: p.github ?? '#'
@@ -104,6 +108,8 @@ export default async function Home() {
         date: a.date,
         description: a.description,
         imageUrl: a.imageUrl ?? undefined,
+        imagePosition: a.imagePosition ?? undefined,
+        imageZoom: a.imageZoom ?? undefined,
         link: a.link ?? undefined
       }))
     : staticAchievements;

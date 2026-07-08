@@ -1,8 +1,9 @@
 'use client';
 import { useState } from 'react';
 import Typewriter from '@/components/ui/Typewriter';
+import { imageCropStyle } from '@/lib/image';
 
-type PersonalInfo = { name: string; tagline: string; photoUrl?: string | null };
+type PersonalInfo = { name: string; tagline: string; photoUrl?: string | null; photoPosition?: string | null; photoZoom?: number | null };
 
 export default function Hero({ personalInfo }: { personalInfo: PersonalInfo }) {
   const [nameComplete, setNameComplete] = useState(false);
@@ -15,12 +16,15 @@ export default function Hero({ personalInfo }: { personalInfo: PersonalInfo }) {
       <div className="max-w-[1160px] mx-auto w-full px-6 pt-[120px] pb-20">
         <div className="flex items-start gap-20 flex-wrap md:flex-nowrap">
           {/* Image */}
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={personalInfo.photoUrl ?? '/profile.jpg'}
-            alt={personalInfo.name}
-            className="w-full md:w-[240px] md:h-[280px] shrink-0 object-cover object-top grayscale hover:grayscale-0 transition-[filter] duration-500 animate-fade-in-up"
-          />
+          <div className="w-full md:w-[240px] md:h-[280px] shrink-0 overflow-hidden animate-fade-in-up">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={personalInfo.photoUrl ?? '/profile.jpg'}
+              alt={personalInfo.name}
+              style={imageCropStyle(personalInfo.photoPosition, personalInfo.photoZoom, 'center top')}
+              className="w-full h-auto md:h-full object-cover grayscale hover:grayscale-0 transition-[filter] duration-500"
+            />
+          </div>
 
           {/* Text */}
           <div className="flex flex-col justify-between gap-8 flex-1 md:pt-2">

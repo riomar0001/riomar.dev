@@ -41,6 +41,35 @@ export function urlOpt(val: unknown): string | null | undefined {
   }
 }
 
+/**
+ * Optional image focal point — CSS object-position as "X% Y%" (0–100 each),
+ * set by dragging the preview in the dashboard image picker.
+ * Absence semantics like urlOpt: explicit `null` clears the field,
+ * `undefined`/invalid means unchanged.
+ */
+export function positionOpt(val: unknown): string | null | undefined {
+  if (val === null) return null;
+  if (typeof val !== 'string') return undefined;
+  const m = val.trim().match(/^(\d{1,3}(?:\.\d+)?)% (\d{1,3}(?:\.\d+)?)%$/);
+  if (!m) return undefined;
+  const x = parseFloat(m[1]);
+  const y = parseFloat(m[2]);
+  if (x > 100 || y > 100) return undefined;
+  return `${x}% ${y}%`;
+}
+
+/**
+ * Optional image zoom — 1 (fit) to 3, set by the dashboard zoom slider.
+ * Absence semantics like positionOpt: explicit `null` clears the field,
+ * `undefined`/invalid means unchanged.
+ */
+export function zoomOpt(val: unknown): number | null | undefined {
+  if (val === null) return null;
+  if (typeof val !== 'number' || !Number.isFinite(val)) return undefined;
+  if (val < 1 || val > 3) return undefined;
+  return Math.round(val * 100) / 100;
+}
+
 // Tracking source slugs: "linkedin", "resume", "application", "job-street", …
 const SLUG_RE = /^[a-z0-9][a-z0-9_.-]{0,49}$/;
 

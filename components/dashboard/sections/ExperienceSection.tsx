@@ -4,6 +4,7 @@
 import { useDashboard } from '@/lib/dashboard/context';
 import { SectionHeader, SubSectionHeader, ItemActions } from '@/components/dashboard/ui';
 import { formatAwardDate } from '@/lib/format';
+import { imageCropStyle } from '@/lib/image';
 
 export default function ExperienceSection() {
   const { experiences, achievements, certifications, setModal, setEditingItem, setConfirmDelete } = useDashboard();
@@ -64,7 +65,11 @@ export default function ExperienceSection() {
                     onDelete={() => setConfirmDelete({ type: 'achievement', id: ach.id, label: `achievement "${ach.title}"` })}
                   />
                 </div>
-                {ach.imageUrl && <img src={ach.imageUrl} alt={ach.title} className="mb-3 aspect-video w-full border border-black/15 object-cover dark:border-white/15" />}
+                {ach.imageUrl && (
+                  <div className="mb-3 aspect-video w-full overflow-hidden border border-black/15 dark:border-white/15">
+                    <img src={ach.imageUrl} alt={ach.title} style={imageCropStyle(ach.imagePosition, ach.imageZoom)} className="h-full w-full object-cover" />
+                  </div>
+                )}
                 <h4 className="text-sm font-medium tracking-tight">{ach.title}</h4>
                 <p className="mt-1 font-mono text-[11px] uppercase tracking-wide opacity-50">{ach.event}{ach.date ? ` · ${formatAwardDate(ach.date)}` : ''}</p>
                 <p className="mt-2 text-xs leading-relaxed opacity-65">{ach.description}</p>

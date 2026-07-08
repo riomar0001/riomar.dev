@@ -1,6 +1,6 @@
 import { NextRequest } from 'next/server';
 import { error, isAuthError, json, requireAuth, revalidatePublic } from '@/lib/api-helpers';
-import { str, strOpt, urlOpt } from '@/lib/validate';
+import { positionOpt, str, strOpt, urlOpt, zoomOpt } from '@/lib/validate';
 import { prisma } from '@/lib/prisma';
 
 export async function GET() {
@@ -26,14 +26,16 @@ export async function POST(request: NextRequest) {
 
   if (!title || !event || !description) return error('Title, event and description are required');
 
-  const imageUrl = urlOpt(body.imageUrl);
+  const imageUrl      = urlOpt(body.imageUrl);
+  const imagePosition = positionOpt(body.imagePosition);
+  const imageZoom     = zoomOpt(body.imageZoom);
   const link = urlOpt(body.link);
 
   const maxOrder = await prisma.achievement.aggregate({ _max: { order: true } });
   const order = (maxOrder._max.order ?? -1) + 1;
 
   const achievement = await prisma.achievement.create({
-    data: { title, event, date: date ?? null, description, imageUrl: imageUrl ?? null, link: link ?? null, order }
+    data: { title, event, date: date ?? null, description, imageUrl: imageUrl ?? null, imagePosition: imagePosition ?? null, imageZoom: imageZoom ?? null, link: link ?? null, order }
   });
 
   revalidatePublic();

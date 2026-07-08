@@ -19,6 +19,7 @@ import LinksTab from '@/components/dashboard/LinksTab';
 import { ConfirmDialog, Modal } from '@/components/dashboard/ui';
 import ChangePasswordForm from '@/components/dashboard/forms/ChangePasswordForm';
 import PersonalInfoForm from '@/components/dashboard/forms/PersonalInfoForm';
+import ProfilePhotoForm from '@/components/dashboard/forms/ProfilePhotoForm';
 import SkillForm from '@/components/dashboard/forms/SkillForm';
 import ProjectForm from '@/components/dashboard/forms/ProjectForm';
 import ExperienceForm from '@/components/dashboard/forms/ExperienceForm';
@@ -219,6 +220,11 @@ export default function DashboardPage() {
         {modal === 'personalInfo' && (
           <Modal title="Edit Personal Info" onClose={() => setModal(null)} saving={saving}>
             <PersonalInfoForm />
+          </Modal>
+        )}
+        {modal === 'profilePhoto' && (
+          <Modal title="Profile Photo" onClose={() => setModal(null)} saving={saving}>
+            <ProfilePhotoForm />
           </Modal>
         )}
         {modal === 'skill' && (

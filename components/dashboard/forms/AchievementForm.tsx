@@ -51,8 +51,12 @@ export default function AchievementForm({ initial }: { initial?: Achievement }) 
         label="Photo"
         value={form.imageUrl}
         isPending={!!pendingImage}
+        position={form.imagePosition ?? '50% 50%'}
+        onPositionChange={(pos) => setForm((f) => ({ ...f, imagePosition: pos }))}
+        zoom={form.imageZoom}
+        onZoomChange={(z) => setForm((f) => ({ ...f, imageZoom: z }))}
         onPick={(file, previewUrl) => { setPendingImage(file); setForm((f) => ({ ...f, imageUrl: previewUrl })); }}
-        onRemove={() => { setPendingImage(null); setForm((f) => ({ ...f, imageUrl: null })); }}
+        onRemove={() => { setPendingImage(null); setForm((f) => ({ ...f, imageUrl: null, imagePosition: null, imageZoom: null })); }}
       />
       <Field label="Title" error={errors.title}>
         <input

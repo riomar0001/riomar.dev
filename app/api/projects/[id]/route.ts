@@ -1,6 +1,6 @@
 import { NextRequest } from 'next/server';
 import { error, isAuthError, json, requireAuth, revalidatePublic } from '@/lib/api-helpers';
-import { isUuid, str, strOpt, urlOpt, strArray } from '@/lib/validate';
+import { isUuid, positionOpt, str, strOpt, urlOpt, strArray, zoomOpt } from '@/lib/validate';
 import { prisma } from '@/lib/prisma';
 
 export async function PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
@@ -23,6 +23,8 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
       title:       str(body.title, 200)          ?? undefined,
       description: str(body.description, 2000)   ?? undefined,
       imageUrl:    urlOpt(body.imageUrl),
+      imagePosition: positionOpt(body.imagePosition),
+      imageZoom:   zoomOpt(body.imageZoom),
       tags:        strArray(body.tags, 20, 50)   ?? undefined,
       link:        urlOpt(body.link),
       github:      strOpt(body.github, 500),

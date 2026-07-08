@@ -9,6 +9,8 @@ export type PersonalInfo = {
   github: string;
   location: string;
   photoUrl?: string | null;
+  photoPosition?: string | null;
+  photoZoom?: number | null;
   resumeUrl?: string | null;
 };
 
@@ -20,6 +22,8 @@ export type Project = {
   title: string;
   description: string;
   imageUrl?: string | null;
+  imagePosition?: string | null;
+  imageZoom?: number | null;
   tags: string[];
   link?: string | null;
   github?: string | null;
@@ -37,7 +41,7 @@ export type Experience = {
   link?: string | null;
 };
 
-export type Achievement = { id: string; title: string; event: string; date?: string | null; description: string; imageUrl?: string | null; link?: string | null };
+export type Achievement = { id: string; title: string; event: string; date?: string | null; description: string; imageUrl?: string | null; imagePosition?: string | null; imageZoom?: number | null; link?: string | null };
 export type Certification = { id: string; title: string; issuer: string; iconUrl?: string | null; credlyUrl?: string | null; description: string };
 export type ContactCard = { id: string; title: string; value: string; iconType: string };
 export type LoginHistory = { id: string; ipAddress?: string; userAgent?: string; success: boolean; reason?: string; createdAt: string };

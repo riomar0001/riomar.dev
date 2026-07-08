@@ -1,7 +1,8 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { handleFilePick } from '@/lib/dashboard/api';
+import { imageCropStyle } from '@/lib/image';
 
 export function Spinner() {
   return (
@@ -29,11 +30,23 @@ export const btnGhostCls =
 export const uploadBtnCls =
   'border border-black/25 px-3.5 py-2 font-mono text-xs tracking-wider uppercase transition-colors hover:bg-black hover:text-white dark:border-white/25 dark:hover:bg-white dark:hover:text-black';
 
+function parsePosition(pos: string): { x: number; y: number } {
+  const m = pos.match(/(-?[\d.]+)%\s+(-?[\d.]+)%/);
+  return m ? { x: parseFloat(m[1]), y: parseFloat(m[2]) } : { x: 50, y: 50 };
+}
+
+const clampPct = (v: number) => Math.min(100, Math.max(0, v));
+
 /**
  * Large image picker shown at the top of a form. Picking a file only creates a
  * local preview (via handleFilePick → object URL); the actual upload is deferred
  * until the form's Save handler calls uploadFile. `isPending` surfaces that the
  * shown image is an unsaved preview.
+ *
+ * Pass `position` + `onPositionChange` to make the preview draggable: dragging
+ * the image inside the frame sets its focal point ("X% Y%" object-position),
+ * i.e. which part stays visible when the frame crops it. Pass `zoom` +
+ * `onZoomChange` to also show a zoom slider (1–3×) below the preview.
  */
 export function ImagePicker({
   label,
@@ -44,7 +57,10 @@ export function ImagePicker({
   frameClass = 'aspect-[16/9] w-full',
   fit = 'cover',
   grayscale = false,
-  objectTop = false
+  position,
+  onPositionChange,
+  zoom,
+  onZoomChange
 }: {
   label?: string;
   value?: string | null;
@@ -54,35 +70,106 @@ export function ImagePicker({
   frameClass?: string;
   fit?: 'cover' | 'contain';
   grayscale?: boolean;
-  objectTop?: boolean;
+  position?: string | null;
+  onPositionChange?: (position: string) => void;
+  zoom?: number | null;
+  onZoomChange?: (zoom: number) => void;
 }) {
   const pick = () => handleFilePick(onPick);
+  const activePosition = position ?? '50% 50%';
+  const activeZoom = zoom && zoom > 1 ? zoom : 1;
+  const draggable = !!onPositionChange && fit === 'cover';
+
+  const frameRef = useRef<HTMLDivElement>(null);
+  const imgRef = useRef<HTMLImageElement>(null);
+  // Pointer + focal point at drag start; deltas are applied against these.
+  const drag = useRef<{ startX: number; startY: number; posX: number; posY: number } | null>(null);
+  // Which axes are currently snapped to center mid-drag (drives the guide lines).
+  const [snap, setSnap] = useState({ x: false, y: false });
+
+  function onPointerDown(e: React.PointerEvent) {
+    if (!draggable) return;
+    e.preventDefault();
+    e.currentTarget.setPointerCapture(e.pointerId);
+    const { x, y } = parsePosition(activePosition);
+    drag.current = { startX: e.clientX, startY: e.clientY, posX: x, posY: y };
+  }
+
+  function onPointerMove(e: React.PointerEvent) {
+    const s = drag.current;
+    const img = imgRef.current;
+    const frame = frameRef.current;
+    if (!s || !img || !frame || !img.naturalWidth) return;
+    const rect = frame.getBoundingClientRect();
+    // object-cover (× zoom): moving the focal point from 0% to 100% pans
+    // across exactly the image's overflow beyond the frame on each axis.
+    const scale = Math.max(rect.width / img.naturalWidth, rect.height / img.naturalHeight) * activeZoom;
+    const overX = img.naturalWidth * scale - rect.width;
+    const overY = img.naturalHeight * scale - rect.height;
+    const dx = e.clientX - s.startX;
+    const dy = e.clientY - s.startY;
+    let x = overX > 0.5 ? clampPct(s.posX - (dx / overX) * 100) : s.posX;
+    let y = overY > 0.5 ? clampPct(s.posY - (dy / overY) * 100) : s.posY;
+    // Snap to center per axis when the image sits within a few pixels of it
+    // (threshold in actual image travel, so it feels the same at any zoom).
+    const SNAP_PX = 6;
+    const snapX = overX > 0.5 && Math.abs(((x - 50) / 100) * overX) <= SNAP_PX;
+    const snapY = overY > 0.5 && Math.abs(((y - 50) / 100) * overY) <= SNAP_PX;
+    if (snapX) x = 50;
+    if (snapY) y = 50;
+    setSnap({ x: snapX, y: snapY });
+    onPositionChange?.(`${Math.round(x)}% ${Math.round(y)}%`);
+  }
+
+  function onPointerUp() {
+    drag.current = null;
+    setSnap({ x: false, y: false });
+  }
 
   return (
     <div>
       {label && <label className="mb-2 block font-mono text-[11px] tracking-wider uppercase opacity-60">{label}</label>}
       {value ? (
-        <button
-          type="button"
-          onClick={pick}
-          title="Click to change"
-          className={`group relative block ${frameClass} overflow-hidden border border-black/20 dark:border-white/20`}
+        <div
+          ref={frameRef}
+          role={draggable ? undefined : 'button'}
+          tabIndex={draggable ? undefined : 0}
+          onClick={draggable ? undefined : pick}
+          onKeyDown={draggable ? undefined : (e) => { if (e.key === 'Enter' || e.key === ' ') pick(); }}
+          onPointerDown={onPointerDown}
+          onPointerMove={onPointerMove}
+          onPointerUp={onPointerUp}
+          onPointerCancel={onPointerUp}
+          title={draggable ? 'Drag to reposition' : 'Click to change'}
+          className={`group relative block ${frameClass} overflow-hidden border border-black/20 dark:border-white/20 ${draggable ? 'cursor-grab touch-none select-none active:cursor-grabbing' : 'cursor-pointer'}`}
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
+            ref={imgRef}
             src={value}
             alt=""
-            className={`h-full w-full ${fit === 'cover' ? 'object-cover' : 'object-contain'} ${objectTop ? 'object-top' : ''} ${grayscale ? 'grayscale transition-[filter] duration-500 group-hover:grayscale-0' : ''}`}
+            draggable={false}
+            style={imageCropStyle(activePosition, activeZoom)}
+            className={`h-full w-full ${fit === 'cover' ? 'object-cover' : 'object-contain'} ${grayscale ? 'grayscale transition-[filter] duration-500 group-hover:grayscale-0' : ''}`}
           />
+          {/* Center guides while a drag is snapped: vertical line = horizontally centered, horizontal line = vertically centered */}
+          {snap.x && <span className="pointer-events-none absolute inset-y-0 left-1/2 w-px -translate-x-1/2 bg-red-500" />}
+          {snap.y && <span className="pointer-events-none absolute inset-x-0 top-1/2 h-px -translate-y-1/2 bg-red-500" />}
           {isPending && (
             <span className="absolute left-0 top-0 bg-black px-2 py-1 font-mono text-[10px] tracking-wider uppercase text-white dark:bg-white dark:text-black">
               Preview · uploads on save
             </span>
           )}
-          <span className="absolute inset-0 flex items-center justify-center bg-black/0 font-mono text-[11px] tracking-wider uppercase text-white opacity-0 transition-all group-hover:bg-black/50 group-hover:opacity-100">
-            Change image
-          </span>
-        </button>
+          {draggable ? (
+            <span className="pointer-events-none absolute bottom-0 left-0 bg-black/60 px-2 py-1 font-mono text-[10px] tracking-wider uppercase text-white opacity-0 transition-opacity group-hover:opacity-100">
+              Drag to reposition
+            </span>
+          ) : (
+            <span className="pointer-events-none absolute inset-0 flex items-center justify-center bg-black/0 font-mono text-[11px] tracking-wider uppercase text-white opacity-0 transition-all group-hover:bg-black/50 group-hover:opacity-100">
+              Change image
+            </span>
+          )}
+        </div>
       ) : (
         <button
           type="button"
@@ -96,11 +183,33 @@ export function ImagePicker({
         </button>
       )}
       {value && (
+        <div className="mt-2 flex items-center justify-between gap-3">
+          <div className="flex items-center gap-3">
+            <button type="button" onClick={pick} className={uploadBtnCls}>Change</button>
+            <button type="button" onClick={onRemove} className="font-mono text-[11px] uppercase tracking-wider text-red-500 hover:underline">
+              Remove
+            </button>
+          </div>
+          {draggable && (
+            <span className="font-mono text-[11px] tracking-wider uppercase opacity-40">
+              Drag image to reposition
+            </span>
+          )}
+        </div>
+      )}
+      {value && draggable && onZoomChange && (
         <div className="mt-2 flex items-center gap-3">
-          <button type="button" onClick={pick} className={uploadBtnCls}>Change</button>
-          <button type="button" onClick={onRemove} className="font-mono text-[11px] uppercase tracking-wider text-red-500 hover:underline">
-            Remove
-          </button>
+          <span className="font-mono text-[11px] tracking-wider uppercase opacity-50">Zoom</span>
+          <input
+            type="range"
+            min={1}
+            max={3}
+            step={0.05}
+            value={activeZoom}
+            onChange={(e) => onZoomChange(parseFloat(e.target.value))}
+            className="h-1 flex-1 cursor-pointer accent-black dark:accent-white"
+          />
+          <span className="w-12 text-right font-mono text-[11px] tabular-nums opacity-60">{activeZoom.toFixed(2)}×</span>
         </div>
       )}
     </div>

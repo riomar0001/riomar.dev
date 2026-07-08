@@ -1,6 +1,6 @@
 import { NextRequest } from 'next/server';
 import { error, isAuthError, json, requireAuth, revalidatePublic } from '@/lib/api-helpers';
-import { str, strOpt, urlOpt, strArray } from '@/lib/validate';
+import { positionOpt, str, strOpt, urlOpt, strArray, zoomOpt } from '@/lib/validate';
 import { prisma } from '@/lib/prisma';
 
 export async function GET() {
@@ -23,7 +23,9 @@ export async function POST(request: NextRequest) {
   const description = str(body.description, 2000);
   if (!title || !description) return error('Title and description are required');
 
-  const imageUrl = urlOpt(body.imageUrl);
+  const imageUrl      = urlOpt(body.imageUrl);
+  const imagePosition = positionOpt(body.imagePosition);
+  const imageZoom     = zoomOpt(body.imageZoom);
   const link     = urlOpt(body.link);
   const github   = strOpt(body.github, 500);  // can be URL or "user/repo" path
   const tags     = strArray(body.tags, 20, 50) ?? [];
@@ -33,7 +35,7 @@ export async function POST(request: NextRequest) {
   const order = (maxOrder._max.order ?? -1) + 1;
 
   const project = await prisma.project.create({
-    data: { title, description, imageUrl: imageUrl ?? null, tags, link: link ?? null, github: github ?? null, featured, order }
+    data: { title, description, imageUrl: imageUrl ?? null, imagePosition: imagePosition ?? null, imageZoom: imageZoom ?? null, tags, link: link ?? null, github: github ?? null, featured, order }
   });
 
   revalidatePublic();

@@ -3,6 +3,7 @@
 
 import { useDashboard } from '@/lib/dashboard/context';
 import { SectionHeader, ItemActions } from '@/components/dashboard/ui';
+import { imageCropStyle } from '@/lib/image';
 
 export default function ProjectsSection() {
   const { projects, setModal, setEditingItem, setConfirmDelete } = useDashboard();
@@ -17,7 +18,7 @@ export default function ProjectsSection() {
             <article key={project.id} className="group flex flex-col border border-black/15 transition-colors hover:border-black/40 dark:border-white/15 dark:hover:border-white/40">
               <div className="relative aspect-[16/10] w-full overflow-hidden border-b border-black/15 dark:border-white/15">
                 {project.imageUrl ? (
-                  <img src={project.imageUrl} alt={project.title} className="h-full w-full object-cover" />
+                  <img src={project.imageUrl} alt={project.title} style={imageCropStyle(project.imagePosition, project.imageZoom, 'center top')} className="h-full w-full object-cover" />
                 ) : (
                   <div className="flex h-full w-full items-center justify-center font-mono text-xs tracking-widest uppercase opacity-25">
                     No image
