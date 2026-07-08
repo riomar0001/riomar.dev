@@ -10,7 +10,6 @@ import TrailCard from '@/components/ui/TrailCard';
 import { firaCode } from '@/lib/fonts';
 import { imageCropStyle } from '@/lib/image';
 import { prisma } from '@/lib/prisma';
-import { projects as staticProjects, personalInfo as staticPersonalInfo } from '@/contents';
 
 export const metadata: Metadata = {
   title: 'Projects',
@@ -32,26 +31,24 @@ async function getData() {
 export default async function ProjectsPage() {
   const dbData = await getData();
 
-  const projects = dbData?.projects.length
-    ? dbData.projects.map((p) => ({
-        id: p.id,
-        title: p.title,
-        description: p.description,
-        imageUrl: p.imageUrl ?? undefined,
-        imagePosition: p.imagePosition ?? undefined,
-        imageZoom: p.imageZoom ?? undefined,
-        tags: p.tags,
-        link: p.link ?? '#',
-        github: p.github ?? '#'
-      }))
-    : staticProjects.map((p, i) => ({ ...p, id: String(i), imageUrl: undefined as string | undefined, imagePosition: undefined as string | undefined, imageZoom: undefined as number | undefined }));
+  const projects = (dbData?.projects ?? []).map((p) => ({
+    id: p.id,
+    title: p.title,
+    description: p.description,
+    imageUrl: p.imageUrl ?? undefined,
+    imagePosition: p.imagePosition ?? undefined,
+    imageZoom: p.imageZoom ?? undefined,
+    tags: p.tags,
+    link: p.link ?? '#',
+    github: p.github ?? '#'
+  }));
 
   const personalInfo = dbData?.personalInfo
     ? {
         name: dbData.personalInfo.name,
         github: dbData.personalInfo.github
       }
-    : { name: staticPersonalInfo.name, github: staticPersonalInfo.github };
+    : { name: '', github: '' };
 
   return (
     <div className={`${firaCode.variable} site-root bg-white text-black dark:bg-black dark:text-white min-h-screen`}>

@@ -14,14 +14,6 @@ import Certifications from '@/components/Certifications';
 import Contact from '@/components/Contact';
 import { firaCode } from '@/lib/fonts';
 import { prisma } from '@/lib/prisma';
-import {
-  achievements as staticAchievements,
-  certifications as staticCertifications,
-  contactCards as staticContactCards,
-  experiences as staticExperiences,
-  personalInfo as staticPersonalInfo,
-  skills as staticSkills
-} from '@/contents';
 
 async function getPortfolioData() {
   try {
@@ -54,7 +46,7 @@ async function getPortfolioData() {
 export default async function Home() {
   const dbData = await getPortfolioData();
 
-  // Build props falling back to static content
+  // All content comes from the CMS; sections render their empty states when the DB has nothing.
   const personalInfo = dbData?.personalInfo
     ? {
         name: dbData.personalInfo.name,
@@ -68,14 +60,14 @@ export default async function Home() {
         photoPosition: dbData.personalInfo.photoPosition ?? undefined,
         photoZoom: dbData.personalInfo.photoZoom ?? undefined
       }
-    : staticPersonalInfo;
+    : { name: '', role: '', tagline: '', email: '', linkedin: '', github: '', location: '' };
 
   const bio = dbData?.personalInfo?.bio?.length ? dbData.personalInfo.bio : null;
 
   const skillGroups = dbData?.skillGroups ?? null;
   const skills = skillGroups
     ? skillGroups.map((g) => ({ category: g.category, items: g.items.map((i) => i.name) }))
-    : staticSkills;
+    : [];
 
   const projects = (dbData?.projects ?? []).map((p) => ({
     id: p.id,
@@ -99,7 +91,7 @@ export default async function Home() {
         tags: e.tags,
         link: e.link ?? undefined
       }))
-    : staticExperiences;
+    : [];
 
   const achievements = dbData?.achievements
     ? dbData.achievements.map((a) => ({
@@ -112,7 +104,7 @@ export default async function Home() {
         imageZoom: a.imageZoom ?? undefined,
         link: a.link ?? undefined
       }))
-    : staticAchievements;
+    : [];
 
   const certifications = dbData?.certifications
     ? dbData.certifications.map((c) => ({
@@ -122,7 +114,7 @@ export default async function Home() {
         credlyUrl: c.credlyUrl ?? undefined,
         description: c.description
       }))
-    : staticCertifications;
+    : [];
 
   const contactCards = dbData?.contactCards
     ? dbData.contactCards.map((c) => ({
@@ -130,7 +122,7 @@ export default async function Home() {
         value: c.value,
         iconType: c.iconType as 'location' | 'clock' | 'briefcase'
       }))
-    : staticContactCards;
+    : [];
 
   return (
     <div className={`${firaCode.variable} site-root bg-white text-black dark:bg-black dark:text-white`}>

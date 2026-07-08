@@ -2,13 +2,8 @@ import ScrollReveal from '@/components/ui/ScrollReveal';
 
 type ContactCard = { title: string; value: string; iconType: string };
 
-const FALLBACK_BIO = [
-  "I'm a Software Engineer focused on building secure, scalable web and mobile applications, with hands-on interest in cybersecurity and secure system design. I also mentor fellow students in the College of Computing Education at the University of Mindanao.",
-  'I specialize in React ecosystems, modern APIs, cloud deployment, and secure application development, and have competed in national cybersecurity competitions.'
-];
-
 export default function About({ bio, contactCards }: { bio: string[] | null; contactCards: ContactCard[] }) {
-  const paragraphs = bio?.length ? bio : FALLBACK_BIO;
+  const paragraphs = bio ?? [];
 
   return (
     <div id="about" className="relative z-10 border-b border-black/15 dark:border-white/15">
