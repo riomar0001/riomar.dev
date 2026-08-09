@@ -1,4 +1,5 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest } from 'next/server';
+import { redirectTo } from '@/lib/api-helpers';
 
 /**
  * Shareable tracking link for resumes, LinkedIn, job applications, etc.
@@ -10,10 +11,12 @@ import { NextRequest, NextResponse } from 'next/server';
  * visitor beacon records them (and then cleans them from the URL).
  */
 export function GET(request: NextRequest) {
-  const dest = new URL('/', request.nextUrl);
+  const params = new URLSearchParams();
   const from = request.nextUrl.searchParams.get('from');
   const applicationFrom = request.nextUrl.searchParams.get('application-from');
-  if (from) dest.searchParams.set('from', from);
-  if (applicationFrom) dest.searchParams.set('application-from', applicationFrom);
-  return NextResponse.redirect(dest);
+  if (from) params.set('from', from);
+  if (applicationFrom) params.set('application-from', applicationFrom);
+
+  const query = params.toString();
+  return redirectTo(query ? `/?${query}` : '/');
 }

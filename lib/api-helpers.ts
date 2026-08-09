@@ -11,6 +11,25 @@ export function error(message: string, status = 400) {
   return NextResponse.json({ error: message }, { status });
 }
 
+/**
+ * Redirect to a path on this same site.
+ *
+ * Deliberately not `NextResponse.redirect()`: that needs an absolute URL, and
+ * the only origin this server knows is its own bind address. Next builds
+ * `request.url` / `request.nextUrl` from `HOSTNAME` + `PORT` (`0.0.0.0:3000`
+ * in the container), not from the `Host` header, so an absolute redirect sends
+ * visitors to `https://0.0.0.0:3000/...` instead of riomar.dev. Middleware
+ * redirects escape this because Next relativizes those itself; route handler
+ * responses go out untouched.
+ *
+ * A relative `Location` (RFC 7231 §7.1.2) keeps the browser on whatever origin
+ * it actually used, so this works the same locally, in Docker and through the
+ * Cloudflare Tunnel.
+ */
+export function redirectTo(path: string, status: 302 | 307 | 308 = 307) {
+  return new NextResponse(null, { status, headers: { Location: path } });
+}
+
 export async function requireAuth(request: NextRequest): Promise<{ userId: string } | NextResponse> {
   const accessToken = request.cookies.get('access_token')?.value;
 

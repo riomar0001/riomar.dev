@@ -1,6 +1,6 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest } from 'next/server';
 import { signAccessToken, REFRESH_TOKEN_EXPIRY_MS } from '@/lib/auth';
-import { error, json } from '@/lib/api-helpers';
+import { error, json, redirectTo } from '@/lib/api-helpers';
 import { prisma } from '@/lib/prisma';
 import { randomUUID } from 'crypto';
 
@@ -37,19 +37,30 @@ async function handleRefresh(request: NextRequest) {
   return { response: null, accessToken, newRefreshToken };
 }
 
+/**
+ * Where to send the user once the refresh succeeds. Middleware passes the page
+ * they were originally after; only same-site paths are accepted so a crafted
+ * `?redirect=` can't bounce anyone off to another host.
+ */
+function safeRedirectTarget(request: NextRequest) {
+  const target = request.nextUrl.searchParams.get('redirect');
+  if (target?.startsWith('/dashboard') && !target.startsWith('//')) return target;
+  return '/dashboard';
+}
+
 // GET - used by middleware redirect flow
 export async function GET(request: NextRequest) {
   const { response, accessToken, newRefreshToken } = await handleRefresh(request);
 
   if (response) {
     // Refresh failed, redirect to login
-    const res = NextResponse.redirect(new URL('/dashboard/login', request.url));
+    const res = redirectTo('/dashboard/login');
     res.cookies.delete('access_token');
     res.cookies.delete('refresh_token');
     return res;
   }
 
-  const res = NextResponse.redirect(new URL('/dashboard', request.url));
+  const res = redirectTo(safeRedirectTarget(request));
 
   res.cookies.set('access_token', accessToken!, {
     httpOnly: true,
