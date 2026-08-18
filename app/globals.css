@@ -11,13 +11,17 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Black/white inversion, matching `.site-root` / `.dashboard-root` below — the
+   default has to agree with them so portalled UI (which renders outside both
+   wrappers) doesn't fall back to a different highlight. */
 ::selection {
-  background-color: rgb(16 185 129 / 0.2);
-  color: inherit;
+  background: #000;
+  color: #fff;
 }
 
 .dark ::selection {
-  background-color: rgb(52 211 153 / 0.4);
+  background: #fff;
+  color: #000;
 }
 
 /* ===== Typography ===== */

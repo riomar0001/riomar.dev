@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
+import { firaCode } from '@/lib/fonts';
 import { imageCropStyle } from '@/lib/image';
 
 type Project = {
@@ -48,13 +49,20 @@ export default function ProjectModal({ project }: { project: Project }) {
         <span className="transition-transform duration-200 group-hover/rm:translate-x-1">&rarr;</span>
       </button>
 
+      {/*
+        The portal target is <body>, which sits outside the page's `.site-root`
+        wrapper — so this root has to re-establish everything that wrapper
+        provides: the Fira Code variable, the site type scale and ::selection
+        colors, and the black/white text color. Without the color the panel
+        rendered black-on-black in dark mode.
+      */}
       {mounted && open && createPortal(
         <div
           role="dialog"
           aria-modal="true"
           aria-label={project.title}
           onClick={() => setOpen(false)}
-          className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 bg-black/60 backdrop-blur-sm animate-[fadeIn_150ms_ease-out]"
+          className={`${firaCode.variable} site-root text-black dark:text-white fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 bg-black/60 backdrop-blur-sm animate-[fadeIn_150ms_ease-out]`}
         >
           <div
             onClick={(e) => e.stopPropagation()}

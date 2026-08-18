@@ -68,7 +68,7 @@ export default function ProjectForm({ initial }: { initial?: Project }) {
       </Field>
       <Field label="Description" error={errors.description}>
         <textarea
-          className={`${errors.description ? inputErrorCls : inputCls} min-h-25 resize-none`}
+          className={`${errors.description ? inputErrorCls : inputCls} min-h-25 resize-y`}
           value={form.description ?? ''}
           onChange={(e) => { setForm((f) => ({ ...f, description: e.target.value })); setErrors((er) => ({ ...er, description: undefined })); }}
           placeholder="Project description…"
@@ -77,7 +77,7 @@ export default function ProjectForm({ initial }: { initial?: Project }) {
       <Field label="Tags (comma-separated)">
         <input className={inputCls} value={tagsText} onChange={(e) => setTagsText(e.target.value)} placeholder="React, TypeScript, Node.js" />
       </Field>
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <Field label="Live URL">
           <input className={inputCls} value={form.link ?? ''} onChange={(e) => setForm((f) => ({ ...f, link: e.target.value }))} placeholder="https://…" />
         </Field>
@@ -85,7 +85,7 @@ export default function ProjectForm({ initial }: { initial?: Project }) {
           <input className={inputCls} value={form.github ?? ''} onChange={(e) => setForm((f) => ({ ...f, github: e.target.value }))} placeholder="https://github.com/…" />
         </Field>
       </div>
-      <label className="flex cursor-pointer items-center gap-2.5 font-mono text-xs uppercase tracking-wider">
+      <label className="flex w-fit cursor-pointer items-center gap-2.5 font-mono text-xs uppercase tracking-wider">
         <input type="checkbox" checked={form.featured ?? false} onChange={(e) => setForm((f) => ({ ...f, featured: e.target.checked }))} className="h-4 w-4 accent-black dark:accent-white" />
         Featured project
       </label>

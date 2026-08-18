@@ -71,7 +71,7 @@ export function ImagePicker({
       )}
 
       {value && (
-        <div className="mt-2 flex items-center justify-between gap-3">
+        <div className="mt-2 flex flex-wrap items-center justify-between gap-x-3 gap-y-2">
           <div className="flex items-center gap-3">
             <button type="button" onClick={pick} className={uploadBtnCls}>Change</button>
             <button type="button" onClick={onRemove} className="font-mono text-[11px] uppercase tracking-wider text-red-500 hover:underline">
