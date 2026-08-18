@@ -178,9 +178,16 @@ model VisitorLog {
   sourceDetail String? // optional extra context: ?application-from= param (e.g. jobstreet, indeed)
   referrer     String?
   userAgent    String?
+  // Full raw HTTP exchange of the beacon call, reconstructed as text
+  // (request line + headers + body / status line + headers + body).
+  // Sensitive headers (cookie, authorization, …) are redacted before storing.
+  rawRequest   String?
+  rawResponse  String?
   createdAt    DateTime @default(now())
 
   @@index([createdAt])
   @@index([source])
+  @@index([countryCode])
+  @@index([page])
   @@map("visitor_logs")
 }

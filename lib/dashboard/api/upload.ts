@@ -1,15 +1,7 @@
 import Compressor from 'compressorjs';
+import { apiFetch } from './client';
 
-export async function apiFetch(url: string, options?: RequestInit) {
-  let res = await fetch(url, options);
-  if (res.status === 401) {
-    const refreshRes = await fetch('/api/auth/refresh', { method: 'POST' });
-    if (refreshRes.ok) {
-      res = await fetch(url, options);
-    }
-  }
-  return res;
-}
+export type UploadFolder = 'photos' | 'projects' | 'certificates' | 'achievements';
 
 function compressImage(file: File): Promise<File> {
   return new Promise((resolve, reject) => {
@@ -26,6 +18,11 @@ function compressImage(file: File): Promise<File> {
   });
 }
 
+/**
+ * Opens the OS file picker and hands back the (already compressed) file plus a
+ * local object URL for preview. Nothing is uploaded here — the form's Save
+ * handler calls uploadFile.
+ */
 export function handleFilePick(onFile: (file: File, previewUrl: string) => void) {
   const input = document.createElement('input');
   input.type = 'file';
@@ -40,7 +37,7 @@ export function handleFilePick(onFile: (file: File, previewUrl: string) => void)
   input.click();
 }
 
-export async function uploadFile(folder: 'photos' | 'projects' | 'certificates' | 'achievements', file: File): Promise<string> {
+export async function uploadFile(folder: UploadFolder, file: File): Promise<string> {
   // `file` is already compressed to WebP by handleFilePick — do NOT compress
   // again here, or the second lossy pass produces crunchy/blocky artifacts.
   const fd = new FormData();

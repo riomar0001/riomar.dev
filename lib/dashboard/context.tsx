@@ -2,8 +2,8 @@
 
 import { createContext, useContext } from 'react';
 import type {
-  PersonalInfo, SkillGroup, Project, Experience,
-  Achievement, Certification, ContactCard
+  Achievement, Certification, ContactCard, DeleteTarget, Experience,
+  PersonalInfo, Project, ShowToast, SkillGroup
 } from '@/lib/dashboard/types';
 
 export type DashboardContextType = {
@@ -20,7 +20,7 @@ export type DashboardContextType = {
   setSaving: (v: boolean) => void;
   setModal: (v: string | null) => void;
   setEditingItem: (v: Record<string, unknown> | null) => void;
-  setConfirmDelete: (v: { type: string; id: string; label: string } | null) => void;
+  setConfirmDelete: (v: DeleteTarget | null) => void;
   // Actions
   loadAll: () => Promise<void>;
   reloadPersonalInfo: () => Promise<void>;
@@ -30,7 +30,7 @@ export type DashboardContextType = {
   reloadAchievements: () => Promise<void>;
   reloadCertifications: () => Promise<void>;
   reloadContactCards: () => Promise<void>;
-  showToast: (msg: string, type?: 'success' | 'error') => void;
+  showToast: ShowToast;
 };
 
 export const DashboardContext = createContext<DashboardContextType | null>(null);

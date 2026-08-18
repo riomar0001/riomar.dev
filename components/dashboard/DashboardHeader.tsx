@@ -2,8 +2,9 @@
 'use client';
 
 import ThemeToggle from '@/components/ThemeToggle';
+import type { DashboardTab } from '@/lib/dashboard/types';
 
-export type DashboardTab = 'content' | 'history' | 'visitors' | 'links';
+export type { DashboardTab };
 
 type Props = {
   username?: string;
